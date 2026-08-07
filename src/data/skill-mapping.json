@@ -1,0 +1,1146 @@
+[
+  {
+    "topicId": "level-01-topic-1",
+    "topicTitle": "Variables & Data Types",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Variables & Data Types is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Project Setup & User Service"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-2",
+    "topicTitle": "Control Flow & Methods",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Control Flow & Methods is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Project Setup & User Service"
+      }
+    ]
+  },
+  {
+    "topicId": "level-02-topic-1",
+    "topicTitle": "Classes & Objects",
+    "level": 2,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Classes & Objects is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Classes & Objects is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Account Service & Event Store"
+      }
+    ]
+  },
+  {
+    "topicId": "level-02-topic-2",
+    "topicTitle": "Inheritance & Polymorphism",
+    "level": 2,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Inheritance & Polymorphism is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-03-topic-1",
+    "topicTitle": "Collections Framework",
+    "level": 3,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Collections Framework is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Collections Framework is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-03-topic-2",
+    "topicTitle": "Streams & Optional",
+    "level": 3,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Streams & Optional is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Streams & Optional is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-04-topic-1",
+    "topicTitle": "Exception Handling",
+    "level": 4,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Exception Handling is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Exception Handling is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-04-topic-2",
+    "topicTitle": "File I/O & NIO",
+    "level": 4,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "File I/O & NIO is implemented in the Platform Engineering during \"Docker & Local Dev Environment\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Docker & Local Dev Environment"
+      }
+    ]
+  },
+  {
+    "topicId": "level-05-topic-1",
+    "topicTitle": "Generics",
+    "level": 5,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Generics is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Generics is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-05-topic-2",
+    "topicTitle": "Annotations & Reflection",
+    "level": 5,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Annotations & Reflection is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-06-topic-1",
+    "topicTitle": "Threads & Executors",
+    "level": 6,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Threads & Executors is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Transfer Service & 2PC"
+      },
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Threads & Executors is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-06-topic-2",
+    "topicTitle": "Concurrent Collections & Locks",
+    "level": 6,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Concurrent Collections & Locks is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Transfer Service & 2PC"
+      }
+    ]
+  },
+  {
+    "topicId": "level-07-topic-1",
+    "topicTitle": "JVM Memory Model",
+    "level": 7,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "JVM Memory Model is implemented in the Platform Engineering during \"Observability Stack\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Observability Stack"
+      }
+    ]
+  },
+  {
+    "topicId": "level-07-topic-2",
+    "topicTitle": "Garbage Collection & Tuning",
+    "level": 7,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Garbage Collection & Tuning is implemented in the Platform Engineering during \"Observability Stack\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Observability Stack"
+      }
+    ]
+  },
+  {
+    "topicId": "level-08-topic-1",
+    "topicTitle": "Creational & Structural Patterns",
+    "level": 8,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Creational & Structural Patterns is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Creational & Structural Patterns is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-08-topic-2",
+    "topicTitle": "Behavioral & Enterprise Patterns",
+    "level": 8,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Behavioral & Enterprise Patterns is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Behavioral & Enterprise Patterns is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-09-topic-1",
+    "topicTitle": "IoC & Dependency Injection",
+    "level": 9,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "IoC & Dependency Injection is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Project Setup & User Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "IoC & Dependency Injection is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "IoC & Dependency Injection is implemented in the Platform Engineering across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-09-topic-2",
+    "topicTitle": "AOP & Spring Context",
+    "level": 9,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "AOP & Spring Context is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-10-topic-1",
+    "topicTitle": "Spring Boot Fundamentals",
+    "level": 10,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Spring Boot Fundamentals is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Project Setup & User Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Spring Boot Fundamentals is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Spring Boot Fundamentals is implemented in the Platform Engineering across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-10-topic-2",
+    "topicTitle": "Configuration & Profiles",
+    "level": 10,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Configuration & Profiles is implemented in the Platform Engineering across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Configuration & Profiles is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-1",
+    "topicTitle": "REST Principles & Controllers",
+    "level": 11,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "REST Principles & Controllers is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Catalog & Search Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "REST Principles & Controllers is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-2",
+    "topicTitle": "Validation & OpenAPI",
+    "level": 11,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Validation & OpenAPI is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Validation & OpenAPI is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-1",
+    "topicTitle": "JPA Entities & Relationships",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "JPA Entities & Relationships is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Catalog & Search Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "JPA Entities & Relationships is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Account Service & Event Store"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-2",
+    "topicTitle": "Query Optimization & Transactions",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Query Optimization & Transactions is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Transfer Service & 2PC"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-1",
+    "topicTitle": "Database Design & Normalization",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Database Design & Normalization is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Catalog & Search Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Database Design & Normalization is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-2",
+    "topicTitle": "Indexing & Query Plans",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Indexing & Query Plans is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-14-topic-1",
+    "topicTitle": "Service Decomposition",
+    "level": 14,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Service Decomposition is implemented in the CommerceX Enterprise during \"Order Saga & Payment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Order Saga & Payment"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Service Decomposition is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-14-topic-2",
+    "topicTitle": "Inter-Service Communication",
+    "level": 14,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Inter-Service Communication is implemented in the CommerceX Enterprise during \"Order Saga & Payment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Order Saga & Payment"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Inter-Service Communication is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-15-topic-1",
+    "topicTitle": "Service Discovery & Config",
+    "level": 15,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Service Discovery & Config is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "API Gateway & Service Mesh"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Service Discovery & Config is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Service Discovery & Config is implemented in the Platform Engineering across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-15-topic-2",
+    "topicTitle": "API Gateway & Circuit Breakers",
+    "level": 15,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "API Gateway & Circuit Breakers is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "API Gateway & Service Mesh"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "API Gateway & Circuit Breakers is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-16-topic-1",
+    "topicTitle": "Kafka Fundamentals",
+    "level": 16,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Kafka Fundamentals is implemented in the CommerceX Enterprise during \"Inventory & Event Publishing\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Inventory & Event Publishing"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Kafka Fundamentals is implemented in the FinFlow Banking Platform during \"Fraud Detection Pipeline\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Fraud Detection Pipeline"
+      }
+    ]
+  },
+  {
+    "topicId": "level-16-topic-2",
+    "topicTitle": "Event Sourcing & CQRS",
+    "level": 16,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Event Sourcing & CQRS is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Account Service & Event Store"
+      }
+    ]
+  },
+  {
+    "topicId": "level-17-topic-1",
+    "topicTitle": "Caching Patterns",
+    "level": 17,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Caching Patterns is implemented in the CommerceX Enterprise during \"Cart & Redis Caching\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Cart & Redis Caching"
+      }
+    ]
+  },
+  {
+    "topicId": "level-17-topic-2",
+    "topicTitle": "Redis Data Structures",
+    "level": 17,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Redis Data Structures is implemented in the CommerceX Enterprise during \"Cart & Redis Caching\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Cart & Redis Caching"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Redis Data Structures is implemented in the FinFlow Banking Platform during \"Fraud Detection Pipeline\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Fraud Detection Pipeline"
+      }
+    ]
+  },
+  {
+    "topicId": "level-18-topic-1",
+    "topicTitle": "Authentication & JWT",
+    "level": 18,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Authentication & JWT is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Project Setup & User Service"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Authentication & JWT is implemented in the FinFlow Banking Platform during \"Security & Compliance\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Security & Compliance"
+      }
+    ]
+  },
+  {
+    "topicId": "level-18-topic-2",
+    "topicTitle": "OAuth2 & RBAC",
+    "level": 18,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "OAuth2 & RBAC is implemented in the FinFlow Banking Platform during \"Security & Compliance\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Security & Compliance"
+      }
+    ]
+  },
+  {
+    "topicId": "level-19-topic-1",
+    "topicTitle": "Docker & Containerization",
+    "level": 19,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Docker & Containerization is implemented in the Platform Engineering during \"Docker & Local Dev Environment\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Docker & Local Dev Environment"
+      },
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Docker & Containerization is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Production Deployment"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Docker & Containerization is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-19-topic-2",
+    "topicTitle": "Kubernetes Orchestration",
+    "level": 19,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Kubernetes Orchestration is implemented in the Platform Engineering during \"Kubernetes & Helm Charts\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Kubernetes & Helm Charts"
+      }
+    ]
+  },
+  {
+    "topicId": "level-20-topic-1",
+    "topicTitle": "AWS Core Services",
+    "level": 20,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "AWS Core Services is implemented in the Platform Engineering during \"Kubernetes & Helm Charts\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Kubernetes & Helm Charts"
+      },
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "AWS Core Services is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Production Deployment"
+      }
+    ]
+  },
+  {
+    "topicId": "level-20-topic-2",
+    "topicTitle": "Cloud-Native Architecture",
+    "level": 20,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Cloud-Native Architecture is implemented in the Platform Engineering during \"Terraform & AWS Infrastructure\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Terraform & AWS Infrastructure"
+      }
+    ]
+  },
+  {
+    "topicId": "level-21-topic-1",
+    "topicTitle": "CI/CD Pipelines",
+    "level": 21,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "CI/CD Pipelines is implemented in the Platform Engineering during \"CI/CD Pipeline Templates\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "CI/CD Pipeline Templates"
+      }
+    ]
+  },
+  {
+    "topicId": "level-21-topic-2",
+    "topicTitle": "GitOps & IaC",
+    "level": 21,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "GitOps & IaC is implemented in the Platform Engineering during \"Terraform & AWS Infrastructure\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Terraform & AWS Infrastructure"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-1",
+    "topicTitle": "Testing Strategy",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Testing Strategy is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Production Deployment"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Testing Strategy is implemented in the FinFlow Banking Platform during \"Production & Observability\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Production & Observability"
+      },
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Testing Strategy is implemented in the Platform Engineering across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-2",
+    "topicTitle": "Observability Stack",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Platform Engineering",
+        "implementation": "Observability Stack is implemented in the Platform Engineering during \"Observability Stack\".",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Observability Stack"
+      },
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Observability Stack is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Production Deployment"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Observability Stack is implemented in the FinFlow Banking Platform during \"Production & Observability\".",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Production & Observability"
+      }
+    ]
+  }
+]

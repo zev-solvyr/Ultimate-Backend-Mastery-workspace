@@ -1,0 +1,1856 @@
+[
+  {
+    "id": "commercex",
+    "name": "CommerceX Enterprise",
+    "tagline": "Large-scale e-commerce microservices platform",
+    "description": "Build a production-grade e-commerce platform with catalog, cart, order, payment, inventory, and notification services. Implements event-driven architecture with Kafka, Redis caching, and full observability.",
+    "domain": "E-Commerce",
+    "difficulty": "advanced",
+    "estimatedDuration": "16-20 weeks",
+    "color": "#3B82F6",
+    "icon": "ShoppingCart",
+    "techStack": [
+      "Java 21",
+      "Spring Boot 3",
+      "Spring Cloud",
+      "PostgreSQL",
+      "Redis",
+      "Kafka",
+      "Docker",
+      "Kubernetes",
+      "AWS",
+      "Prometheus",
+      "Grafana"
+    ],
+    "microservices": [
+      {
+        "name": "api-gateway",
+        "description": "Single entry point, routing, rate limiting, auth",
+        "tech": [
+          "Spring Cloud Gateway",
+          "Redis"
+        ],
+        "responsibilities": [
+          "Route requests",
+          "JWT validation",
+          "Rate limiting"
+        ],
+        "ports": [
+          8080
+        ]
+      },
+      {
+        "name": "user-service",
+        "description": "User registration, profiles, authentication",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Redis"
+        ],
+        "responsibilities": [
+          "User CRUD",
+          "Profile management",
+          "Session cache"
+        ],
+        "ports": [
+          8081
+        ]
+      },
+      {
+        "name": "catalog-service",
+        "description": "Product catalog, categories, search",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Elasticsearch"
+        ],
+        "responsibilities": [
+          "Product management",
+          "Category tree",
+          "Search indexing"
+        ],
+        "ports": [
+          8082
+        ]
+      },
+      {
+        "name": "cart-service",
+        "description": "Shopping cart management",
+        "tech": [
+          "Spring Boot",
+          "Redis"
+        ],
+        "responsibilities": [
+          "Cart CRUD",
+          "Price calculation",
+          "Cart expiry"
+        ],
+        "ports": [
+          8083
+        ]
+      },
+      {
+        "name": "inventory-service",
+        "description": "Stock management and reservations",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "Stock tracking",
+          "Reservation",
+          "Low stock alerts"
+        ],
+        "ports": [
+          8084
+        ]
+      },
+      {
+        "name": "order-service",
+        "description": "Order processing and saga orchestration",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "Order creation",
+          "Saga orchestration",
+          "Order history"
+        ],
+        "ports": [
+          8085
+        ]
+      },
+      {
+        "name": "payment-service",
+        "description": "Payment processing integration",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "Payment initiation",
+          "Webhook handling",
+          "Refund processing"
+        ],
+        "ports": [
+          8086
+        ]
+      },
+      {
+        "name": "notification-service",
+        "description": "Email, SMS, push notifications",
+        "tech": [
+          "Spring Boot",
+          "Kafka",
+          "SendGrid"
+        ],
+        "responsibilities": [
+          "Event consumption",
+          "Template rendering",
+          "Delivery tracking"
+        ],
+        "ports": [
+          8087
+        ]
+      }
+    ],
+    "folderStructure": [
+      {
+        "path": "commercex/",
+        "description": "Root monorepo"
+      },
+      {
+        "path": "commercex/services/api-gateway/",
+        "description": "API Gateway service"
+      },
+      {
+        "path": "commercex/services/user-service/",
+        "description": "User management microservice"
+      },
+      {
+        "path": "commercex/services/catalog-service/",
+        "description": "Product catalog microservice"
+      },
+      {
+        "path": "commercex/services/cart-service/",
+        "description": "Shopping cart microservice"
+      },
+      {
+        "path": "commercex/services/inventory-service/",
+        "description": "Inventory microservice"
+      },
+      {
+        "path": "commercex/services/order-service/",
+        "description": "Order processing microservice"
+      },
+      {
+        "path": "commercex/services/payment-service/",
+        "description": "Payment microservice"
+      },
+      {
+        "path": "commercex/services/notification-service/",
+        "description": "Notification microservice"
+      },
+      {
+        "path": "commercex/shared/common-lib/",
+        "description": "Shared DTOs, utilities, exceptions"
+      },
+      {
+        "path": "commercex/shared/event-schemas/",
+        "description": "Avro/JSON event schemas"
+      },
+      {
+        "path": "commercex/infrastructure/docker/",
+        "description": "Docker Compose for local dev"
+      },
+      {
+        "path": "commercex/infrastructure/k8s/",
+        "description": "Kubernetes manifests"
+      },
+      {
+        "path": "commercex/infrastructure/terraform/",
+        "description": "AWS infrastructure as code"
+      }
+    ],
+    "databases": [
+      {
+        "name": "users",
+        "description": "User accounts and profiles",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "email",
+            "type": "VARCHAR(255)",
+            "constraints": "UNIQUE NOT NULL"
+          },
+          {
+            "name": "password_hash",
+            "type": "VARCHAR(255)"
+          },
+          {
+            "name": "created_at",
+            "type": "TIMESTAMP"
+          }
+        ],
+        "indexes": [
+          "idx_users_email"
+        ]
+      },
+      {
+        "name": "products",
+        "description": "Product catalog",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "name",
+            "type": "VARCHAR(255)"
+          },
+          {
+            "name": "price",
+            "type": "DECIMAL(10,2)"
+          },
+          {
+            "name": "category_id",
+            "type": "UUID",
+            "constraints": "FK"
+          }
+        ],
+        "indexes": [
+          "idx_products_category"
+        ]
+      },
+      {
+        "name": "orders",
+        "description": "Order records",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "user_id",
+            "type": "UUID",
+            "constraints": "FK"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(50)"
+          },
+          {
+            "name": "total",
+            "type": "DECIMAL(12,2)"
+          }
+        ],
+        "indexes": [
+          "idx_orders_user_status"
+        ]
+      },
+      {
+        "name": "inventory",
+        "description": "Stock levels",
+        "columns": [
+          {
+            "name": "product_id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "quantity",
+            "type": "INTEGER"
+          },
+          {
+            "name": "reserved",
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": []
+      }
+    ],
+    "eventFlows": [
+      {
+        "name": "Order Placement Saga",
+        "steps": [
+          "Client → API Gateway → Order Service",
+          "Order Service → Inventory Service (reserve stock)",
+          "Order Service → Payment Service (charge)",
+          "Payment Service publishes payment.completed",
+          "Order Service updates status → notification-service sends confirmation",
+          "On failure: compensating transactions rollback inventory & payment"
+        ]
+      },
+      {
+        "name": "Catalog Update Flow",
+        "steps": [
+          "Admin updates product in Catalog Service",
+          "Catalog Service publishes product.updated to Kafka",
+          "Search Service indexes update",
+          "Cart Service invalidates cached prices",
+          "Inventory Service syncs product metadata"
+        ]
+      }
+    ],
+    "apiContracts": [
+      {
+        "service": "user-service",
+        "endpoint": "/api/v1/users/register",
+        "method": "POST",
+        "description": "Register new user",
+        "request": "{ \"email\": \"string\", \"password\": \"string\", \"name\": \"string\" }",
+        "response": "{ \"id\": \"uuid\", \"email\": \"string\", \"token\": \"jwt\" }"
+      },
+      {
+        "service": "catalog-service",
+        "endpoint": "/api/v1/products",
+        "method": "GET",
+        "description": "List products with pagination",
+        "request": "?page=0&size=20&category=uuid",
+        "response": "{ \"content\": [...], \"totalElements\": 100 }"
+      },
+      {
+        "service": "cart-service",
+        "endpoint": "/api/v1/carts/{userId}/items",
+        "method": "POST",
+        "description": "Add item to cart",
+        "request": "{ \"productId\": \"uuid\", \"quantity\": 2 }",
+        "response": "{ \"cartId\": \"uuid\", \"items\": [...], \"total\": 99.99 }"
+      },
+      {
+        "service": "order-service",
+        "endpoint": "/api/v1/orders",
+        "method": "POST",
+        "description": "Create order from cart",
+        "request": "{ \"cartId\": \"uuid\", \"shippingAddress\": {...} }",
+        "response": "{ \"orderId\": \"uuid\", \"status\": \"PENDING\", \"total\": 199.99 }"
+      }
+    ],
+    "kafkaTopics": [
+      {
+        "name": "order.created",
+        "description": "New order placed",
+        "producers": [
+          "order-service"
+        ],
+        "consumers": [
+          "inventory-service",
+          "notification-service"
+        ],
+        "schema": "{ \"orderId\": \"uuid\", \"userId\": \"uuid\", \"items\": [], \"total\": \"decimal\" }"
+      },
+      {
+        "name": "payment.completed",
+        "description": "Payment successfully processed",
+        "producers": [
+          "payment-service"
+        ],
+        "consumers": [
+          "order-service",
+          "notification-service"
+        ],
+        "schema": "{ \"paymentId\": \"uuid\", \"orderId\": \"uuid\", \"amount\": \"decimal\" }"
+      },
+      {
+        "name": "inventory.reserved",
+        "description": "Stock reserved for order",
+        "producers": [
+          "inventory-service"
+        ],
+        "consumers": [
+          "order-service"
+        ],
+        "schema": "{ \"orderId\": \"uuid\", \"productId\": \"uuid\", \"quantity\": \"int\" }"
+      },
+      {
+        "name": "product.updated",
+        "description": "Product catalog change",
+        "producers": [
+          "catalog-service"
+        ],
+        "consumers": [
+          "cart-service",
+          "search-service"
+        ],
+        "schema": "{ \"productId\": \"uuid\", \"price\": \"decimal\", \"name\": \"string\" }"
+      }
+    ],
+    "redisUsage": [
+      {
+        "key": "cart:{userId}",
+        "pattern": "Hash",
+        "ttl": "24h",
+        "purpose": "Shopping cart storage"
+      },
+      {
+        "key": "session:{token}",
+        "pattern": "String",
+        "ttl": "30m",
+        "purpose": "JWT session cache"
+      },
+      {
+        "key": "product:cache:{id}",
+        "pattern": "String (JSON)",
+        "ttl": "1h",
+        "purpose": "Product detail cache"
+      },
+      {
+        "key": "rate:limit:{ip}",
+        "pattern": "Counter",
+        "ttl": "1m",
+        "purpose": "API rate limiting"
+      }
+    ],
+    "securityArchitecture": [
+      {
+        "layer": "Edge",
+        "implementation": "API Gateway with JWT validation, rate limiting, CORS"
+      },
+      {
+        "layer": "Authentication",
+        "implementation": "Spring Security + JWT (RS256), refresh tokens in HttpOnly cookies"
+      },
+      {
+        "layer": "Authorization",
+        "implementation": "Role-based access (USER, ADMIN, SELLER) with method-level @PreAuthorize"
+      },
+      {
+        "layer": "Transport",
+        "implementation": "TLS 1.3 everywhere, mTLS between services in K8s"
+      },
+      {
+        "layer": "Data",
+        "implementation": "Encrypted at rest (AES-256), PII tokenization, audit logging"
+      }
+    ],
+    "deploymentArchitecture": [
+      {
+        "component": "EKS Cluster",
+        "description": "3-node minimum, auto-scaling 3-20 pods per service"
+      },
+      {
+        "component": "RDS PostgreSQL",
+        "description": "Multi-AZ, read replicas for catalog/order DBs"
+      },
+      {
+        "component": "ElastiCache Redis",
+        "description": "Cluster mode, 3 shards for cart/session cache"
+      },
+      {
+        "component": "MSK Kafka",
+        "description": "3-broker cluster, 7-day retention"
+      },
+      {
+        "component": "CloudFront + ALB",
+        "description": "CDN for static assets, ALB for API traffic"
+      }
+    ],
+    "cicdPipeline": [
+      {
+        "stage": "Source",
+        "tools": [
+          "GitHub",
+          "Branch protection"
+        ],
+        "description": "Feature branches, PR reviews required"
+      },
+      {
+        "stage": "Build",
+        "tools": [
+          "Maven",
+          "GitHub Actions"
+        ],
+        "description": "Compile, unit tests, SonarQube analysis"
+      },
+      {
+        "stage": "Test",
+        "tools": [
+          "JUnit 5",
+          "Testcontainers",
+          "Cypress"
+        ],
+        "description": "Integration and E2E tests"
+      },
+      {
+        "stage": "Package",
+        "tools": [
+          "Docker",
+          "ECR"
+        ],
+        "description": "Multi-stage Docker builds, push to ECR"
+      },
+      {
+        "stage": "Deploy",
+        "tools": [
+          "ArgoCD",
+          "Helm"
+        ],
+        "description": "GitOps deployment to EKS staging/prod"
+      }
+    ],
+    "monitoringStack": [
+      {
+        "tool": "Prometheus",
+        "purpose": "Metrics collection",
+        "metrics": [
+          "http_requests_total",
+          "jvm_memory_used",
+          "kafka_consumer_lag"
+        ]
+      },
+      {
+        "tool": "Grafana",
+        "purpose": "Dashboards & alerting",
+        "metrics": [
+          "SLI/SLO dashboards",
+          "Business KPIs",
+          "On-call alerts"
+        ]
+      },
+      {
+        "tool": "ELK Stack",
+        "purpose": "Centralized logging",
+        "metrics": [
+          "Structured JSON logs",
+          "Error rate tracking"
+        ]
+      },
+      {
+        "tool": "Jaeger",
+        "purpose": "Distributed tracing",
+        "metrics": [
+          "Request latency",
+          "Service dependency map"
+        ]
+      }
+    ],
+    "testingStrategy": [
+      {
+        "type": "Unit Tests",
+        "tools": [
+          "JUnit 5",
+          "Mockito"
+        ],
+        "coverage": "80%+ per service"
+      },
+      {
+        "type": "Integration Tests",
+        "tools": [
+          "Testcontainers",
+          "Spring Boot Test"
+        ],
+        "coverage": "Critical paths"
+      },
+      {
+        "type": "Contract Tests",
+        "tools": [
+          "Spring Cloud Contract",
+          "Pact"
+        ],
+        "coverage": "All inter-service APIs"
+      },
+      {
+        "type": "E2E Tests",
+        "tools": [
+          "Cypress",
+          "Postman/Newman"
+        ],
+        "coverage": "Order flow, payment flow"
+      },
+      {
+        "type": "Load Tests",
+        "tools": [
+          "Gatling",
+          "k6"
+        ],
+        "coverage": "10K concurrent users baseline"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "cx-m1",
+        "title": "Project Setup & User Service",
+        "description": "Initialize monorepo, Docker Compose, user registration/auth",
+        "order": 1,
+        "unlockedTopics": [
+          "level-01-topic-1",
+          "level-01-topic-2",
+          "level-09-topic-1",
+          "level-10-topic-1",
+          "level-18-topic-1"
+        ],
+        "resumeLine": "Built user authentication microservice with Spring Boot, JWT, and PostgreSQL",
+        "deliverables": [
+          "Monorepo structure",
+          "User CRUD API",
+          "JWT auth",
+          "Docker Compose"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "cx-m2",
+        "title": "Catalog & Search Service",
+        "description": "Product catalog with categories and search",
+        "order": 2,
+        "unlockedTopics": [
+          "level-11-topic-1",
+          "level-12-topic-1",
+          "level-13-topic-1"
+        ],
+        "resumeLine": "Designed product catalog microservice with JPA, REST APIs, and database normalization",
+        "deliverables": [
+          "Product API",
+          "Category hierarchy",
+          "DB schema"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "cx-m3",
+        "title": "Cart & Redis Caching",
+        "description": "Shopping cart with Redis-backed storage",
+        "order": 3,
+        "unlockedTopics": [
+          "level-17-topic-1",
+          "level-17-topic-2"
+        ],
+        "resumeLine": "Implemented Redis-backed shopping cart with cache-aside pattern",
+        "deliverables": [
+          "Cart API",
+          "Redis integration",
+          "Cache invalidation"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "cx-m4",
+        "title": "Inventory & Event Publishing",
+        "description": "Stock management with Kafka events",
+        "order": 4,
+        "unlockedTopics": [
+          "level-16-topic-1"
+        ],
+        "resumeLine": "Built inventory service with Kafka event publishing for stock changes",
+        "deliverables": [
+          "Inventory API",
+          "Kafka producers",
+          "Stock reservation"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "cx-m5",
+        "title": "Order Saga & Payment",
+        "description": "Distributed order processing with saga pattern",
+        "order": 5,
+        "unlockedTopics": [
+          "level-14-topic-1",
+          "level-14-topic-2",
+          "level-16-topic-2"
+        ],
+        "resumeLine": "Orchestrated distributed order saga with compensating transactions across 4 microservices",
+        "deliverables": [
+          "Order saga",
+          "Payment integration",
+          "Compensation logic"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "cx-m6",
+        "title": "API Gateway & Service Mesh",
+        "description": "Spring Cloud Gateway with circuit breakers",
+        "order": 6,
+        "unlockedTopics": [
+          "level-15-topic-1",
+          "level-15-topic-2"
+        ],
+        "resumeLine": "Deployed API Gateway with circuit breakers, service discovery, and rate limiting",
+        "deliverables": [
+          "Gateway routing",
+          "Resilience4j",
+          "Eureka/Consul"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "cx-m7",
+        "title": "Production Deployment",
+        "description": "K8s deployment with full observability",
+        "order": 7,
+        "unlockedTopics": [
+          "level-19-topic-1",
+          "level-19-topic-2",
+          "level-20-topic-1",
+          "level-21-topic-1",
+          "level-22-topic-1",
+          "level-22-topic-2"
+        ],
+        "resumeLine": "Deployed 8-microservice platform on AWS EKS with CI/CD, monitoring, and 99.9% uptime SLO",
+        "deliverables": [
+          "K8s manifests",
+          "CI/CD pipeline",
+          "Monitoring dashboards"
+        ],
+        "estimatedWeeks": 3
+      }
+    ]
+  },
+  {
+    "id": "finflow",
+    "name": "FinFlow Banking Platform",
+    "tagline": "Banking & payment system with distributed transactions",
+    "description": "Enterprise banking platform with accounts, transfers, payments, fraud detection, and regulatory compliance. Implements distributed transactions, event sourcing, and strict security controls.",
+    "domain": "FinTech / Banking",
+    "difficulty": "expert",
+    "estimatedDuration": "18-24 weeks",
+    "color": "#14B8A6",
+    "icon": "Landmark",
+    "techStack": [
+      "Java 21",
+      "Spring Boot 3",
+      "Spring Cloud",
+      "PostgreSQL",
+      "Redis",
+      "Kafka",
+      "Axon Framework",
+      "Docker",
+      "Kubernetes",
+      "AWS",
+      "Vault"
+    ],
+    "microservices": [
+      {
+        "name": "account-service",
+        "description": "Account management, balances, statements",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Event Sourcing"
+        ],
+        "responsibilities": [
+          "Account CRUD",
+          "Balance management",
+          "Statement generation"
+        ],
+        "ports": [
+          8090
+        ]
+      },
+      {
+        "name": "transfer-service",
+        "description": "Internal and external transfers",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "Transfer initiation",
+          "Two-phase commit",
+          "Transfer history"
+        ],
+        "ports": [
+          8091
+        ]
+      },
+      {
+        "name": "payment-service",
+        "description": "Payment processing and settlement",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "Payment routing",
+          "Settlement",
+          "Reconciliation"
+        ],
+        "ports": [
+          8092
+        ]
+      },
+      {
+        "name": "fraud-service",
+        "description": "Real-time fraud detection",
+        "tech": [
+          "Spring Boot",
+          "Redis",
+          "ML Pipeline"
+        ],
+        "responsibilities": [
+          "Transaction scoring",
+          "Rule engine",
+          "Alert generation"
+        ],
+        "ports": [
+          8093
+        ]
+      },
+      {
+        "name": "compliance-service",
+        "description": "KYC, AML, regulatory reporting",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL"
+        ],
+        "responsibilities": [
+          "KYC verification",
+          "AML checks",
+          "Audit trails"
+        ],
+        "ports": [
+          8094
+        ]
+      },
+      {
+        "name": "notification-service",
+        "description": "Transaction alerts and statements",
+        "tech": [
+          "Spring Boot",
+          "Kafka"
+        ],
+        "responsibilities": [
+          "SMS/Email alerts",
+          "Statement delivery"
+        ],
+        "ports": [
+          8095
+        ]
+      }
+    ],
+    "folderStructure": [
+      {
+        "path": "finflow/",
+        "description": "Root monorepo"
+      },
+      {
+        "path": "finflow/services/account-service/",
+        "description": "Account management with event sourcing"
+      },
+      {
+        "path": "finflow/services/transfer-service/",
+        "description": "Transfer processing service"
+      },
+      {
+        "path": "finflow/services/payment-service/",
+        "description": "Payment settlement service"
+      },
+      {
+        "path": "finflow/services/fraud-service/",
+        "description": "Fraud detection service"
+      },
+      {
+        "path": "finflow/services/compliance-service/",
+        "description": "Regulatory compliance service"
+      },
+      {
+        "path": "finflow/shared/events/",
+        "description": "Domain events and command definitions"
+      },
+      {
+        "path": "finflow/infrastructure/",
+        "description": "Docker, K8s, Terraform configs"
+      }
+    ],
+    "databases": [
+      {
+        "name": "accounts",
+        "description": "Bank accounts",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "account_number",
+            "type": "VARCHAR(20)",
+            "constraints": "UNIQUE"
+          },
+          {
+            "name": "balance",
+            "type": "DECIMAL(18,2)"
+          },
+          {
+            "name": "currency",
+            "type": "CHAR(3)"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(20)"
+          }
+        ],
+        "indexes": [
+          "idx_accounts_number"
+        ]
+      },
+      {
+        "name": "transactions",
+        "description": "Transaction ledger",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "from_account",
+            "type": "UUID"
+          },
+          {
+            "name": "to_account",
+            "type": "UUID"
+          },
+          {
+            "name": "amount",
+            "type": "DECIMAL(18,2)"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(20)"
+          },
+          {
+            "name": "idempotency_key",
+            "type": "VARCHAR(64)",
+            "constraints": "UNIQUE"
+          }
+        ],
+        "indexes": [
+          "idx_txn_accounts",
+          "idx_txn_idempotency"
+        ]
+      },
+      {
+        "name": "event_store",
+        "description": "Event sourcing store",
+        "columns": [
+          {
+            "name": "event_id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "aggregate_id",
+            "type": "UUID"
+          },
+          {
+            "name": "event_type",
+            "type": "VARCHAR(100)"
+          },
+          {
+            "name": "payload",
+            "type": "JSONB"
+          },
+          {
+            "name": "version",
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          "idx_events_aggregate"
+        ]
+      }
+    ],
+    "eventFlows": [
+      {
+        "name": "Transfer Saga (2PC)",
+        "steps": [
+          "Client initiates transfer",
+          "Transfer Service locks source account",
+          "Fraud Service scores transaction",
+          "If approved: debit source, credit destination",
+          "Publish transfer.completed event",
+          "Notification Service alerts both parties",
+          "On failure: rollback with compensating entries"
+        ]
+      },
+      {
+        "name": "Fraud Detection Pipeline",
+        "steps": [
+          "Transaction event consumed from Kafka",
+          "Fraud Service checks velocity rules in Redis",
+          "ML model scores transaction risk",
+          "High-risk → block + alert compliance team",
+          "Low-risk → approve and continue saga"
+        ]
+      }
+    ],
+    "apiContracts": [
+      {
+        "service": "account-service",
+        "endpoint": "/api/v1/accounts",
+        "method": "POST",
+        "description": "Create bank account",
+        "request": "{ \"customerId\": \"uuid\", \"accountType\": \"CHECKING\", \"currency\": \"USD\" }",
+        "response": "{ \"accountId\": \"uuid\", \"accountNumber\": \"string\", \"balance\": 0.00 }"
+      },
+      {
+        "service": "transfer-service",
+        "endpoint": "/api/v1/transfers",
+        "method": "POST",
+        "description": "Initiate transfer",
+        "request": "{ \"fromAccount\": \"uuid\", \"toAccount\": \"uuid\", \"amount\": 100.00, \"idempotencyKey\": \"string\" }",
+        "response": "{ \"transferId\": \"uuid\", \"status\": \"PROCESSING\" }"
+      },
+      {
+        "service": "fraud-service",
+        "endpoint": "/api/v1/fraud/score",
+        "method": "POST",
+        "description": "Score transaction risk",
+        "request": "{ \"transactionId\": \"uuid\", \"amount\": 100.00, \"deviceFingerprint\": \"string\" }",
+        "response": "{ \"riskScore\": 0.15, \"decision\": \"APPROVE\" }"
+      }
+    ],
+    "kafkaTopics": [
+      {
+        "name": "transfer.initiated",
+        "description": "Transfer request started",
+        "producers": [
+          "transfer-service"
+        ],
+        "consumers": [
+          "fraud-service",
+          "compliance-service"
+        ],
+        "schema": "{ \"transferId\": \"uuid\", \"amount\": \"decimal\", \"fromAccount\": \"uuid\", \"toAccount\": \"uuid\" }"
+      },
+      {
+        "name": "transfer.completed",
+        "description": "Transfer successfully completed",
+        "producers": [
+          "transfer-service"
+        ],
+        "consumers": [
+          "notification-service",
+          "account-service"
+        ],
+        "schema": "{ \"transferId\": \"uuid\", \"status\": \"COMPLETED\", \"timestamp\": \"iso8601\" }"
+      },
+      {
+        "name": "fraud.alert",
+        "description": "High-risk transaction detected",
+        "producers": [
+          "fraud-service"
+        ],
+        "consumers": [
+          "compliance-service",
+          "notification-service"
+        ],
+        "schema": "{ \"transactionId\": \"uuid\", \"riskScore\": \"float\", \"reason\": \"string\" }"
+      },
+      {
+        "name": "account.balance.updated",
+        "description": "Account balance changed",
+        "producers": [
+          "account-service"
+        ],
+        "consumers": [
+          "notification-service"
+        ],
+        "schema": "{ \"accountId\": \"uuid\", \"newBalance\": \"decimal\", \"changeType\": \"DEBIT|CREDIT\" }"
+      }
+    ],
+    "redisUsage": [
+      {
+        "key": "idempotency:{key}",
+        "pattern": "String",
+        "ttl": "24h",
+        "purpose": "Duplicate transfer prevention"
+      },
+      {
+        "key": "fraud:velocity:{accountId}",
+        "pattern": "Sorted Set",
+        "ttl": "1h",
+        "purpose": "Transaction velocity tracking"
+      },
+      {
+        "key": "session:{token}",
+        "pattern": "Hash",
+        "ttl": "15m",
+        "purpose": "Secure banking session"
+      },
+      {
+        "key": "rate:transfer:{userId}",
+        "pattern": "Counter",
+        "ttl": "1d",
+        "purpose": "Daily transfer limit tracking"
+      }
+    ],
+    "securityArchitecture": [
+      {
+        "layer": "Authentication",
+        "implementation": "Multi-factor auth (TOTP + SMS), OAuth2 with PKCE"
+      },
+      {
+        "layer": "Authorization",
+        "implementation": "Fine-grained RBAC with account-level permissions"
+      },
+      {
+        "layer": "Encryption",
+        "implementation": "AES-256 at rest, TLS 1.3 in transit, field-level encryption for PII"
+      },
+      {
+        "layer": "Secrets",
+        "implementation": "HashiCorp Vault for key management, automatic rotation"
+      },
+      {
+        "layer": "Audit",
+        "implementation": "Immutable audit log, SOC2-compliant retention policies"
+      }
+    ],
+    "deploymentArchitecture": [
+      {
+        "component": "EKS (Private)",
+        "description": "Private cluster, no public endpoints, VPN access only"
+      },
+      {
+        "component": "RDS (Encrypted)",
+        "description": "Encrypted PostgreSQL with automated backups, point-in-time recovery"
+      },
+      {
+        "component": "MSK (Encrypted)",
+        "description": "Encrypted Kafka with ACLs per service"
+      },
+      {
+        "component": "Vault Cluster",
+        "description": "HA Vault for secrets, auto-unseal with AWS KMS"
+      }
+    ],
+    "cicdPipeline": [
+      {
+        "stage": "Source",
+        "tools": [
+          "GitHub Enterprise",
+          "Signed commits"
+        ],
+        "description": "Mandatory code review, security scanning"
+      },
+      {
+        "stage": "Build & SAST",
+        "tools": [
+          "Maven",
+          "Checkmarx",
+          "Snyk"
+        ],
+        "description": "Static analysis, dependency scanning"
+      },
+      {
+        "stage": "Test",
+        "tools": [
+          "JUnit",
+          "Testcontainers",
+          "Cucumber BDD"
+        ],
+        "description": "Unit, integration, BDD compliance tests"
+      },
+      {
+        "stage": "Deploy",
+        "tools": [
+          "ArgoCD",
+          "Helm",
+          "Canary"
+        ],
+        "description": "Canary deployments with automatic rollback"
+      }
+    ],
+    "monitoringStack": [
+      {
+        "tool": "Prometheus + Grafana",
+        "purpose": "Metrics & SLO tracking",
+        "metrics": [
+          "Transaction success rate",
+          "P99 latency",
+          "Fraud detection accuracy"
+        ]
+      },
+      {
+        "tool": "ELK + SIEM",
+        "purpose": "Security logging",
+        "metrics": [
+          "Failed auth attempts",
+          "Anomaly detection"
+        ]
+      },
+      {
+        "tool": "Jaeger",
+        "purpose": "Distributed tracing",
+        "metrics": [
+          "Transfer saga trace",
+          "Cross-service latency"
+        ]
+      }
+    ],
+    "testingStrategy": [
+      {
+        "type": "Unit Tests",
+        "tools": [
+          "JUnit 5",
+          "Mockito"
+        ],
+        "coverage": "90%+ (financial logic)"
+      },
+      {
+        "type": "Integration Tests",
+        "tools": [
+          "Testcontainers"
+        ],
+        "coverage": "All transaction paths"
+      },
+      {
+        "type": "BDD Tests",
+        "tools": [
+          "Cucumber"
+        ],
+        "coverage": "Compliance scenarios"
+      },
+      {
+        "type": "Chaos Tests",
+        "tools": [
+          "Chaos Monkey"
+        ],
+        "coverage": "Network partitions, DB failures"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "ff-m1",
+        "title": "Account Service & Event Store",
+        "description": "Core account management with event sourcing",
+        "order": 1,
+        "unlockedTopics": [
+          "level-02-topic-1",
+          "level-12-topic-1",
+          "level-16-topic-2"
+        ],
+        "resumeLine": "Built event-sourced account service with CQRS pattern using Axon Framework",
+        "deliverables": [
+          "Account API",
+          "Event store",
+          "Balance projections"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "ff-m2",
+        "title": "Transfer Service & 2PC",
+        "description": "Distributed transfer with two-phase commit",
+        "order": 2,
+        "unlockedTopics": [
+          "level-06-topic-1",
+          "level-06-topic-2",
+          "level-12-topic-2"
+        ],
+        "resumeLine": "Implemented distributed transfer saga with two-phase commit and idempotency",
+        "deliverables": [
+          "Transfer API",
+          "2PC coordinator",
+          "Idempotency layer"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "ff-m3",
+        "title": "Fraud Detection Pipeline",
+        "description": "Real-time fraud scoring with Redis",
+        "order": 3,
+        "unlockedTopics": [
+          "level-17-topic-2",
+          "level-16-topic-1"
+        ],
+        "resumeLine": "Built real-time fraud detection pipeline processing 10K transactions/sec",
+        "deliverables": [
+          "Fraud rules engine",
+          "Redis velocity tracking",
+          "ML integration"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "ff-m4",
+        "title": "Security & Compliance",
+        "description": "OAuth2, MFA, KYC/AML compliance",
+        "order": 4,
+        "unlockedTopics": [
+          "level-18-topic-1",
+          "level-18-topic-2"
+        ],
+        "resumeLine": "Implemented OAuth2/MFA authentication with KYC/AML compliance workflows",
+        "deliverables": [
+          "OAuth2 server",
+          "MFA flow",
+          "Compliance checks"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "ff-m5",
+        "title": "Production & Observability",
+        "description": "Full deployment with monitoring",
+        "order": 5,
+        "unlockedTopics": [
+          "level-22-topic-1",
+          "level-22-topic-2"
+        ],
+        "resumeLine": "Deployed banking platform with 99.99% uptime SLO and full audit compliance",
+        "deliverables": [
+          "K8s deployment",
+          "Monitoring",
+          "Audit dashboards"
+        ],
+        "estimatedWeeks": 3
+      }
+    ]
+  },
+  {
+    "id": "platform",
+    "name": "Platform Engineering",
+    "tagline": "CI/CD, Docker, Kubernetes, AWS, monitoring & deployment",
+    "description": "Internal developer platform providing CI/CD pipelines, container orchestration, infrastructure as code, and observability for CommerceX and FinFlow teams.",
+    "domain": "DevOps / Platform",
+    "difficulty": "advanced",
+    "estimatedDuration": "12-16 weeks",
+    "color": "#F97316",
+    "icon": "Server",
+    "techStack": [
+      "Docker",
+      "Kubernetes",
+      "Terraform",
+      "AWS",
+      "GitHub Actions",
+      "ArgoCD",
+      "Prometheus",
+      "Grafana",
+      "Jaeger",
+      "Helm"
+    ],
+    "microservices": [
+      {
+        "name": "pipeline-service",
+        "description": "CI/CD pipeline orchestration API",
+        "tech": [
+          "Spring Boot",
+          "PostgreSQL"
+        ],
+        "responsibilities": [
+          "Pipeline CRUD",
+          "Build triggers",
+          "Deployment status"
+        ],
+        "ports": [
+          8100
+        ]
+      },
+      {
+        "name": "cluster-manager",
+        "description": "Kubernetes cluster management",
+        "tech": [
+          "Spring Boot",
+          "K8s Client"
+        ],
+        "responsibilities": [
+          "Cluster provisioning",
+          "Node scaling",
+          "Health checks"
+        ],
+        "ports": [
+          8101
+        ]
+      },
+      {
+        "name": "monitoring-gateway",
+        "description": "Unified observability API",
+        "tech": [
+          "Spring Boot",
+          "Prometheus"
+        ],
+        "responsibilities": [
+          "Metrics aggregation",
+          "Alert routing",
+          "Dashboard API"
+        ],
+        "ports": [
+          8102
+        ]
+      }
+    ],
+    "folderStructure": [
+      {
+        "path": "platform/",
+        "description": "Platform engineering root"
+      },
+      {
+        "path": "platform/pipelines/",
+        "description": "Reusable CI/CD pipeline templates"
+      },
+      {
+        "path": "platform/terraform/modules/",
+        "description": "Terraform modules (VPC, EKS, RDS)"
+      },
+      {
+        "path": "platform/helm/charts/",
+        "description": "Helm charts for service deployment"
+      },
+      {
+        "path": "platform/monitoring/",
+        "description": "Prometheus, Grafana, Alertmanager configs"
+      },
+      {
+        "path": "platform/policies/",
+        "description": "OPA policies, security baselines"
+      }
+    ],
+    "databases": [
+      {
+        "name": "deployments",
+        "description": "Deployment history",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "service",
+            "type": "VARCHAR(100)"
+          },
+          {
+            "name": "version",
+            "type": "VARCHAR(50)"
+          },
+          {
+            "name": "environment",
+            "type": "VARCHAR(20)"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(20)"
+          }
+        ],
+        "indexes": [
+          "idx_deploy_service_env"
+        ]
+      },
+      {
+        "name": "pipeline_runs",
+        "description": "CI/CD run history",
+        "columns": [
+          {
+            "name": "id",
+            "type": "UUID",
+            "constraints": "PRIMARY KEY"
+          },
+          {
+            "name": "pipeline_id",
+            "type": "UUID"
+          },
+          {
+            "name": "commit_sha",
+            "type": "VARCHAR(40)"
+          },
+          {
+            "name": "status",
+            "type": "VARCHAR(20)"
+          },
+          {
+            "name": "duration_seconds",
+            "type": "INTEGER"
+          }
+        ],
+        "indexes": [
+          "idx_runs_pipeline"
+        ]
+      }
+    ],
+    "eventFlows": [
+      {
+        "name": "GitOps Deployment",
+        "steps": [
+          "Developer pushes to main",
+          "GitHub Actions runs CI pipeline",
+          "Docker image built and pushed to ECR",
+          "ArgoCD detects manifest change",
+          "Rolling update deployed to EKS",
+          "Prometheus monitors rollout health",
+          "Auto-rollback if error rate exceeds threshold"
+        ]
+      },
+      {
+        "name": "Infrastructure Provisioning",
+        "steps": [
+          "Terraform plan triggered via PR",
+          "Plan reviewed and approved",
+          "Terraform apply creates/updates AWS resources",
+          "K8s cluster updated via cluster-manager",
+          "Monitoring dashboards auto-provisioned"
+        ]
+      }
+    ],
+    "apiContracts": [
+      {
+        "service": "pipeline-service",
+        "endpoint": "/api/v1/pipelines",
+        "method": "POST",
+        "description": "Create CI/CD pipeline",
+        "request": "{ \"name\": \"string\", \"repo\": \"string\", \"stages\": [...] }",
+        "response": "{ \"pipelineId\": \"uuid\", \"status\": \"CREATED\" }"
+      },
+      {
+        "service": "pipeline-service",
+        "endpoint": "/api/v1/pipelines/{id}/trigger",
+        "method": "POST",
+        "description": "Trigger pipeline run",
+        "request": "{ \"branch\": \"main\", \"commitSha\": \"abc123\" }",
+        "response": "{ \"runId\": \"uuid\", \"status\": \"RUNNING\" }"
+      },
+      {
+        "service": "cluster-manager",
+        "endpoint": "/api/v1/clusters/{id}/scale",
+        "method": "PUT",
+        "description": "Scale K8s cluster",
+        "request": "{ \"nodeCount\": 5, \"instanceType\": \"m5.xlarge\" }",
+        "response": "{ \"clusterId\": \"uuid\", \"status\": \"SCALING\" }"
+      }
+    ],
+    "kafkaTopics": [
+      {
+        "name": "deployment.started",
+        "description": "Deployment initiated",
+        "producers": [
+          "pipeline-service"
+        ],
+        "consumers": [
+          "monitoring-gateway"
+        ],
+        "schema": "{ \"deploymentId\": \"uuid\", \"service\": \"string\", \"version\": \"string\" }"
+      },
+      {
+        "name": "deployment.completed",
+        "description": "Deployment finished",
+        "producers": [
+          "pipeline-service"
+        ],
+        "consumers": [
+          "monitoring-gateway"
+        ],
+        "schema": "{ \"deploymentId\": \"uuid\", \"status\": \"SUCCESS|FAILED\", \"duration\": \"int\" }"
+      },
+      {
+        "name": "alert.fired",
+        "description": "Monitoring alert triggered",
+        "producers": [
+          "monitoring-gateway"
+        ],
+        "consumers": [
+          "notification-service"
+        ],
+        "schema": "{ \"alertId\": \"uuid\", \"severity\": \"CRITICAL\", \"message\": \"string\" }"
+      }
+    ],
+    "redisUsage": [
+      {
+        "key": "pipeline:lock:{id}",
+        "pattern": "String",
+        "ttl": "30m",
+        "purpose": "Prevent concurrent pipeline runs"
+      },
+      {
+        "key": "deploy:status:{id}",
+        "pattern": "Hash",
+        "ttl": "1h",
+        "purpose": "Real-time deployment status"
+      },
+      {
+        "key": "metrics:cache:{query}",
+        "pattern": "String",
+        "ttl": "5m",
+        "purpose": "Cached Prometheus query results"
+      }
+    ],
+    "securityArchitecture": [
+      {
+        "layer": "Infrastructure",
+        "implementation": "Terraform state encrypted in S3, IAM least privilege"
+      },
+      {
+        "layer": "Cluster",
+        "implementation": "RBAC, Network Policies, Pod Security Standards"
+      },
+      {
+        "layer": "Pipeline",
+        "implementation": "Signed images (Cosign), SAST/DAST in CI"
+      },
+      {
+        "layer": "Secrets",
+        "implementation": "External Secrets Operator + AWS Secrets Manager"
+      }
+    ],
+    "deploymentArchitecture": [
+      {
+        "component": "Multi-Account AWS",
+        "description": "Dev/Staging/Prod in separate AWS accounts"
+      },
+      {
+        "component": "EKS per Environment",
+        "description": "Dedicated EKS clusters with shared Terraform modules"
+      },
+      {
+        "component": "ArgoCD",
+        "description": "GitOps controller per cluster, app-of-apps pattern"
+      },
+      {
+        "component": "Shared Services",
+        "description": "Central ECR, Vault, Prometheus federation"
+      }
+    ],
+    "cicdPipeline": [
+      {
+        "stage": "Lint & Format",
+        "tools": [
+          "Checkstyle",
+          "Prettier"
+        ],
+        "description": "Code quality gates"
+      },
+      {
+        "stage": "Build & Test",
+        "tools": [
+          "Maven",
+          "JUnit",
+          "SonarQube"
+        ],
+        "description": "Compile, test, quality analysis"
+      },
+      {
+        "stage": "Security Scan",
+        "tools": [
+          "Trivy",
+          "Snyk",
+          "Checkmarx"
+        ],
+        "description": "Container and dependency scanning"
+      },
+      {
+        "stage": "Deploy Staging",
+        "tools": [
+          "ArgoCD",
+          "Helm"
+        ],
+        "description": "Auto-deploy to staging on merge"
+      },
+      {
+        "stage": "Deploy Production",
+        "tools": [
+          "ArgoCD",
+          "Canary"
+        ],
+        "description": "Manual approval, canary rollout"
+      }
+    ],
+    "monitoringStack": [
+      {
+        "tool": "Prometheus Federation",
+        "purpose": "Central metrics aggregation",
+        "metrics": [
+          "Cluster health",
+          "Service SLOs",
+          "Resource utilization"
+        ]
+      },
+      {
+        "tool": "Grafana",
+        "purpose": "Unified dashboards",
+        "metrics": [
+          "Platform overview",
+          "Per-service drill-down"
+        ]
+      },
+      {
+        "tool": "Alertmanager",
+        "purpose": "Alert routing",
+        "metrics": [
+          "PagerDuty integration",
+          "Escalation policies"
+        ]
+      },
+      {
+        "tool": "Jaeger",
+        "purpose": "Cross-service tracing",
+        "metrics": [
+          "End-to-end request traces"
+        ]
+      },
+      {
+        "tool": "Loki",
+        "purpose": "Log aggregation",
+        "metrics": [
+          "Structured log search"
+        ]
+      }
+    ],
+    "testingStrategy": [
+      {
+        "type": "Infrastructure Tests",
+        "tools": [
+          "Terratest",
+          "Checkov"
+        ],
+        "coverage": "All Terraform modules"
+      },
+      {
+        "type": "Pipeline Tests",
+        "tools": [
+          "Custom test harness"
+        ],
+        "coverage": "Pipeline template validation"
+      },
+      {
+        "type": "Chaos Engineering",
+        "tools": [
+          "Litmus",
+          "Chaos Mesh"
+        ],
+        "coverage": "Quarterly game days"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "pe-m1",
+        "title": "Docker & Local Dev Environment",
+        "description": "Standardized Docker Compose for all services",
+        "order": 1,
+        "unlockedTopics": [
+          "level-19-topic-1",
+          "level-04-topic-2"
+        ],
+        "resumeLine": "Created standardized Docker development environment for 15+ microservices",
+        "deliverables": [
+          "Docker Compose",
+          "Multi-stage Dockerfiles",
+          "Dev scripts"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "pe-m2",
+        "title": "CI/CD Pipeline Templates",
+        "description": "Reusable GitHub Actions pipelines",
+        "order": 2,
+        "unlockedTopics": [
+          "level-21-topic-1"
+        ],
+        "resumeLine": "Built reusable CI/CD pipeline templates reducing deployment time by 70%",
+        "deliverables": [
+          "Pipeline templates",
+          "Maven build configs",
+          "ECR integration"
+        ],
+        "estimatedWeeks": 2
+      },
+      {
+        "id": "pe-m3",
+        "title": "Kubernetes & Helm Charts",
+        "description": "K8s deployment with Helm",
+        "order": 3,
+        "unlockedTopics": [
+          "level-19-topic-2",
+          "level-20-topic-1"
+        ],
+        "resumeLine": "Deployed Kubernetes infrastructure with Helm charts and auto-scaling",
+        "deliverables": [
+          "Helm charts",
+          "K8s manifests",
+          "HPA configs"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "pe-m4",
+        "title": "Terraform & AWS Infrastructure",
+        "description": "IaC for full AWS stack",
+        "order": 4,
+        "unlockedTopics": [
+          "level-20-topic-2",
+          "level-21-topic-2"
+        ],
+        "resumeLine": "Provisioned multi-account AWS infrastructure with Terraform (VPC, EKS, RDS, MSK)",
+        "deliverables": [
+          "Terraform modules",
+          "Multi-env setup",
+          "State management"
+        ],
+        "estimatedWeeks": 3
+      },
+      {
+        "id": "pe-m5",
+        "title": "Observability Stack",
+        "description": "Full monitoring, logging, tracing",
+        "order": 5,
+        "unlockedTopics": [
+          "level-07-topic-1",
+          "level-07-topic-2",
+          "level-22-topic-2"
+        ],
+        "resumeLine": "Implemented full observability stack with Prometheus, Grafana, Jaeger achieving 99.9% SLO visibility",
+        "deliverables": [
+          "Prometheus setup",
+          "Grafana dashboards",
+          "Alert rules"
+        ],
+        "estimatedWeeks": 2
+      }
+    ]
+  }
+]
