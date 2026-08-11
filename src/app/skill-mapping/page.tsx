@@ -29,7 +29,7 @@ export default function SkillMappingPage() {
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl font-bold gradient-text">Skill → Project Mapping</h1>
         <p className="text-muted-foreground mt-2">
-          See exactly where every roadmap topic is implemented across CommerceX, FinFlow, and Platform Engineering.
+          See where each roadmap concept is implemented across CommerceX, FinFlow, and the Event-Driven Logistics Platform.
         </p>
         <div className="flex gap-4 mt-3 text-sm">
           <Badge variant="secondary">{mappedCount}/{skillMappings.length} topics mapped</Badge>

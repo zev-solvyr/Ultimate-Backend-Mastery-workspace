@@ -7,23 +7,21 @@ import {
   LayoutDashboard,
   Map,
   FolderKanban,
-  GitBranch,
-  Link2,
+  HelpCircle,
+  Bookmark,
   Coffee,
-  Flame,
-  Trophy,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useProgress } from "@/hooks/use-progress";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/auth/user-menu";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/roadmap", label: "Roadmap", icon: Map },
   { href: "/projects", label: "Projects", icon: FolderKanban },
-  { href: "/build-order", label: "Build Order", icon: GitBranch },
-  { href: "/skill-mapping", label: "Skill Mapping", icon: Link2 },
+  { href: "/interview-questions", label: "Interview Questions", icon: HelpCircle },
+  { href: "/resources", label: "Resources", icon: Bookmark },
 ];
 
 interface SidebarProps {
@@ -33,8 +31,6 @@ interface SidebarProps {
 
 export function Sidebar({ open = false, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { state, getOverallProgress } = useProgress();
-  const progress = getOverallProgress();
 
   return (
     <aside
@@ -49,8 +45,8 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
             <Coffee className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-bold gradient-text">Ultimate Java Dev</h1>
-            <p className="text-xs text-muted-foreground">Enterprise Roadmap</p>
+            <h1 className="text-sm font-bold gradient-text">Backend Interview Mastery</h1>
+            <p className="text-xs text-muted-foreground">Java Backend Revision</p>
           </div>
         </div>
         <Button variant="ghost" size="icon" className="lg:hidden h-8 w-8" onClick={onClose} aria-label="Close menu">
@@ -80,23 +76,9 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-border/50 p-4 space-y-3">
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">Overall Progress</span>
-          <span className="font-semibold text-primary">{Math.round(progress)}%</span>
-        </div>
-        <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-primary to-cyan-400"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 1 }}
-          />
-        </div>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-1"><Flame className="h-3 w-3 text-orange-400" /> {state.stats.streak}d streak</span>
-          <span className="flex items-center gap-1"><Trophy className="h-3 w-3 text-gold" /> Lv.{state.stats.level}</span>
-        </div>
+      {/* User Account & Cloud Sync Controls */}
+      <div className="border-t border-border/50 p-4">
+        <UserMenu />
       </div>
     </aside>
   );

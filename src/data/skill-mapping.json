@@ -1,360 +1,1147 @@
 [
   {
-    "topicId": "level-01-topic-1",
-    "topicTitle": "Variables & Data Types",
-    "level": 1,
+    "topicId": "level-00-topic-1",
+    "topicTitle": "Big-O and Complexity Analysis",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-2",
+    "topicTitle": "Binary Search",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-3",
+    "topicTitle": "Sorting Algorithms",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-4",
+    "topicTitle": "Two Pointers",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-5",
+    "topicTitle": "Sliding Window",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-6",
+    "topicTitle": "Recursion",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-7",
+    "topicTitle": "Dynamic Programming Basics",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-8",
+    "topicTitle": "Arrays",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-9",
+    "topicTitle": "Linked Lists",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-10",
+    "topicTitle": "Stacks",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-11",
+    "topicTitle": "Queues",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-12",
+    "topicTitle": "Hash Tables",
+    "level": 0,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Variables & Data Types is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "implementation": "Hash Tables is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
-        "phase": "Project Setup & User Service"
+        "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-00-topic-13",
+    "topicTitle": "Trees",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-14",
+    "topicTitle": "Binary Search Trees",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-15",
+    "topicTitle": "Tree Traversal",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-16",
+    "topicTitle": "Heaps",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-00-topic-17",
+    "topicTitle": "BFS and DFS",
+    "level": 0,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-1",
+    "topicTitle": "Java Architecture: JDK, JRE and JVM",
+    "level": 1,
+    "projects": []
   },
   {
     "topicId": "level-01-topic-2",
-    "topicTitle": "Control Flow & Methods",
+    "topicTitle": "Compilation, Bytecode and Platform Independence",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-3",
+    "topicTitle": "Class Loading and Class Loaders",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-4",
+    "topicTitle": "Runtime Data Areas",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-5",
+    "topicTitle": "Heap, Stack and Metaspace",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-6",
+    "topicTitle": "JIT Compilation",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-7",
+    "topicTitle": "Garbage Collection",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-8",
+    "topicTitle": "Java Memory Model and happens-before",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Java Memory Model and happens-before is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-9",
+    "topicTitle": "GC Roots and Reference Types",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-10",
+    "topicTitle": "Memory Leaks and OutOfMemoryError",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-11",
+    "topicTitle": "StackOverflowError",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-12",
+    "topicTitle": "Classes, Objects and Constructors",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-13",
+    "topicTitle": "Encapsulation",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-14",
+    "topicTitle": "Inheritance",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-15",
+    "topicTitle": "Polymorphism",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-16",
+    "topicTitle": "Abstraction and Interfaces",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-17",
+    "topicTitle": "Composition vs Inheritance",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-18",
+    "topicTitle": "Access Modifiers",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-19",
+    "topicTitle": "static, final, finally and finalize",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-20",
+    "topicTitle": "equals and hashCode",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-21",
+    "topicTitle": "toString, clone and getClass",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-22",
+    "topicTitle": "Immutable Objects",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-23",
+    "topicTitle": "Enum",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-24",
+    "topicTitle": "String, Immutability and String Pool",
     "level": 1,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Control Flow & Methods is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "implementation": "String, Immutability and String Pool is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
-        "phase": "Project Setup & User Service"
+        "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-01-topic-25",
+    "topicTitle": "StringBuilder vs StringBuffer",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-26",
+    "topicTitle": "Exception Hierarchy",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-27",
+    "topicTitle": "Checked vs Unchecked Exceptions",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-28",
+    "topicTitle": "Exception Handling and Custom Exceptions",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-29",
+    "topicTitle": "try-with-resources",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-30",
+    "topicTitle": "Generics and Type Erasure",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-31",
+    "topicTitle": "Bounds and Wildcards",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-32",
+    "topicTitle": "Collection Framework and Collection Selection",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-33",
+    "topicTitle": "List: ArrayList vs LinkedList",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-34",
+    "topicTitle": "Set: HashSet, LinkedHashSet and TreeSet",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-35",
+    "topicTitle": "Map: HashMap Internals",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-36",
+    "topicTitle": "LinkedHashMap and TreeMap",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-37",
+    "topicTitle": "ConcurrentHashMap",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "ConcurrentHashMap is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-38",
+    "topicTitle": "Queue, Deque and PriorityQueue",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-39",
+    "topicTitle": "Iterator, Comparable and Comparator",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-40",
+    "topicTitle": "Lambda Expressions and Functional Interfaces",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-41",
+    "topicTitle": "Streams: map, filter, reduce and collect",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-42",
+    "topicTitle": "Optional",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-43",
+    "topicTitle": "Method References and Default Methods",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-44",
+    "topicTitle": "Threads, Runnable and Callable",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Threads, Runnable and Callable is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-45",
+    "topicTitle": "Future and ExecutorService",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-46",
+    "topicTitle": "Thread Pools and Rejection Policies",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-47",
+    "topicTitle": "synchronized and Intrinsic Locks",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-48",
+    "topicTitle": "volatile and Visibility",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-49",
+    "topicTitle": "Atomic Classes",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-50",
+    "topicTitle": "Locks and ReentrantLock",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Locks and ReentrantLock is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-51",
+    "topicTitle": "Concurrent Collection Selection",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-52",
+    "topicTitle": "Race Conditions, Deadlock and Starvation",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-53",
+    "topicTitle": "wait, notify and notifyAll",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-54",
+    "topicTitle": "Thread Interruption and Cancellation",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-55",
+    "topicTitle": "ThreadLocal",
+    "level": 1,
+    "projects": []
+  },
+  {
+    "topicId": "level-01-topic-56",
+    "topicTitle": "CompletableFuture",
+    "level": 1,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "CompletableFuture is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-01-topic-57",
+    "topicTitle": "Virtual Threads",
+    "level": 1,
+    "projects": []
   },
   {
     "topicId": "level-02-topic-1",
-    "topicTitle": "Classes & Objects",
+    "topicTitle": "Annotations and Annotation Processing",
     "level": 2,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Classes & Objects is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Classes & Objects is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Account Service & Event Store"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-02-topic-2",
-    "topicTitle": "Inheritance & Polymorphism",
+    "topicTitle": "Reflection",
     "level": 2,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Inheritance & Polymorphism is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-3",
+    "topicTitle": "Dynamic Proxies",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-4",
+    "topicTitle": "Records",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-5",
+    "topicTitle": "Sealed Classes",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-6",
+    "topicTitle": "Pattern Matching",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-7",
+    "topicTitle": "Serialization Concepts and Security",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-8",
+    "topicTitle": "Classpath vs Module Path",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-9",
+    "topicTitle": "Java Time API",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-10",
+    "topicTitle": "NIO and Path API",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-11",
+    "topicTitle": "File I/O",
+    "level": 2,
+    "projects": []
+  },
+  {
+    "topicId": "level-02-topic-12",
+    "topicTitle": "Soft and Weak References",
+    "level": 2,
+    "projects": []
   },
   {
     "topicId": "level-03-topic-1",
-    "topicTitle": "Collections Framework",
+    "topicTitle": "JDBC Connection and Auto-commit",
     "level": 3,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Collections Framework is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Collections Framework is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-03-topic-2",
-    "topicTitle": "Streams & Optional",
+    "topicTitle": "Statement vs PreparedStatement",
     "level": 3,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Streams & Optional is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Streams & Optional is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-3",
+    "topicTitle": "SQL Injection Prevention",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-4",
+    "topicTitle": "ResultSet and Resource Management",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-5",
+    "topicTitle": "JDBC Transactions",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-6",
+    "topicTitle": "Batch Updates",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-7",
+    "topicTitle": "SQLException Handling",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-8",
+    "topicTitle": "Connection Pooling",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-9",
+    "topicTitle": "HikariCP Configuration and Pool Sizing",
+    "level": 3,
+    "projects": []
+  },
+  {
+    "topicId": "level-03-topic-10",
+    "topicTitle": "Fetch Size and Streaming Results",
+    "level": 3,
+    "projects": []
   },
   {
     "topicId": "level-04-topic-1",
-    "topicTitle": "Exception Handling",
+    "topicTitle": "Normalization and Data Modeling",
     "level": 4,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Exception Handling is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Exception Handling is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-04-topic-2",
-    "topicTitle": "File I/O & NIO",
+    "topicTitle": "SQL Joins",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-3",
+    "topicTitle": "ACID Transactions",
     "level": 4,
     "projects": [
       {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "File I/O & NIO is implemented in the Platform Engineering during \"Docker & Local Dev Environment\".",
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "ACID Transactions is implemented in the FinFlow Banking Platform across various services.",
         "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
         ],
-        "phase": "Docker & Local Dev Environment"
+        "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-04-topic-4",
+    "topicTitle": "SQL Transaction Isolation",
+    "level": 4,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "SQL Transaction Isolation is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-04-topic-5",
+    "topicTitle": "Deadlocks",
+    "level": 4,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Deadlocks is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-04-topic-6",
+    "topicTitle": "Phantom Reads",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-7",
+    "topicTitle": "Optimistic vs Pessimistic Locking",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-8",
+    "topicTitle": "Database Migrations",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-9",
+    "topicTitle": "Indexes and Index Selectivity",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-10",
+    "topicTitle": "Composite and Covering Indexes",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-11",
+    "topicTitle": "EXPLAIN and Query-plan Reading",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-12",
+    "topicTitle": "Query Optimization",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-13",
+    "topicTitle": "Pagination Pitfalls",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-14",
+    "topicTitle": "Read Replicas",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-15",
+    "topicTitle": "Database Partitioning and Sharding",
+    "level": 4,
+    "projects": []
+  },
+  {
+    "topicId": "level-04-topic-16",
+    "topicTitle": "SQL vs NoSQL Trade-offs",
+    "level": 4,
+    "projects": []
   },
   {
     "topicId": "level-05-topic-1",
-    "topicTitle": "Generics",
+    "topicTitle": "IoC and Dependency Injection",
     "level": 5,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Generics is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Generics is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-05-topic-2",
-    "topicTitle": "Annotations & Reflection",
+    "topicTitle": "ApplicationContext vs BeanFactory",
     "level": 5,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Annotations & Reflection is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-3",
+    "topicTitle": "Component Scanning",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-4",
+    "topicTitle": "Bean Lifecycle",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-5",
+    "topicTitle": "BeanPostProcessor",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-6",
+    "topicTitle": "Bean Scopes",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-7",
+    "topicTitle": "Circular Dependencies",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-8",
+    "topicTitle": "Constructor vs Setter vs Field Injection",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-9",
+    "topicTitle": "Stereotype Annotations",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-10",
+    "topicTitle": "@Configuration and @Bean",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-11",
+    "topicTitle": "@Primary and @Qualifier",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-12",
+    "topicTitle": "Profiles and Environment",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-13",
+    "topicTitle": "Configuration Binding and Validation",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-14",
+    "topicTitle": "Proxy-based AOP Basics",
+    "level": 5,
+    "projects": []
+  },
+  {
+    "topicId": "level-05-topic-15",
+    "topicTitle": "Conditional Annotations",
+    "level": 5,
+    "projects": []
   },
   {
     "topicId": "level-06-topic-1",
-    "topicTitle": "Threads & Executors",
+    "topicTitle": "@SpringBootApplication",
     "level": 6,
-    "projects": [
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Threads & Executors is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Transfer Service & 2PC"
-      },
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Threads & Executors is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-06-topic-2",
-    "topicTitle": "Concurrent Collections & Locks",
+    "topicTitle": "Starters and Dependency Management",
     "level": 6,
-    "projects": [
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Concurrent Collections & Locks is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Transfer Service & 2PC"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-3",
+    "topicTitle": "Auto-configuration",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-4",
+    "topicTitle": "Embedded Server",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-5",
+    "topicTitle": "application.properties vs application.yml",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-6",
+    "topicTitle": "Configuration Precedence",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-7",
+    "topicTitle": "External Configuration and Secrets",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-8",
+    "topicTitle": "Actuator",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-9",
+    "topicTitle": "Health Checks and Custom Health Indicators",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-10",
+    "topicTitle": "Logging Configuration",
+    "level": 6,
+    "projects": []
+  },
+  {
+    "topicId": "level-06-topic-11",
+    "topicTitle": "Graceful Shutdown",
+    "level": 6,
+    "projects": []
   },
   {
     "topicId": "level-07-topic-1",
-    "topicTitle": "JVM Memory Model",
+    "topicTitle": "DispatcherServlet and Request Lifecycle",
     "level": 7,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "JVM Memory Model is implemented in the Platform Engineering during \"Observability Stack\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Observability Stack"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-07-topic-2",
-    "topicTitle": "Garbage Collection & Tuning",
+    "topicTitle": "@RestController and Request Mapping",
     "level": 7,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Garbage Collection & Tuning is implemented in the Platform Engineering during \"Observability Stack\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Observability Stack"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-3",
+    "topicTitle": "Path Variables, Request Parameters and Request Bodies",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-4",
+    "topicTitle": "DTO Design and Mapping",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-5",
+    "topicTitle": "Bean Validation and Custom Validators",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-6",
+    "topicTitle": "ResponseEntity and HTTP Status Codes",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-7",
+    "topicTitle": "Global Exception Handling",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-8",
+    "topicTitle": "API Error Schema",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-9",
+    "topicTitle": "Pagination, Sorting and Filtering",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-10",
+    "topicTitle": "API Versioning",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-11",
+    "topicTitle": "Content Negotiation and Jackson",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-12",
+    "topicTitle": "Multipart Uploads",
+    "level": 7,
+    "projects": []
+  },
+  {
+    "topicId": "level-07-topic-13",
+    "topicTitle": "Request Correlation",
+    "level": 7,
+    "projects": []
   },
   {
     "topicId": "level-08-topic-1",
-    "topicTitle": "Creational & Structural Patterns",
+    "topicTitle": "Entity Lifecycle and Persistence Context",
     "level": 8,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Creational & Structural Patterns is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Creational & Structural Patterns is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-08-topic-2",
-    "topicTitle": "Behavioral & Enterprise Patterns",
+    "topicTitle": "EntityManager",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-3",
+    "topicTitle": "Detached Entities and merge",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-4",
+    "topicTitle": "Entity Ownership and mappedBy",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-5",
+    "topicTitle": "JpaRepository and Spring Data",
     "level": 8,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Behavioral & Enterprise Patterns is implemented in the CommerceX Enterprise across various services.",
+        "implementation": "JpaRepository and Spring Data is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-08-topic-6",
+    "topicTitle": "Dirty Checking",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-7",
+    "topicTitle": "Flush and Flush Modes",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-8",
+    "topicTitle": "First-level and Second-level Cache",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-9",
+    "topicTitle": "Lazy vs Eager Loading",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-10",
+    "topicTitle": "N+1 Problem",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-11",
+    "topicTitle": "Fetch Join",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-12",
+    "topicTitle": "EntityGraph",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-13",
+    "topicTitle": "Batch Fetching",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-14",
+    "topicTitle": "Pagination with Fetch Joins",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-15",
+    "topicTitle": "JPQL and Native Queries",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-16",
+    "topicTitle": "Projections and Specifications",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-17",
+    "topicTitle": "Spring @Transactional",
+    "level": 8,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Spring @Transactional is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
@@ -365,7 +1152,7 @@
       {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "Behavioral & Enterprise Patterns is implemented in the FinFlow Banking Platform across various services.",
+        "implementation": "Spring @Transactional is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
@@ -374,100 +1161,212 @@
         "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-08-topic-18",
+    "topicTitle": "Transaction Propagation",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-19",
+    "topicTitle": "Rollback Rules",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-20",
+    "topicTitle": "@Transactional Proxy Limitations",
+    "level": 8,
+    "projects": []
+  },
+  {
+    "topicId": "level-08-topic-21",
+    "topicTitle": "JPA Optimistic Locking",
+    "level": 8,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "JPA Optimistic Locking is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-08-topic-22",
+    "topicTitle": "JPA Pessimistic Locking",
+    "level": 8,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "JPA Pessimistic Locking is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-08-topic-23",
+    "topicTitle": "Cascade and orphanRemoval",
+    "level": 8,
+    "projects": []
   },
   {
     "topicId": "level-09-topic-1",
-    "topicTitle": "IoC & Dependency Injection",
+    "topicTitle": "Authentication vs Authorization",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-2",
+    "topicTitle": "SecurityFilterChain and Security Filters",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-3",
+    "topicTitle": "UserDetails and UserDetailsService",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-4",
+    "topicTitle": "PasswordEncoder and BCrypt",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-5",
+    "topicTitle": "JWT Structure and Validation",
     "level": 9,
     "projects": [
       {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "IoC & Dependency Injection is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Project Setup & User Service"
-      },
-      {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "IoC & Dependency Injection is implemented in the FinFlow Banking Platform across various services.",
+        "implementation": "JWT Structure and Validation is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
           "finflow/services/transfer-service/"
         ],
         "phase": "Core Architecture"
-      },
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "IoC & Dependency Injection is implemented in the Platform Engineering across various services.",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Core Architecture"
       }
     ]
   },
   {
-    "topicId": "level-09-topic-2",
-    "topicTitle": "AOP & Spring Context",
+    "topicId": "level-09-topic-6",
+    "topicTitle": "JWT Lifecycle",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-7",
+    "topicTitle": "Refresh-token Security",
     "level": 9,
     "projects": [
       {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "AOP & Spring Context is implemented in the CommerceX Enterprise across various services.",
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Refresh-token Security is implemented in the FinFlow Banking Platform across various services.",
         "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
         ],
         "phase": "Core Architecture"
       }
     ]
   },
   {
+    "topicId": "level-09-topic-8",
+    "topicTitle": "Token Rotation and Revocation",
+    "level": 9,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Token Rotation and Revocation is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-09-topic-9",
+    "topicTitle": "Session vs Stateless Security",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-10",
+    "topicTitle": "Roles, Authorities and Method Security",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-11",
+    "topicTitle": "CORS and CSRF",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-12",
+    "topicTitle": "OAuth2 Authorization Code Flow",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-13",
+    "topicTitle": "OAuth2 Client Credentials",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-14",
+    "topicTitle": "Resource Server",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-15",
+    "topicTitle": "Security Headers",
+    "level": 9,
+    "projects": []
+  },
+  {
+    "topicId": "level-09-topic-16",
+    "topicTitle": "Security Testing",
+    "level": 9,
+    "projects": []
+  },
+  {
     "topicId": "level-10-topic-1",
-    "topicTitle": "Spring Boot Fundamentals",
+    "topicTitle": "REST Resource Modeling",
     "level": 10,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Spring Boot Fundamentals is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
+        "implementation": "REST Resource Modeling is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
-        ],
-        "phase": "Project Setup & User Service"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Spring Boot Fundamentals is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Spring Boot Fundamentals is implemented in the Platform Engineering across various services.",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
         ],
         "phase": "Core Architecture"
       }
@@ -475,53 +1374,252 @@
   },
   {
     "topicId": "level-10-topic-2",
-    "topicTitle": "Configuration & Profiles",
+    "topicTitle": "HTTP Methods and Idempotency",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-3",
+    "topicTitle": "Idempotency-key Storage",
     "level": 10,
     "projects": [
       {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Idempotency-key Storage is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Idempotency-key Storage is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-10-topic-4",
+    "topicTitle": "ETags and Optimistic Concurrency",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-5",
+    "topicTitle": "Backward Compatibility",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-6",
+    "topicTitle": "API Deprecation",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-7",
+    "topicTitle": "OpenAPI Documentation",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-8",
+    "topicTitle": "Rate Limiting",
+    "level": 10,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Rate Limiting is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-10-topic-9",
+    "topicTitle": "Error Response Design",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-10",
+    "topicTitle": "Request Correlation and Trace IDs",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-10-topic-11",
+    "topicTitle": "Pagination Contract Design",
+    "level": 10,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-1",
+    "topicTitle": "Monolith vs Modular Monolith vs Microservices",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-2",
+    "topicTitle": "Service Boundaries and Ownership",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-3",
+    "topicTitle": "Database per Service and Data Duplication",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-4",
+    "topicTitle": "Service Discovery",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-5",
+    "topicTitle": "Centralized Configuration",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-6",
+    "topicTitle": "API Gateway",
+    "level": 11,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "API Gateway is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "API Gateway & Service Mesh"
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-7",
+    "topicTitle": "API Composition and BFF",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-8",
+    "topicTitle": "Load Balancing",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-9",
+    "topicTitle": "Synchronous vs Asynchronous Communication",
+    "level": 11,
+    "projects": [
+      {
         "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Configuration & Profiles is implemented in the Platform Engineering across various services.",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Synchronous vs Asynchronous Communication is implemented in the Event-Driven Logistics Platform across various services.",
         "files": [
           "platform/",
           "platform/pipelines/",
           "platform/terraform/modules/"
         ],
         "phase": "Core Architecture"
-      },
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-10",
+    "topicTitle": "REST and OpenFeign",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-11",
+    "topicTitle": "Timeouts",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-12",
+    "topicTitle": "Retries, Backoff and Jitter",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-13",
+    "topicTitle": "Retryable vs Non-retryable Failures",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-14",
+    "topicTitle": "Circuit Breaker",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-15",
+    "topicTitle": "Bulkhead",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-16",
+    "topicTitle": "Backpressure",
+    "level": 11,
+    "projects": [
       {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Configuration & Profiles is implemented in the CommerceX Enterprise across various services.",
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Backpressure is implemented in the Event-Driven Logistics Platform across various services.",
         "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
         ],
         "phase": "Core Architecture"
       }
     ]
   },
   {
-    "topicId": "level-11-topic-1",
-    "topicTitle": "REST Principles & Controllers",
+    "topicId": "level-11-topic-17",
+    "topicTitle": "Failure Budgets",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-18",
+    "topicTitle": "Distributed Transactions",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-19",
+    "topicTitle": "2PC vs Saga",
     "level": 11,
     "projects": [
       {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "REST Principles & Controllers is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Catalog & Search Service"
-      },
-      {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "REST Principles & Controllers is implemented in the FinFlow Banking Platform across various services.",
+        "implementation": "2PC vs Saga is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
@@ -532,25 +1630,20 @@
     ]
   },
   {
-    "topicId": "level-11-topic-2",
-    "topicTitle": "Validation & OpenAPI",
+    "topicId": "level-11-topic-20",
+    "topicTitle": "Saga Choreography",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-21",
+    "topicTitle": "Saga Orchestration",
     "level": 11,
     "projects": [
       {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Validation & OpenAPI is implemented in the CommerceX Enterprise across various services.",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "Validation & OpenAPI is implemented in the FinFlow Banking Platform across various services.",
+        "implementation": "Saga Orchestration is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
@@ -559,92 +1652,447 @@
         "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-11-topic-22",
+    "topicTitle": "Eventual Consistency",
+    "level": 11,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Eventual Consistency is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-23",
+    "topicTitle": "Outbox Pattern",
+    "level": 11,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Outbox Pattern is implemented in the CommerceX Enterprise during \"Order Saga & Payment\".",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Order Saga & Payment"
+      }
+    ]
+  },
+  {
+    "topicId": "level-11-topic-24",
+    "topicTitle": "CQRS Basics",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-25",
+    "topicTitle": "Event Evolution and Schema Compatibility",
+    "level": 11,
+    "projects": []
+  },
+  {
+    "topicId": "level-11-topic-26",
+    "topicTitle": "Distributed Tracing and Correlation IDs",
+    "level": 11,
+    "projects": []
   },
   {
     "topicId": "level-12-topic-1",
-    "topicTitle": "JPA Entities & Relationships",
+    "topicTitle": "Kafka Broker and Cluster",
     "level": 12,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "JPA Entities & Relationships is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
+        "implementation": "Kafka Broker and Cluster is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
-        "phase": "Catalog & Search Service"
+        "phase": "Core Architecture"
       },
       {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "JPA Entities & Relationships is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Kafka Broker and Cluster is implemented in the Event-Driven Logistics Platform across various services.",
         "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
         ],
-        "phase": "Account Service & Event Store"
+        "phase": "Core Architecture"
       }
     ]
   },
   {
     "topicId": "level-12-topic-2",
-    "topicTitle": "Query Optimization & Transactions",
+    "topicTitle": "Topics and Partitions",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Topics and Partitions is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-3",
+    "topicTitle": "Replication and Leader/Follower",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-4",
+    "topicTitle": "Producers and Serialization",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-5",
+    "topicTitle": "Partition-key Strategy",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Partition-key Strategy is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-6",
+    "topicTitle": "Consumers and Consumer Groups",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-7",
+    "topicTitle": "Offsets and Consumer Commits",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-8",
+    "topicTitle": "Consumer Rebalancing",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Consumer Rebalancing is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-9",
+    "topicTitle": "Ordering Guarantees",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-10",
+    "topicTitle": "Delivery Semantics",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-11",
+    "topicTitle": "At-most-once Delivery",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-12",
+    "topicTitle": "At-least-once Delivery",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "At-least-once Delivery is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-13",
+    "topicTitle": "Exactly-once Semantics",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-14",
+    "topicTitle": "Kafka Transactions",
     "level": 12,
     "projects": [
       {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "Query Optimization & Transactions is implemented in the FinFlow Banking Platform during \"Transfer Service & 2PC\".",
+        "implementation": "Kafka Transactions is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
           "finflow/services/transfer-service/"
         ],
-        "phase": "Transfer Service & 2PC"
+        "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-12-topic-15",
+    "topicTitle": "Idempotent Producers",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "Idempotent Producers is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-16",
+    "topicTitle": "Retries and Dead-letter Topics",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Retries and Dead-letter Topics is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-17",
+    "topicTitle": "Retention and Compaction",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-18",
+    "topicTitle": "Consumer Lag",
+    "level": 12,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Consumer Lag is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-12-topic-19",
+    "topicTitle": "Schema Registry and Compatibility",
+    "level": 12,
+    "projects": []
+  },
+  {
+    "topicId": "level-12-topic-20",
+    "topicTitle": "Event Sourcing Basics",
+    "level": 12,
+    "projects": []
   },
   {
     "topicId": "level-13-topic-1",
-    "topicTitle": "Database Design & Normalization",
+    "topicTitle": "Caching Patterns",
     "level": 13,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Database Design & Normalization is implemented in the CommerceX Enterprise during \"Catalog & Search Service\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Catalog & Search Service"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Database Design & Normalization is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-13-topic-2",
-    "topicTitle": "Indexing & Query Plans",
+    "topicTitle": "Cache-aside",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Cache-aside is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-3",
+    "topicTitle": "Cache Invalidation",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Cache Invalidation is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-4",
+    "topicTitle": "TTL and Eviction Policies",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-5",
+    "topicTitle": "Cache Stampede",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-6",
+    "topicTitle": "Write-through and Write-behind",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-7",
+    "topicTitle": "Redis Data Structures",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Redis Data Structures is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-8",
+    "topicTitle": "Key Design and Hot Keys",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Key Design and Hot Keys is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-9",
+    "topicTitle": "Rate Limiting",
+    "level": 13,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Rate Limiting is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-13-topic-10",
+    "topicTitle": "Session Storage",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-11",
+    "topicTitle": "Redis Persistence",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-12",
+    "topicTitle": "Replication, Sentinel and Cluster",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-13",
+    "topicTitle": "Lua Scripting",
+    "level": 13,
+    "projects": []
+  },
+  {
+    "topicId": "level-13-topic-14",
+    "topicTitle": "Distributed Locks and Caveats",
     "level": 13,
     "projects": [
       {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "Indexing & Query Plans is implemented in the FinFlow Banking Platform across various services.",
+        "implementation": "Distributed Locks and Caveats is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
@@ -653,451 +2101,847 @@
         "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-13-topic-15",
+    "topicTitle": "Fencing Tokens",
+    "level": 13,
+    "projects": []
   },
   {
     "topicId": "level-14-topic-1",
-    "topicTitle": "Service Decomposition",
+    "topicTitle": "Images, Layers and Build Cache",
     "level": 14,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Service Decomposition is implemented in the CommerceX Enterprise during \"Order Saga & Payment\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Order Saga & Payment"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Service Decomposition is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-14-topic-2",
-    "topicTitle": "Inter-Service Communication",
+    "topicTitle": "Containers and Lifecycle",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-3",
+    "topicTitle": "Production Dockerfile",
     "level": 14,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Inter-Service Communication is implemented in the CommerceX Enterprise during \"Order Saga & Payment\".",
+        "implementation": "Production Dockerfile is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
-        "phase": "Order Saga & Payment"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Inter-Service Communication is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
         "phase": "Core Architecture"
       }
     ]
+  },
+  {
+    "topicId": "level-14-topic-4",
+    "topicTitle": "Multi-stage Builds",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-5",
+    "topicTitle": "Container Networking",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-6",
+    "topicTitle": "Volumes",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-7",
+    "topicTitle": "Environment Variables and Secrets",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-8",
+    "topicTitle": "Container Resource Limits",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-9",
+    "topicTitle": "Docker Compose",
+    "level": 14,
+    "projects": []
+  },
+  {
+    "topicId": "level-14-topic-10",
+    "topicTitle": "Image Security and Non-root Users",
+    "level": 14,
+    "projects": []
   },
   {
     "topicId": "level-15-topic-1",
-    "topicTitle": "Service Discovery & Config",
+    "topicTitle": "Pods and ReplicaSets",
     "level": 15,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Service Discovery & Config is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "API Gateway & Service Mesh"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Service Discovery & Config is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      },
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Service Discovery & Config is implemented in the Platform Engineering across various services.",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
     "topicId": "level-15-topic-2",
-    "topicTitle": "API Gateway & Circuit Breakers",
+    "topicTitle": "Deployments and Deployment Strategies",
     "level": 15,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "API Gateway & Circuit Breakers is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
+        "implementation": "Deployments and Deployment Strategies is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      },
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Deployments and Deployment Strategies is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-15-topic-3",
+    "topicTitle": "Services and Ingress",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-4",
+    "topicTitle": "ConfigMaps and Secrets",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-5",
+    "topicTitle": "Namespaces",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-6",
+    "topicTitle": "Resource Requests and Limits",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-7",
+    "topicTitle": "Readiness and Liveness Probes",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-8",
+    "topicTitle": "Horizontal Pod Autoscaler",
+    "level": 15,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Horizontal Pod Autoscaler is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-15-topic-9",
+    "topicTitle": "PersistentVolume and PersistentVolumeClaim",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-10",
+    "topicTitle": "Jobs and CronJobs",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-11",
+    "topicTitle": "ServiceAccount and RBAC",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-12",
+    "topicTitle": "NetworkPolicy",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-13",
+    "topicTitle": "Rolling Deployments and Rollbacks",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-15-topic-14",
+    "topicTitle": "Helm",
+    "level": 15,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-1",
+    "topicTitle": "EC2 and Auto Scaling",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-2",
+    "topicTitle": "S3 and Presigned URLs",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-3",
+    "topicTitle": "RDS and Connection Management",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-4",
+    "topicTitle": "RDS Multi-AZ and Read Replicas",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-5",
+    "topicTitle": "VPC and Public/Private Subnets",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-6",
+    "topicTitle": "Security Groups and NACLs",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-7",
+    "topicTitle": "NAT Gateway",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-8",
+    "topicTitle": "IAM Roles and Least Privilege",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-9",
+    "topicTitle": "Application Load Balancer",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-10",
+    "topicTitle": "Route 53",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-11",
+    "topicTitle": "ECR",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-12",
+    "topicTitle": "ECS vs EKS",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-13",
+    "topicTitle": "CloudWatch",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-16-topic-14",
+    "topicTitle": "Secrets Manager and Parameter Store",
+    "level": 16,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-1",
+    "topicTitle": "Git Workflow",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-2",
+    "topicTitle": "Maven Build Lifecycle",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-3",
+    "topicTitle": "CI vs Continuous Delivery vs Continuous Deployment",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-4",
+    "topicTitle": "CI/CD Pipeline Stages",
+    "level": 17,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "CI/CD Pipeline Stages is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-17-topic-5",
+    "topicTitle": "GitHub Actions",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-6",
+    "topicTitle": "Jenkins",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-7",
+    "topicTitle": "Quality and Security Gates",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-8",
+    "topicTitle": "Docker Build and Image Registry",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-9",
+    "topicTitle": "Environment Configuration and Secrets",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-10",
+    "topicTitle": "GitOps",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-11",
+    "topicTitle": "Infrastructure as Code",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-12",
+    "topicTitle": "Blue-Green and Canary Deployments",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-17-topic-13",
+    "topicTitle": "Rollback Strategy",
+    "level": 17,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-1",
+    "topicTitle": "Test Pyramid",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-2",
+    "topicTitle": "JUnit 5",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-3",
+    "topicTitle": "Mockito",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-4",
+    "topicTitle": "Unit Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-5",
+    "topicTitle": "Service Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-6",
+    "topicTitle": "Controller Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-7",
+    "topicTitle": "Repository Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-8",
+    "topicTitle": "@WebMvcTest and MockMvc",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-9",
+    "topicTitle": "@SpringBootTest",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-10",
+    "topicTitle": "Integration Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-11",
+    "topicTitle": "Testcontainers",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-12",
+    "topicTitle": "Contract Testing",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-13",
+    "topicTitle": "Test Isolation",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-14",
+    "topicTitle": "Flaky Tests",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-15",
+    "topicTitle": "Test Data Management",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-18-topic-16",
+    "topicTitle": "Code Coverage and Quality Gates",
+    "level": 18,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-1",
+    "topicTitle": "Requirements Gathering",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-2",
+    "topicTitle": "Functional vs Non-functional Requirements",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-3",
+    "topicTitle": "Capacity Estimation",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-4",
+    "topicTitle": "Latency and Throughput",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-5",
+    "topicTitle": "Scalability",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-6",
+    "topicTitle": "Availability and Reliability",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-7",
+    "topicTitle": "Consistency Models and CAP",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-8",
+    "topicTitle": "Load Balancing",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-9",
+    "topicTitle": "Caching",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-10",
+    "topicTitle": "Message Queues",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-11",
+    "topicTitle": "Read Replicas and Write Scaling",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-12",
+    "topicTitle": "Partitioning and Sharding",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-13",
+    "topicTitle": "Replication and High Availability",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-14",
+    "topicTitle": "Rate Limiting",
+    "level": 19,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "Rate Limiting is implemented in the CommerceX Enterprise during \"API Gateway & Service Mesh\".",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
         "phase": "API Gateway & Service Mesh"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "API Gateway & Circuit Breakers is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
       }
     ]
   },
   {
-    "topicId": "level-16-topic-1",
-    "topicTitle": "Kafka Fundamentals",
-    "level": 16,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Kafka Fundamentals is implemented in the CommerceX Enterprise during \"Inventory & Event Publishing\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Inventory & Event Publishing"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Kafka Fundamentals is implemented in the FinFlow Banking Platform during \"Fraud Detection Pipeline\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Fraud Detection Pipeline"
-      }
-    ]
-  },
-  {
-    "topicId": "level-16-topic-2",
-    "topicTitle": "Event Sourcing & CQRS",
-    "level": 16,
-    "projects": [
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Event Sourcing & CQRS is implemented in the FinFlow Banking Platform during \"Account Service & Event Store\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Account Service & Event Store"
-      }
-    ]
-  },
-  {
-    "topicId": "level-17-topic-1",
-    "topicTitle": "Caching Patterns",
-    "level": 17,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Caching Patterns is implemented in the CommerceX Enterprise during \"Cart & Redis Caching\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Cart & Redis Caching"
-      }
-    ]
-  },
-  {
-    "topicId": "level-17-topic-2",
-    "topicTitle": "Redis Data Structures",
-    "level": 17,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Redis Data Structures is implemented in the CommerceX Enterprise during \"Cart & Redis Caching\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Cart & Redis Caching"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Redis Data Structures is implemented in the FinFlow Banking Platform during \"Fraud Detection Pipeline\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Fraud Detection Pipeline"
-      }
-    ]
-  },
-  {
-    "topicId": "level-18-topic-1",
-    "topicTitle": "Authentication & JWT",
-    "level": 18,
-    "projects": [
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Authentication & JWT is implemented in the CommerceX Enterprise during \"Project Setup & User Service\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Project Setup & User Service"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Authentication & JWT is implemented in the FinFlow Banking Platform during \"Security & Compliance\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Security & Compliance"
-      }
-    ]
-  },
-  {
-    "topicId": "level-18-topic-2",
-    "topicTitle": "OAuth2 & RBAC",
-    "level": 18,
-    "projects": [
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "OAuth2 & RBAC is implemented in the FinFlow Banking Platform during \"Security & Compliance\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Security & Compliance"
-      }
-    ]
-  },
-  {
-    "topicId": "level-19-topic-1",
-    "topicTitle": "Docker & Containerization",
+    "topicId": "level-19-topic-15",
+    "topicTitle": "Fault Tolerance",
     "level": 19,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Docker & Containerization is implemented in the Platform Engineering during \"Docker & Local Dev Environment\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Docker & Local Dev Environment"
-      },
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Docker & Containerization is implemented in the CommerceX Enterprise during \"Production Deployment\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Production Deployment"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Docker & Containerization is implemented in the FinFlow Banking Platform across various services.",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Core Architecture"
-      }
-    ]
+    "projects": []
   },
   {
-    "topicId": "level-19-topic-2",
-    "topicTitle": "Kubernetes Orchestration",
+    "topicId": "level-19-topic-16",
+    "topicTitle": "Observability in System Design",
     "level": 19,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Kubernetes Orchestration is implemented in the Platform Engineering during \"Kubernetes & Helm Charts\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Kubernetes & Helm Charts"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-17",
+    "topicTitle": "URL Shortener Design",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-18",
+    "topicTitle": "Rate Limiter Design",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-19",
+    "topicTitle": "Notification System Design",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-20",
+    "topicTitle": "Order and Payment System Design",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-21",
+    "topicTitle": "E-commerce Design",
+    "level": 19,
+    "projects": []
+  },
+  {
+    "topicId": "level-19-topic-22",
+    "topicTitle": "File Storage and Chat System Design",
+    "level": 19,
+    "projects": []
   },
   {
     "topicId": "level-20-topic-1",
-    "topicTitle": "AWS Core Services",
+    "topicTitle": "SOLID Principles",
     "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-2",
+    "topicTitle": "Factory and Builder Patterns",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-3",
+    "topicTitle": "Strategy Pattern",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-4",
+    "topicTitle": "Observer Pattern",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-5",
+    "topicTitle": "Adapter and Decorator",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-6",
+    "topicTitle": "Repository and DTO Patterns",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-7",
+    "topicTitle": "Dependency Inversion in Spring",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-8",
+    "topicTitle": "Clean Architecture Layers",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-9",
+    "topicTitle": "Hexagonal Architecture",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-10",
+    "topicTitle": "Ports and Adapters",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-20-topic-11",
+    "topicTitle": "Transaction Boundary Placement",
+    "level": 20,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-1",
+    "topicTitle": "Structured Logging",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-2",
+    "topicTitle": "MDC and Correlation IDs",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-3",
+    "topicTitle": "Metrics and Micrometer",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-4",
+    "topicTitle": "Prometheus",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-5",
+    "topicTitle": "Grafana",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-6",
+    "topicTitle": "OpenTelemetry and Distributed Tracing",
+    "level": 21,
     "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "AWS Core Services is implemented in the Platform Engineering during \"Kubernetes & Helm Charts\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Kubernetes & Helm Charts"
-      },
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "AWS Core Services is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "implementation": "OpenTelemetry and Distributed Tracing is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
         ],
-        "phase": "Production Deployment"
+        "phase": "Core Architecture"
       }
     ]
   },
   {
-    "topicId": "level-20-topic-2",
-    "topicTitle": "Cloud-Native Architecture",
-    "level": 20,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Cloud-Native Architecture is implemented in the Platform Engineering during \"Terraform & AWS Infrastructure\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Terraform & AWS Infrastructure"
-      }
-    ]
+    "topicId": "level-21-topic-7",
+    "topicTitle": "Health Checks",
+    "level": 21,
+    "projects": []
   },
   {
-    "topicId": "level-21-topic-1",
-    "topicTitle": "CI/CD Pipelines",
+    "topicId": "level-21-topic-8",
+    "topicTitle": "SLI, SLO and SLA",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-9",
+    "topicTitle": "Alerting",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-10",
+    "topicTitle": "Timeouts",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-11",
+    "topicTitle": "Retries and Jitter",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-12",
+    "topicTitle": "Circuit Breakers and Bulkheads",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-13",
+    "topicTitle": "Backpressure",
     "level": 21,
     "projects": [
       {
         "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "CI/CD Pipelines is implemented in the Platform Engineering during \"CI/CD Pipeline Templates\".",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Backpressure is implemented in the Event-Driven Logistics Platform across various services.",
         "files": [
           "platform/",
           "platform/pipelines/",
           "platform/terraform/modules/"
         ],
-        "phase": "CI/CD Pipeline Templates"
+        "phase": "Core Architecture"
       }
     ]
   },
   {
-    "topicId": "level-21-topic-2",
-    "topicTitle": "GitOps & IaC",
+    "topicId": "level-21-topic-14",
+    "topicTitle": "Graceful Shutdown",
     "level": 21,
-    "projects": [
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "GitOps & IaC is implemented in the Platform Engineering during \"Terraform & AWS Infrastructure\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Terraform & AWS Infrastructure"
-      }
-    ]
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-15",
+    "topicTitle": "Production Debugging",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-16",
+    "topicTitle": "Thread Dumps",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-17",
+    "topicTitle": "Heap Dumps",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-18",
+    "topicTitle": "GC Analysis",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-19",
+    "topicTitle": "Memory Leaks",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-20",
+    "topicTitle": "Incident Response",
+    "level": 21,
+    "projects": []
+  },
+  {
+    "topicId": "level-21-topic-21",
+    "topicTitle": "Runbooks",
+    "level": 21,
+    "projects": []
   },
   {
     "topicId": "level-22-topic-1",
-    "topicTitle": "Testing Strategy",
+    "topicTitle": "Commerce Platform Architecture",
     "level": 22,
     "projects": [
       {
         "projectId": "commercex",
         "projectName": "CommerceX Enterprise",
-        "implementation": "Testing Strategy is implemented in the CommerceX Enterprise during \"Production Deployment\".",
+        "implementation": "Commerce Platform Architecture is implemented in the CommerceX Enterprise across various services.",
         "files": [
           "commercex/",
           "commercex/services/api-gateway/",
           "commercex/services/user-service/"
-        ],
-        "phase": "Production Deployment"
-      },
-      {
-        "projectId": "finflow",
-        "projectName": "FinFlow Banking Platform",
-        "implementation": "Testing Strategy is implemented in the FinFlow Banking Platform during \"Production & Observability\".",
-        "files": [
-          "finflow/",
-          "finflow/services/account-service/",
-          "finflow/services/transfer-service/"
-        ],
-        "phase": "Production & Observability"
-      },
-      {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Testing Strategy is implemented in the Platform Engineering across various services.",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
         ],
         "phase": "Core Architecture"
       }
@@ -1105,41 +2949,97 @@
   },
   {
     "topicId": "level-22-topic-2",
-    "topicTitle": "Observability Stack",
+    "topicTitle": "Banking Platform Architecture",
     "level": 22,
     "projects": [
       {
-        "projectId": "platform",
-        "projectName": "Platform Engineering",
-        "implementation": "Observability Stack is implemented in the Platform Engineering during \"Observability Stack\".",
-        "files": [
-          "platform/",
-          "platform/pipelines/",
-          "platform/terraform/modules/"
-        ],
-        "phase": "Observability Stack"
-      },
-      {
-        "projectId": "commercex",
-        "projectName": "CommerceX Enterprise",
-        "implementation": "Observability Stack is implemented in the CommerceX Enterprise during \"Production Deployment\".",
-        "files": [
-          "commercex/",
-          "commercex/services/api-gateway/",
-          "commercex/services/user-service/"
-        ],
-        "phase": "Production Deployment"
-      },
-      {
         "projectId": "finflow",
         "projectName": "FinFlow Banking Platform",
-        "implementation": "Observability Stack is implemented in the FinFlow Banking Platform during \"Production & Observability\".",
+        "implementation": "Banking Platform Architecture is implemented in the FinFlow Banking Platform across various services.",
         "files": [
           "finflow/",
           "finflow/services/account-service/",
           "finflow/services/transfer-service/"
         ],
-        "phase": "Production & Observability"
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-3",
+    "topicTitle": "Event-Driven Logistics Architecture",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Event-Driven Logistics Architecture is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-4",
+    "topicTitle": "End-to-End Order Flow",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "commercex",
+        "projectName": "CommerceX Enterprise",
+        "implementation": "End-to-End Order Flow is implemented in the CommerceX Enterprise across various services.",
+        "files": [
+          "commercex/",
+          "commercex/services/api-gateway/",
+          "commercex/services/user-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-5",
+    "topicTitle": "End-to-End Payment Flow",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "finflow",
+        "projectName": "FinFlow Banking Platform",
+        "implementation": "End-to-End Payment Flow is implemented in the FinFlow Banking Platform across various services.",
+        "files": [
+          "finflow/",
+          "finflow/services/account-service/",
+          "finflow/services/transfer-service/"
+        ],
+        "phase": "Core Architecture"
+      }
+    ]
+  },
+  {
+    "topicId": "level-22-topic-6",
+    "topicTitle": "Production Deployment Checklist",
+    "level": 22,
+    "projects": []
+  },
+  {
+    "topicId": "level-22-topic-7",
+    "topicTitle": "Project Interview Storytelling",
+    "level": 22,
+    "projects": [
+      {
+        "projectId": "platform",
+        "projectName": "Event-Driven Logistics Platform",
+        "implementation": "Project Interview Storytelling is implemented in the Event-Driven Logistics Platform across various services.",
+        "files": [
+          "platform/",
+          "platform/pipelines/",
+          "platform/terraform/modules/"
+        ],
+        "phase": "Core Architecture"
       }
     ]
   }

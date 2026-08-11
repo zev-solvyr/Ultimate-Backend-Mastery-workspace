@@ -2,6 +2,9 @@ import roadmapData from "@/data/roadmap.json";
 import projectsData from "@/data/projects.json";
 import skillMappingData from "@/data/skill-mapping.json";
 import buildOrderData from "@/data/build-order.json";
+import { projectGuides } from "@/data/project-guides";
+import { commercexArchitecture } from "@/data/commercex-architecture";
+import { commercexDomain } from "@/data/commercex-domain";
 import type {
   Roadmap,
   Project,
@@ -12,7 +15,7 @@ import type {
 } from "@/types";
 
 export const roadmap = roadmapData as Roadmap;
-export const projects = projectsData as Project[];
+export const projects = (projectsData as Project[]).map((project) => ({ ...project, guide: projectGuides[project.id] ? { ...projectGuides[project.id], architecture: project.id === "commercex" ? commercexArchitecture : undefined, domainModel: project.id === "commercex" ? commercexDomain : undefined } : undefined }));
 export const skillMappings = skillMappingData as SkillProjectMapping[];
 export const buildOrder = buildOrderData as BuildOrderStep[];
 
@@ -27,6 +30,14 @@ export function getTopicById(id: string): Topic | undefined {
 export function getLevelByNumber(level: number): RoadmapLevel | undefined {
   return roadmap.levels.find((l) => l.level === level);
 }
+
+export function getMainTopicsForLevel(level: number) {
+  const roadmapLevel = getLevelByNumber(level);
+  if (!roadmapLevel) return [];
+  return Array.from(new Map(roadmapLevel.topics.map((topic) => [topic.module, { id: `${roadmapLevel.level}-${topic.module.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`, title: topic.module, description: "", subtopics: roadmapLevel.topics.filter((item) => item.module === topic.module) }])).values());
+}
+
+export function getMainTopic(level: number, id: string) { return getMainTopicsForLevel(level).find((topic) => topic.id === id); }
 
 export function getProjectById(id: string): Project | undefined {
   return projects.find((p) => p.id === id);

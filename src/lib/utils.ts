@@ -19,8 +19,31 @@ export function getDifficultyColor(difficulty: string): string {
   return map[difficulty] ?? map.beginner;
 }
 
+export function getPriorityLabel(priority: number): string {
+  const labels: Record<number, string> = {
+    5: "Very frequently asked",
+    4: "Frequently asked",
+    3: "Moderately asked",
+    2: "Occasionally asked",
+    1: "Low priority",
+  };
+  return labels[priority] ?? "Moderately asked";
+}
+
+export function getPriorityColor(priority: number): string {
+  const map: Record<number, string> = {
+    5: "text-gold bg-gold/10 border-gold/20",
+    4: "text-orange-400 bg-orange-400/10 border-orange-400/20",
+    3: "text-amber-400 bg-amber-400/10 border-amber-400/20",
+    2: "text-blue-400 bg-blue-400/10 border-blue-400/20",
+    1: "text-muted-foreground bg-muted/50 border-border/50",
+  };
+  return map[priority] ?? map[3];
+}
+
 export function getLevelColor(level: number): string {
   const colors = [
+    "from-slate-500 to-slate-400",
     "from-blue-500 to-cyan-500",
     "from-cyan-500 to-teal-500",
     "from-teal-500 to-emerald-500",
@@ -43,6 +66,7 @@ export function getLevelColor(level: number): string {
     "from-emerald-600 to-green-600",
     "from-green-600 to-lime-600",
     "from-lime-600 to-yellow-600",
+    "from-yellow-600 to-orange-600",
   ];
-  return colors[(level - 1) % colors.length];
+  return colors[level % colors.length];
 }

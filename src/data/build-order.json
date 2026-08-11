@@ -5,13 +5,7 @@
     "milestoneId": "cx-m1",
     "title": "Project Setup & User Service",
     "description": "Initialize monorepo, Docker Compose, user registration/auth",
-    "topicIds": [
-      "level-01-topic-1",
-      "level-01-topic-2",
-      "level-09-topic-1",
-      "level-10-topic-1",
-      "level-18-topic-1"
-    ],
+    "topicIds": [],
     "teamPhase": "Foundation Sprint",
     "dependencies": []
   },
@@ -21,11 +15,7 @@
     "milestoneId": "cx-m2",
     "title": "Catalog & Search Service",
     "description": "Product catalog with categories and search",
-    "topicIds": [
-      "level-11-topic-1",
-      "level-12-topic-1",
-      "level-13-topic-1"
-    ],
+    "topicIds": [],
     "teamPhase": "Foundation Sprint",
     "dependencies": [
       1
@@ -38,8 +28,7 @@
     "title": "Cart & Redis Caching",
     "description": "Shopping cart with Redis-backed storage",
     "topicIds": [
-      "level-17-topic-1",
-      "level-17-topic-2"
+      "level-13-topic-7"
     ],
     "teamPhase": "Foundation Sprint",
     "dependencies": [
@@ -53,8 +42,7 @@
     "title": "Docker & Local Dev Environment",
     "description": "Standardized Docker Compose for all services",
     "topicIds": [
-      "level-19-topic-1",
-      "level-04-topic-2"
+      "level-14-topic-9"
     ],
     "teamPhase": "DevOps Bootstrap",
     "dependencies": [
@@ -68,7 +56,7 @@
     "title": "CI/CD Pipeline Templates",
     "description": "Reusable GitHub Actions pipelines",
     "topicIds": [
-      "level-21-topic-1"
+      "level-17-topic-5"
     ],
     "teamPhase": "DevOps Bootstrap",
     "dependencies": [
@@ -81,9 +69,7 @@
     "milestoneId": "cx-m4",
     "title": "Inventory & Event Publishing",
     "description": "Stock management with Kafka events",
-    "topicIds": [
-      "level-16-topic-1"
-    ],
+    "topicIds": [],
     "teamPhase": "Core Business Logic",
     "dependencies": [
       5
@@ -96,9 +82,7 @@
     "title": "Order Saga & Payment",
     "description": "Distributed order processing with saga pattern",
     "topicIds": [
-      "level-14-topic-1",
-      "level-14-topic-2",
-      "level-16-topic-2"
+      "level-11-topic-23"
     ],
     "teamPhase": "Core Business Logic",
     "dependencies": [
@@ -111,11 +95,7 @@
     "milestoneId": "ff-m1",
     "title": "Account Service & Event Store",
     "description": "Core account management with event sourcing",
-    "topicIds": [
-      "level-02-topic-1",
-      "level-12-topic-1",
-      "level-16-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "FinTech Core",
     "dependencies": [
       7
@@ -127,11 +107,7 @@
     "milestoneId": "ff-m2",
     "title": "Transfer Service & 2PC",
     "description": "Distributed transfer with two-phase commit",
-    "topicIds": [
-      "level-06-topic-1",
-      "level-06-topic-2",
-      "level-12-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "FinTech Core",
     "dependencies": [
       8
@@ -143,10 +119,7 @@
     "milestoneId": "pe-m3",
     "title": "Kubernetes & Helm Charts",
     "description": "K8s deployment with Helm",
-    "topicIds": [
-      "level-19-topic-2",
-      "level-20-topic-1"
-    ],
+    "topicIds": [],
     "teamPhase": "Infrastructure Scale",
     "dependencies": [
       9
@@ -158,10 +131,7 @@
     "milestoneId": "pe-m4",
     "title": "Terraform & AWS Infrastructure",
     "description": "IaC for full AWS stack",
-    "topicIds": [
-      "level-20-topic-2",
-      "level-21-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "Infrastructure Scale",
     "dependencies": [
       10
@@ -174,8 +144,9 @@
     "title": "API Gateway & Service Mesh",
     "description": "Spring Cloud Gateway with circuit breakers",
     "topicIds": [
-      "level-15-topic-1",
-      "level-15-topic-2"
+      "level-11-topic-6",
+      "level-11-topic-14",
+      "level-19-topic-14"
     ],
     "teamPhase": "Gateway & Resilience",
     "dependencies": [
@@ -189,8 +160,7 @@
     "title": "Fraud Detection Pipeline",
     "description": "Real-time fraud scoring with Redis",
     "topicIds": [
-      "level-17-topic-2",
-      "level-16-topic-1"
+      "level-13-topic-7"
     ],
     "teamPhase": "Security & Fraud",
     "dependencies": [
@@ -203,10 +173,7 @@
     "milestoneId": "ff-m4",
     "title": "Security & Compliance",
     "description": "OAuth2, MFA, KYC/AML compliance",
-    "topicIds": [
-      "level-18-topic-1",
-      "level-18-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "Security & Fraud",
     "dependencies": [
       13
@@ -218,14 +185,7 @@
     "milestoneId": "cx-m7",
     "title": "Production Deployment",
     "description": "K8s deployment with full observability",
-    "topicIds": [
-      "level-19-topic-1",
-      "level-19-topic-2",
-      "level-20-topic-1",
-      "level-21-topic-1",
-      "level-22-topic-1",
-      "level-22-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "Production Launch",
     "dependencies": [
       14
@@ -238,8 +198,8 @@
     "title": "Production & Observability",
     "description": "Full deployment with monitoring",
     "topicIds": [
-      "level-22-topic-1",
-      "level-22-topic-2"
+      "level-21-topic-4",
+      "level-21-topic-5"
     ],
     "teamPhase": "FinTech Production",
     "dependencies": [
@@ -252,11 +212,7 @@
     "milestoneId": "pe-m5",
     "title": "Observability Stack",
     "description": "Full monitoring, logging, tracing",
-    "topicIds": [
-      "level-07-topic-1",
-      "level-07-topic-2",
-      "level-22-topic-2"
-    ],
+    "topicIds": [],
     "teamPhase": "Observability Maturity",
     "dependencies": [
       16

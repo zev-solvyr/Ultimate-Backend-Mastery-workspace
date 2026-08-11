@@ -7,6 +7,7 @@ import { writeFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { enrichTopic } from "./topic-content/index.mjs";
+import { ROADMAP_LEVELS } from "./roadmap-structure.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataDir = join(__dirname, "..", "src", "data");
@@ -15,10 +16,11 @@ mkdirSync(dataDir, { recursive: true });
 
 function createTopic(id, title, level, opts = {}) {
   const {
-    overview = `${title} is a core concept in Level ${level} of the Ultimate Java Developer roadmap.`,
-    whyItExists = `Engineering teams rely on ${title} to build reliable, scalable enterprise systems.`,
-    internalWorking = `${title} works through well-defined mechanisms in the JVM and Spring ecosystem, integrating with adjacent layers of the stack.`,
-    realWorldUsage = `Used daily at Amazon, Stripe, and Netflix for production workloads involving ${title.toLowerCase()}.`,
+    module = "Backend Engineering",
+    interviewPriority = 3,
+    interviewDefinition = `${title} is a backend engineering concept. Explain its responsibility, trade-offs, and the production problem it addresses; then connect it to a service boundary, failure mode, or data consistency requirement.`,
+    distinctions = [],
+    interviewQuestions = [{ question: `How would you explain ${title} in a backend interview?`, answer: `Define ${title}, state the relevant trade-off, and give a concrete production use case. Avoid presenting it as an isolated API without explaining how it behaves under failure or load.` }],
     difficulty = level <= 6 ? "beginner" : level <= 14 ? "intermediate" : level <= 18 ? "advanced" : "expert",
     estimatedLearningTime = level <= 6 ? "4-8 hours" : level <= 14 ? "8-16 hours" : "16-24 hours",
     prerequisites = level > 1 ? [`level-${level - 1}-topic-1`] : [],
@@ -29,10 +31,11 @@ function createTopic(id, title, level, opts = {}) {
   return {
     id,
     title,
-    overview,
-    whyItExists,
-    internalWorking,
-    realWorldUsage,
+    module,
+    interviewPriority,
+    interviewDefinition,
+    distinctions,
+    interviewQuestions,
     codeExamples: [
       {
         title: `${title} — Basic Example`,
@@ -185,36 +188,85 @@ const PROJECT_ASSIGNMENTS = {
   "Observability Stack": ["platform", "commercex", "finflow"],
 };
 
-const levels = LEVELS.map((lvl) => ({
-  level: lvl.level,
-  title: lvl.title,
-  description: lvl.description,
-  icon: lvl.icon,
-  color: lvl.color,
-  xpReward: lvl.level * 100,
-  topics: lvl.topics.map((topicTitle, idx) => {
-    const id = `level-${String(lvl.level).padStart(2, "0")}-topic-${idx + 1}`;
-    const projects = PROJECT_ASSIGNMENTS[topicTitle] ?? [];
-    return createTopic(id, topicTitle, lvl.level, enrichTopic(topicTitle, {
-      usedInProjects: projects,
-      prerequisites: idx === 0 && lvl.level > 1
-        ? [`level-${String(lvl.level - 1).padStart(2, "0")}-topic-2`]
-        : idx > 0
-        ? [`level-${String(lvl.level).padStart(2, "0")}-topic-${idx}`]
-        : [],
-      codeLanguage: topicTitle.includes("SQL") || topicTitle.includes("Database") ? "sql"
-        : topicTitle.includes("Docker") ? "dockerfile"
-        : topicTitle.includes("Kubernetes") || topicTitle.includes("CI/CD") || topicTitle.includes("GitOps") || topicTitle.includes("AWS") ? "yaml"
-        : "java",
-    }));
-  }),
-}));
+function interviewDefinition(title, module) {
+  return `${title} belongs to ${module}. In an interview, define it first, then explain the trade-off or runtime behavior that matters in a production backend. Finish with the concrete place you would apply it, including how failure, concurrency, or data consistency changes the decision.`;
+}
+
+function interviewDistinctions(title) {
+  const distinctions = {
+    "JDK": ["The JDK contains development tools plus a runtime; the JRE is the runtime subset used to execute Java applications."],
+    "JRE": ["The JRE provides the JVM and libraries required to run Java, while the JDK also provides javac and developer tooling."],
+    "JVM": ["The JVM executes bytecode; it is not the compiler and it is not the complete JRE."],
+    "Pass-by-Value": ["Java always passes values. For an object parameter the copied value is a reference, so mutation through it is visible but reassigning it is not."],
+    "HashMap": ["HashMap is not thread-safe and does not preserve insertion order; use ConcurrentHashMap for concurrent access and LinkedHashMap when order matters."],
+    "synchronized": ["synchronized provides mutual exclusion and visibility around the same monitor; volatile provides visibility but does not make compound updates atomic."],
+    "volatile": ["volatile establishes visibility and ordering for reads/writes, but incrementing a volatile value is still a read-modify-write race."],
+    "Lazy Loading": ["Lazy loading defers association retrieval; it can reduce initial work but causes failures outside a persistence context and can create N+1 queries."],
+    "Optimistic Locking": ["Optimistic locking detects a conflicting write at commit time using a version field; pessimistic locking acquires a database lock earlier."],
+    "JWT": ["A JWT is a signed credential, not encrypted application data. Validate its signature, issuer, audience, expiry, and algorithm."],
+    "Idempotency": ["Idempotency means repeating a request has the same observable effect. It is not the same as retrying blindly."],
+    "At-least-once": ["At-least-once delivery can duplicate messages, so consumers must be idempotent; exactly-once semantics has narrower Kafka transaction boundaries."],
+  };
+  return distinctions[title] ?? [];
+}
+
+function interviewQuestions(title) {
+  return [
+    { question: `What is ${title}, and when would you use it?`, answer: `Give a concise definition, name the trade-off, and anchor the answer in a real backend service rather than a textbook example.` },
+    { question: `What can go wrong with ${title} in production?`, answer: `Discuss the relevant failure mode: incorrect consistency, unbounded resource use, a security gap, slow dependency, duplicate event, or missing observability. Then state the control that mitigates it.` },
+  ];
+}
+
+const projectIds = { commerce: "commercex", banking: "finflow", logistics: "platform" };
+const projectTopics = {
+  commerce: new Set(["Hash Tables", "HashMap Internals", "String, Immutability and String Pool", "ExecutorService", "Spring @Transactional", "JpaRepository and Spring Data", "REST Resource Modeling", "Idempotency-key Storage", "API Gateway", "Outbox Pattern", "Kafka Broker and Cluster", "Cache-aside", "Cache Invalidation", "Rate Limiting", "Production Dockerfile", "Deployments and Deployment Strategies", "CI/CD Pipeline Stages", "OpenTelemetry and Distributed Tracing", "Commerce Platform Architecture", "End-to-End Order Flow"]),
+  banking: new Set(["Java Memory Model and happens-before", "ConcurrentHashMap", "Locks and ReentrantLock", "ACID Transactions", "SQL Transaction Isolation", "Deadlocks", "JPA Optimistic Locking", "JPA Pessimistic Locking", "Spring @Transactional", "JWT Structure and Validation", "Refresh-token Security", "Token Rotation and Revocation", "Idempotency-key Storage", "2PC vs Saga", "Saga Orchestration", "Kafka Transactions", "Idempotent Producers", "Distributed Locks and Caveats", "Banking Platform Architecture", "End-to-End Payment Flow"]),
+  logistics: new Set(["Threads, Runnable and Callable", "CompletableFuture", "Synchronous vs Asynchronous Communication", "Backpressure", "Eventual Consistency", "Kafka Broker and Cluster", "Topics and Partitions", "Partition-key Strategy", "Consumer Rebalancing", "At-least-once Delivery", "Retries and Dead-letter Topics", "Consumer Lag", "Redis Data Structures", "Key Design and Hot Keys", "Deployments and Deployment Strategies", "Horizontal Pod Autoscaler", "Event-Driven Logistics Architecture", "Project Interview Storytelling"]),
+};
+
+function mappedProjects(title) {
+  return Object.entries(projectTopics)
+    .filter(([, titles]) => titles.has(title))
+    .map(([project]) => projectIds[project]);
+}
+
+const levels = ROADMAP_LEVELS.map((lvl) => {
+  let topicIndex = 0;
+  return {
+    level: lvl.level,
+    title: lvl.title,
+    description: lvl.description,
+    icon: lvl.icon,
+    color: lvl.color,
+    xpReward: (lvl.level + 1) * 100,
+    topics: lvl.modules.flatMap((module) => module.topics.map((entry) => {
+      topicIndex += 1;
+      const id = `level-${String(lvl.level).padStart(2, "0")}-topic-${topicIndex}`;
+      const usedInProjects = [...new Set([...(entry.projects ?? []).map((project) => projectIds[project]), ...mappedProjects(entry.title)].filter(Boolean))];
+      const codeLanguage = /SQL|Index|Join|ACID|Isolation|JDBC|Database/.test(entry.title) ? "sql"
+        : /Docker/.test(entry.title) ? "dockerfile"
+        : /Kubernetes|Pod|Deployment|ConfigMap|Secret|Ingress|AWS|CI\/CD|GitHub Actions|Jenkins|Terraform|Helm/.test(entry.title) ? "yaml"
+        : "java";
+      return createTopic(id, entry.title, lvl.level, {
+        ...enrichTopic(entry.title),
+        module: module.name,
+        interviewPriority: entry.priority,
+        interviewDefinition: interviewDefinition(entry.title, module.name),
+        distinctions: interviewDistinctions(entry.title),
+        interviewQuestions: interviewQuestions(entry.title),
+        usedInProjects,
+        prerequisites: topicIndex > 1 ? [`level-${String(lvl.level).padStart(2, "0")}-topic-${topicIndex - 1}`] : [],
+        codeLanguage,
+      });
+    })),
+  };
+});
 
 const roadmap = {
-  version: "1.0.0",
-  title: "Ultimate Java Developer Roadmap",
-  description: "22-level structured path from Java fundamentals to production-ready enterprise engineering",
-  totalLevels: 22,
+  version: "2.0.0",
+  title: "Ultimate Backend Interview Mastery",
+  description: "A revision-first roadmap for Java backend engineers preparing for 2–5 year interviews.",
+  totalLevels: 23,
   levels,
 };
 
@@ -427,22 +479,22 @@ const projects = [
   },
   {
     id: "platform",
-    name: "Platform Engineering",
-    tagline: "CI/CD, Docker, Kubernetes, AWS, monitoring & deployment",
-    description: "Internal developer platform providing CI/CD pipelines, container orchestration, infrastructure as code, and observability for CommerceX and FinFlow teams.",
-    domain: "DevOps / Platform",
+    name: "Event-Driven Logistics Platform",
+    tagline: "High-throughput shipment tracking and delivery orchestration",
+    description: "Build a production logistics platform that accepts shipment events, maintains eventual-consistent tracking state, assigns deliveries, and notifies customers. It demonstrates Kafka partitioning, Redis-backed tracking reads, idempotent consumers, Kubernetes deployment, and end-to-end observability.",
+    domain: "Logistics / Supply Chain",
     difficulty: "advanced",
     estimatedDuration: "12-16 weeks",
     color: "#F97316",
     icon: "Server",
-    techStack: ["Docker", "Kubernetes", "Terraform", "AWS", "GitHub Actions", "ArgoCD", "Prometheus", "Grafana", "Jaeger", "Helm"],
+    techStack: ["Java 21", "Spring Boot", "Kafka", "PostgreSQL", "Redis", "Docker", "Kubernetes", "AWS", "Prometheus", "Grafana"],
     microservices: [
-      { name: "pipeline-service", description: "CI/CD pipeline orchestration API", tech: ["Spring Boot", "PostgreSQL"], responsibilities: ["Pipeline CRUD", "Build triggers", "Deployment status"], ports: [8100] },
-      { name: "cluster-manager", description: "Kubernetes cluster management", tech: ["Spring Boot", "K8s Client"], responsibilities: ["Cluster provisioning", "Node scaling", "Health checks"], ports: [8101] },
-      { name: "monitoring-gateway", description: "Unified observability API", tech: ["Spring Boot", "Prometheus"], responsibilities: ["Metrics aggregation", "Alert routing", "Dashboard API"], ports: [8102] },
+      { name: "tracking-service", description: "Consumes carrier events and serves shipment timelines", tech: ["Spring Boot", "Kafka", "PostgreSQL", "Redis"], responsibilities: ["Idempotent event consumption", "Tracking projections", "Cached shipment reads"], ports: [8100] },
+      { name: "dispatch-service", description: "Assigns shipments to delivery capacity", tech: ["Spring Boot", "PostgreSQL", "Kafka"], responsibilities: ["Capacity allocation", "Optimistic concurrency", "Dispatch events"], ports: [8101] },
+      { name: "notification-service", description: "Delivers shipment status updates", tech: ["Spring Boot", "Kafka"], responsibilities: ["Event consumption", "Customer notifications", "Dead-letter handling"], ports: [8102] },
     ],
     folderStructure: [
-      { path: "platform/", description: "Platform engineering root" },
+      { path: "platform/", description: "Event-driven logistics platform root" },
       { path: "platform/pipelines/", description: "Reusable CI/CD pipeline templates" },
       { path: "platform/terraform/modules/", description: "Terraform modules (VPC, EKS, RDS)" },
       { path: "platform/helm/charts/", description: "Helm charts for service deployment" },
@@ -454,8 +506,8 @@ const projects = [
       { name: "pipeline_runs", description: "CI/CD run history", columns: [{ name: "id", type: "UUID", constraints: "PRIMARY KEY" }, { name: "pipeline_id", type: "UUID" }, { name: "commit_sha", type: "VARCHAR(40)" }, { name: "status", type: "VARCHAR(20)" }, { name: "duration_seconds", type: "INTEGER" }], indexes: ["idx_runs_pipeline"] },
     ],
     eventFlows: [
-      { name: "GitOps Deployment", steps: ["Developer pushes to main", "GitHub Actions runs CI pipeline", "Docker image built and pushed to ECR", "ArgoCD detects manifest change", "Rolling update deployed to EKS", "Prometheus monitors rollout health", "Auto-rollback if error rate exceeds threshold"] },
-      { name: "Infrastructure Provisioning", steps: ["Terraform plan triggered via PR", "Plan reviewed and approved", "Terraform apply creates/updates AWS resources", "K8s cluster updated via cluster-manager", "Monitoring dashboards auto-provisioned"] },
+      { name: "Shipment Tracking Flow", steps: ["Carrier publishes shipment event to Kafka", "Tracking Service validates schema and deduplicates by event ID", "Projection is stored in PostgreSQL and invalidated in Redis", "Shipment status event is published", "Notification Service sends the customer update", "Failures are retried and then routed to a dead-letter topic"] },
+      { name: "Dispatch Flow", steps: ["Order emits shipment-ready event", "Dispatch Service reserves delivery capacity with optimistic locking", "Assignment event is published to Kafka", "Tracking Service exposes the updated timeline with a correlation ID"] },
     ],
     apiContracts: [
       { service: "pipeline-service", endpoint: "/api/v1/pipelines", method: "POST", description: "Create CI/CD pipeline", request: '{ "name": "string", "repo": "string", "stages": [...] }', response: '{ "pipelineId": "uuid", "status": "CREATED" }' },
@@ -512,6 +564,35 @@ const projects = [
     ],
   },
 ];
+
+const topicIdByTitle = new Map(levels.flatMap((level) => level.topics.map((topic) => [topic.title, topic.id])));
+const milestoneTopics = {
+  "cx-m1": ["Class", "Architecture", "JWT", "Dockerfile"],
+  "cx-m2": ["REST Controller", "DTO", "JpaRepository", "Pagination"],
+  "cx-m3": ["Redis Data Structures", "Cache-Aside", "TTL"],
+  "cx-m4": ["Kafka Architecture", "Producers", "Partitions"],
+  "cx-m5": ["Saga", "Outbox Pattern", "Idempotency"],
+  "cx-m6": ["API Gateway", "Circuit Breaker", "Rate Limiting"],
+  "cx-m7": ["Deployment", "Readiness Probe", "CI/CD Pipeline", "Distributed Tracing"],
+  "ff-m1": ["Entity", "Transactions", "Optimistic Locking", "Kafka Architecture"],
+  "ff-m2": ["ACID", "Isolation Levels", "Pessimistic Locking"],
+  "ff-m3": ["Redis Data Structures", "Consumer Groups", "Idempotency"],
+  "ff-m4": ["OAuth2 Basics", "JWT", "Authorization", "Security Filters"],
+  "ff-m5": ["Prometheus", "Grafana", "SLI/SLO/SLA"],
+  "pe-m1": ["Docker Image", "Dockerfile", "Docker Compose"],
+  "pe-m2": ["CI/CD Pipeline", "GitHub Actions", "Maven"],
+  "pe-m3": ["Pod", "Deployment", "Scaling"],
+  "pe-m4": ["EC2", "VPC", "RDS"],
+  "pe-m5": ["Logging", "Metrics", "Distributed Tracing"],
+};
+
+for (const project of projects) {
+  for (const milestone of project.milestones) {
+    milestone.unlockedTopics = (milestoneTopics[milestone.id] ?? [])
+      .map((title) => topicIdByTitle.get(title))
+      .filter(Boolean);
+  }
+}
 
 writeFileSync(join(dataDir, "projects.json"), JSON.stringify(projects, null, 2));
 console.log("Generated projects.json with", projects.length, "projects");

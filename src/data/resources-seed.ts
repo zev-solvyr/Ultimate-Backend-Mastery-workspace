@@ -1,0 +1,50 @@
+import type { ResourceCategory, ResourceItem } from "@/types";
+
+export const defaultResourceCategories: ResourceCategory[] = [
+  { id: "java", name: "Java", order: 1 },
+  { id: "spring", name: "Spring", order: 2 },
+  { id: "spring-boot", name: "Spring Boot", order: 3 },
+  { id: "microservices", name: "Microservices", order: 4 },
+  { id: "sql", name: "SQL", order: 5 },
+  { id: "postgresql", name: "PostgreSQL", order: 6 },
+  { id: "mongodb", name: "MongoDB", order: 7 },
+  { id: "redis", name: "Redis", order: 8 },
+  { id: "kafka", name: "Kafka", order: 9 },
+  { id: "docker", name: "Docker", order: 10 },
+  { id: "kubernetes", name: "Kubernetes", order: 11 },
+  { id: "aws", name: "AWS", order: 12 },
+  { id: "system-design", name: "System Design", order: 13 },
+  { id: "dsa", name: "DSA", order: 14 },
+  { id: "interview", name: "Interview", order: 15 },
+  { id: "projects", name: "Projects", order: 16 },
+  { id: "other", name: "Other", order: 17 },
+];
+
+export const defaultResources: ResourceItem[] = [
+  {
+    id: "res-seed-1",
+    title: "Java 21 Documentation & Language Specification",
+    description: "Official Oracle Java 21 LTS release documentation and JEP specifications.",
+    type: "Link",
+    categoryId: "java",
+    tags: ["java21", "documentation", "reference"],
+    notes: "Essential reference for Virtual Threads, Pattern Matching, and Sequenced Collections.",
+    url: "https://docs.oracle.com/en/java/javase/21/",
+    isFavorite: true,
+    createdAt: "2026-08-10T12:00:00.000Z",
+    updatedAt: "2026-08-10T12:00:00.000Z",
+  },
+  {
+    id: "res-seed-2",
+    title: "Spring Boot Reference Documentation",
+    description: "Official Spring Boot 3.x developer guide and property index.",
+    type: "Link",
+    categoryId: "spring-boot",
+    tags: ["spring-boot", "spring", "docs"],
+    notes: "Contains complete auto-configuration reference and Actuator endpoint configuration.",
+    url: "https://docs.spring.io/spring-boot/docs/current/reference/html/",
+    isFavorite: false,
+    createdAt: "2026-08-10T12:00:00.000Z",
+    updatedAt: "2026-08-10T12:00:00.000Z",
+  },
+];

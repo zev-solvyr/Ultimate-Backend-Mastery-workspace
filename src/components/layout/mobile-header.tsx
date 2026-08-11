@@ -3,6 +3,7 @@
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProgress } from "@/hooks/use-progress";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export function MobileHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const { state, getOverallProgress } = useProgress();
@@ -13,10 +14,10 @@ export function MobileHeader({ onMenuClick }: { onMenuClick: () => void }) {
         <Menu className="h-5 w-5" />
       </Button>
       <div className="text-center">
-        <p className="text-sm font-bold gradient-text">Ultimate Java Dev</p>
+        <p className="text-sm font-bold gradient-text">Backend Interview Mastery</p>
         <p className="text-[10px] text-muted-foreground">{Math.round(getOverallProgress())}% · Lv.{state.stats.level}</p>
       </div>
-      <div className="w-9" />
+      <UserMenu />
     </header>
   );
 }

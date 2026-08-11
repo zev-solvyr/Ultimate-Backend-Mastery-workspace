@@ -622,13 +622,7 @@
         "title": "Project Setup & User Service",
         "description": "Initialize monorepo, Docker Compose, user registration/auth",
         "order": 1,
-        "unlockedTopics": [
-          "level-01-topic-1",
-          "level-01-topic-2",
-          "level-09-topic-1",
-          "level-10-topic-1",
-          "level-18-topic-1"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Built user authentication microservice with Spring Boot, JWT, and PostgreSQL",
         "deliverables": [
           "Monorepo structure",
@@ -643,11 +637,7 @@
         "title": "Catalog & Search Service",
         "description": "Product catalog with categories and search",
         "order": 2,
-        "unlockedTopics": [
-          "level-11-topic-1",
-          "level-12-topic-1",
-          "level-13-topic-1"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Designed product catalog microservice with JPA, REST APIs, and database normalization",
         "deliverables": [
           "Product API",
@@ -662,8 +652,7 @@
         "description": "Shopping cart with Redis-backed storage",
         "order": 3,
         "unlockedTopics": [
-          "level-17-topic-1",
-          "level-17-topic-2"
+          "level-13-topic-7"
         ],
         "resumeLine": "Implemented Redis-backed shopping cart with cache-aside pattern",
         "deliverables": [
@@ -678,9 +667,7 @@
         "title": "Inventory & Event Publishing",
         "description": "Stock management with Kafka events",
         "order": 4,
-        "unlockedTopics": [
-          "level-16-topic-1"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Built inventory service with Kafka event publishing for stock changes",
         "deliverables": [
           "Inventory API",
@@ -695,9 +682,7 @@
         "description": "Distributed order processing with saga pattern",
         "order": 5,
         "unlockedTopics": [
-          "level-14-topic-1",
-          "level-14-topic-2",
-          "level-16-topic-2"
+          "level-11-topic-23"
         ],
         "resumeLine": "Orchestrated distributed order saga with compensating transactions across 4 microservices",
         "deliverables": [
@@ -713,8 +698,9 @@
         "description": "Spring Cloud Gateway with circuit breakers",
         "order": 6,
         "unlockedTopics": [
-          "level-15-topic-1",
-          "level-15-topic-2"
+          "level-11-topic-6",
+          "level-11-topic-14",
+          "level-19-topic-14"
         ],
         "resumeLine": "Deployed API Gateway with circuit breakers, service discovery, and rate limiting",
         "deliverables": [
@@ -729,14 +715,7 @@
         "title": "Production Deployment",
         "description": "K8s deployment with full observability",
         "order": 7,
-        "unlockedTopics": [
-          "level-19-topic-1",
-          "level-19-topic-2",
-          "level-20-topic-1",
-          "level-21-topic-1",
-          "level-22-topic-1",
-          "level-22-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Deployed 8-microservice platform on AWS EKS with CI/CD, monitoring, and 99.9% uptime SLO",
         "deliverables": [
           "K8s manifests",
@@ -1270,11 +1249,7 @@
         "title": "Account Service & Event Store",
         "description": "Core account management with event sourcing",
         "order": 1,
-        "unlockedTopics": [
-          "level-02-topic-1",
-          "level-12-topic-1",
-          "level-16-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Built event-sourced account service with CQRS pattern using Axon Framework",
         "deliverables": [
           "Account API",
@@ -1288,11 +1263,7 @@
         "title": "Transfer Service & 2PC",
         "description": "Distributed transfer with two-phase commit",
         "order": 2,
-        "unlockedTopics": [
-          "level-06-topic-1",
-          "level-06-topic-2",
-          "level-12-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Implemented distributed transfer saga with two-phase commit and idempotency",
         "deliverables": [
           "Transfer API",
@@ -1307,8 +1278,7 @@
         "description": "Real-time fraud scoring with Redis",
         "order": 3,
         "unlockedTopics": [
-          "level-17-topic-2",
-          "level-16-topic-1"
+          "level-13-topic-7"
         ],
         "resumeLine": "Built real-time fraud detection pipeline processing 10K transactions/sec",
         "deliverables": [
@@ -1323,10 +1293,7 @@
         "title": "Security & Compliance",
         "description": "OAuth2, MFA, KYC/AML compliance",
         "order": 4,
-        "unlockedTopics": [
-          "level-18-topic-1",
-          "level-18-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Implemented OAuth2/MFA authentication with KYC/AML compliance workflows",
         "deliverables": [
           "OAuth2 server",
@@ -1341,8 +1308,8 @@
         "description": "Full deployment with monitoring",
         "order": 5,
         "unlockedTopics": [
-          "level-22-topic-1",
-          "level-22-topic-2"
+          "level-21-topic-4",
+          "level-21-topic-5"
         ],
         "resumeLine": "Deployed banking platform with 99.99% uptime SLO and full audit compliance",
         "deliverables": [
@@ -1356,70 +1323,73 @@
   },
   {
     "id": "platform",
-    "name": "Platform Engineering",
-    "tagline": "CI/CD, Docker, Kubernetes, AWS, monitoring & deployment",
-    "description": "Internal developer platform providing CI/CD pipelines, container orchestration, infrastructure as code, and observability for CommerceX and FinFlow teams.",
-    "domain": "DevOps / Platform",
+    "name": "Event-Driven Logistics Platform",
+    "tagline": "High-throughput shipment tracking and delivery orchestration",
+    "description": "Build a production logistics platform that accepts shipment events, maintains eventual-consistent tracking state, assigns deliveries, and notifies customers. It demonstrates Kafka partitioning, Redis-backed tracking reads, idempotent consumers, Kubernetes deployment, and end-to-end observability.",
+    "domain": "Logistics / Supply Chain",
     "difficulty": "advanced",
     "estimatedDuration": "12-16 weeks",
     "color": "#F97316",
     "icon": "Server",
     "techStack": [
+      "Java 21",
+      "Spring Boot",
+      "Kafka",
+      "PostgreSQL",
+      "Redis",
       "Docker",
       "Kubernetes",
-      "Terraform",
       "AWS",
-      "GitHub Actions",
-      "ArgoCD",
       "Prometheus",
-      "Grafana",
-      "Jaeger",
-      "Helm"
+      "Grafana"
     ],
     "microservices": [
       {
-        "name": "pipeline-service",
-        "description": "CI/CD pipeline orchestration API",
+        "name": "tracking-service",
+        "description": "Consumes carrier events and serves shipment timelines",
         "tech": [
           "Spring Boot",
-          "PostgreSQL"
+          "Kafka",
+          "PostgreSQL",
+          "Redis"
         ],
         "responsibilities": [
-          "Pipeline CRUD",
-          "Build triggers",
-          "Deployment status"
+          "Idempotent event consumption",
+          "Tracking projections",
+          "Cached shipment reads"
         ],
         "ports": [
           8100
         ]
       },
       {
-        "name": "cluster-manager",
-        "description": "Kubernetes cluster management",
+        "name": "dispatch-service",
+        "description": "Assigns shipments to delivery capacity",
         "tech": [
           "Spring Boot",
-          "K8s Client"
+          "PostgreSQL",
+          "Kafka"
         ],
         "responsibilities": [
-          "Cluster provisioning",
-          "Node scaling",
-          "Health checks"
+          "Capacity allocation",
+          "Optimistic concurrency",
+          "Dispatch events"
         ],
         "ports": [
           8101
         ]
       },
       {
-        "name": "monitoring-gateway",
-        "description": "Unified observability API",
+        "name": "notification-service",
+        "description": "Delivers shipment status updates",
         "tech": [
           "Spring Boot",
-          "Prometheus"
+          "Kafka"
         ],
         "responsibilities": [
-          "Metrics aggregation",
-          "Alert routing",
-          "Dashboard API"
+          "Event consumption",
+          "Customer notifications",
+          "Dead-letter handling"
         ],
         "ports": [
           8102
@@ -1429,7 +1399,7 @@
     "folderStructure": [
       {
         "path": "platform/",
-        "description": "Platform engineering root"
+        "description": "Event-driven logistics platform root"
       },
       {
         "path": "platform/pipelines/",
@@ -1516,25 +1486,23 @@
     ],
     "eventFlows": [
       {
-        "name": "GitOps Deployment",
+        "name": "Shipment Tracking Flow",
         "steps": [
-          "Developer pushes to main",
-          "GitHub Actions runs CI pipeline",
-          "Docker image built and pushed to ECR",
-          "ArgoCD detects manifest change",
-          "Rolling update deployed to EKS",
-          "Prometheus monitors rollout health",
-          "Auto-rollback if error rate exceeds threshold"
+          "Carrier publishes shipment event to Kafka",
+          "Tracking Service validates schema and deduplicates by event ID",
+          "Projection is stored in PostgreSQL and invalidated in Redis",
+          "Shipment status event is published",
+          "Notification Service sends the customer update",
+          "Failures are retried and then routed to a dead-letter topic"
         ]
       },
       {
-        "name": "Infrastructure Provisioning",
+        "name": "Dispatch Flow",
         "steps": [
-          "Terraform plan triggered via PR",
-          "Plan reviewed and approved",
-          "Terraform apply creates/updates AWS resources",
-          "K8s cluster updated via cluster-manager",
-          "Monitoring dashboards auto-provisioned"
+          "Order emits shipment-ready event",
+          "Dispatch Service reserves delivery capacity with optimistic locking",
+          "Assignment event is published to Kafka",
+          "Tracking Service exposes the updated timeline with a correlation ID"
         ]
       }
     ],
@@ -1772,8 +1740,7 @@
         "description": "Standardized Docker Compose for all services",
         "order": 1,
         "unlockedTopics": [
-          "level-19-topic-1",
-          "level-04-topic-2"
+          "level-14-topic-9"
         ],
         "resumeLine": "Created standardized Docker development environment for 15+ microservices",
         "deliverables": [
@@ -1789,7 +1756,7 @@
         "description": "Reusable GitHub Actions pipelines",
         "order": 2,
         "unlockedTopics": [
-          "level-21-topic-1"
+          "level-17-topic-5"
         ],
         "resumeLine": "Built reusable CI/CD pipeline templates reducing deployment time by 70%",
         "deliverables": [
@@ -1804,10 +1771,7 @@
         "title": "Kubernetes & Helm Charts",
         "description": "K8s deployment with Helm",
         "order": 3,
-        "unlockedTopics": [
-          "level-19-topic-2",
-          "level-20-topic-1"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Deployed Kubernetes infrastructure with Helm charts and auto-scaling",
         "deliverables": [
           "Helm charts",
@@ -1821,10 +1785,7 @@
         "title": "Terraform & AWS Infrastructure",
         "description": "IaC for full AWS stack",
         "order": 4,
-        "unlockedTopics": [
-          "level-20-topic-2",
-          "level-21-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Provisioned multi-account AWS infrastructure with Terraform (VPC, EKS, RDS, MSK)",
         "deliverables": [
           "Terraform modules",
@@ -1838,11 +1799,7 @@
         "title": "Observability Stack",
         "description": "Full monitoring, logging, tracing",
         "order": 5,
-        "unlockedTopics": [
-          "level-07-topic-1",
-          "level-07-topic-2",
-          "level-22-topic-2"
-        ],
+        "unlockedTopics": [],
         "resumeLine": "Implemented full observability stack with Prometheus, Grafana, Jaeger achieving 99.9% SLO visibility",
         "deliverables": [
           "Prometheus setup",

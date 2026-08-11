@@ -16,7 +16,7 @@ export function RoadmapOverview() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>22-Level Roadmap</CardTitle>
+        <CardTitle>Backend Interview Roadmap</CardTitle>
         <Link href="/roadmap" className="text-sm text-primary hover:underline flex items-center gap-1">
           View All <ChevronRight className="h-4 w-4" />
         </Link>
