@@ -6,7 +6,15 @@ import { defaultResourceCategories, defaultResources } from "@/data/resources-se
 import { saveFileBlob, deleteFileBlob } from "@/lib/file-storage";
 import { logUserActivity } from "@/hooks/use-activity";
 import { useAuth } from "@/context/auth-context";
-import { syncResourcesToCloud, fetchResourcesFromCloud, uploadResourceFileToStorage } from "@/lib/supabase/sync-engine";
+import {
+  syncResourcesToCloud,
+  fetchResourcesFromCloud,
+  uploadResourceFileToStorage,
+  deleteResourceFromCloud,
+  recordPendingDeletion,
+  removePendingDeletion,
+  flushPendingDeletionsToCloud,
+} from "@/lib/supabase/sync-engine";
 
 const STORAGE_KEY = "backend-interview-resources";
 
@@ -62,16 +70,18 @@ export function useResources() {
     setLoaded(true);
 
     if (user?.id) {
-      fetchResourcesFromCloud(user.id).then((cloud) => {
-        if (cloud && (cloud.categories.length > 0 || cloud.items.length > 0)) {
-          const merged: ResourcesStoreData = {
-            categories: cloud.categories.length > 0 ? cloud.categories : initial.categories,
-            items: cloud.items.length > 0 ? cloud.items : initial.items,
-            _version: 1,
-          };
-          setData(merged);
-          persistStore(merged);
-        }
+      flushPendingDeletionsToCloud(user.id).then(() => {
+        fetchResourcesFromCloud(user.id).then((cloud) => {
+          if (cloud && (cloud.categories.length > 0 || cloud.items.length > 0)) {
+            const merged: ResourcesStoreData = {
+              categories: cloud.categories.length > 0 ? cloud.categories : initial.categories,
+              items: cloud.items.length > 0 ? cloud.items : initial.items,
+              _version: 1,
+            };
+            setData(merged);
+            persistStore(merged);
+          }
+        });
       });
     }
   }, [user?.id]);
@@ -211,6 +221,7 @@ export function useResources() {
 
   const deleteResource = useCallback(async (id: string) => {
     let fileToDelete: string | undefined;
+    recordPendingDeletion("resource", id);
 
     setData((curr) => {
       const target = curr.items.find((item) => item.id === id);
@@ -222,7 +233,11 @@ export function useResources() {
         items: curr.items.filter((item) => item.id !== id),
       };
       persistStore(next);
-      if (user?.id) syncResourcesToCloud(user.id, next.categories, next.items);
+      if (user?.id) {
+        deleteResourceFromCloud(user.id, id).then((success) => {
+          if (success) removePendingDeletion("resource", id);
+        });
+      }
       return next;
     });
 

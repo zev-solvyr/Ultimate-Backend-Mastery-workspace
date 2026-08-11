@@ -5,7 +5,14 @@ import type { EngineeringLab } from "@/types";
 import { defaultEngineeringLabs } from "@/data/engineering-labs-seed";
 import { logUserActivity } from "@/hooks/use-activity";
 import { useAuth } from "@/context/auth-context";
-import { syncEngineeringLabsToCloud, fetchEngineeringLabsFromCloud } from "@/lib/supabase/sync-engine";
+import {
+  syncEngineeringLabsToCloud,
+  fetchEngineeringLabsFromCloud,
+  deleteLabFromCloud,
+  recordPendingDeletion,
+  removePendingDeletion,
+  flushPendingDeletionsToCloud,
+} from "@/lib/supabase/sync-engine";
 
 const STORAGE_KEY = "backend-interview-engineering-labs";
 const CURRENT_SEED_VERSION = 1;
@@ -56,12 +63,14 @@ export function useEngineeringLabs() {
     setLoaded(true);
 
     if (user?.id) {
-      fetchEngineeringLabsFromCloud(user.id).then((cloudLabs) => {
-        if (cloudLabs && Object.keys(cloudLabs).length > 0) {
-          const merged = { ...initial, ...cloudLabs };
-          setLabs(merged);
-          persistStore(merged);
-        }
+      flushPendingDeletionsToCloud(user.id).then(() => {
+        fetchEngineeringLabsFromCloud(user.id).then((cloudLabs) => {
+          if (cloudLabs && Object.keys(cloudLabs).length > 0) {
+            const merged = { ...initial, ...cloudLabs };
+            setLabs(merged);
+            persistStore(merged);
+          }
+        });
       });
     }
   }, [user?.id]);
@@ -141,11 +150,16 @@ export function useEngineeringLabs() {
   }, [user?.id]);
 
   const deleteLab = useCallback((id: string) => {
+    recordPendingDeletion("lab", id);
     setLabs((curr) => {
       const copy = { ...curr };
       delete copy[id];
       persistStore(copy);
-      if (user?.id) syncEngineeringLabsToCloud(user.id, copy);
+      if (user?.id) {
+        deleteLabFromCloud(user.id, id).then((success) => {
+          if (success) removePendingDeletion("lab", id);
+        });
+      }
       return copy;
     });
   }, [user?.id]);

@@ -8,8 +8,93 @@ function canSync(): boolean {
 }
 
 // ============================================================================
-// 1. INTERVIEW QUESTIONS CLOUD SYNC
+// PENDING DELETIONS QUEUE (TOMBSTONES FOR OFFLINE / RESURRECTION PROTECTION)
 // ============================================================================
+export interface PendingDeletion {
+  entityType: "question" | "topic" | "resource" | "lab";
+  id: string;
+  timestamp: string;
+}
+
+const DELETIONS_KEY = "backend-interview-pending-deletions";
+
+export function getPendingDeletions(): PendingDeletion[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(DELETIONS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function recordPendingDeletion(entityType: PendingDeletion["entityType"], id: string) {
+  if (typeof window === "undefined") return;
+  try {
+    const current = getPendingDeletions();
+    if (!current.some((d) => d.entityType === entityType && d.id === id)) {
+      const next = [...current, { entityType, id, timestamp: new Date().toISOString() }];
+      window.localStorage.setItem(DELETIONS_KEY, JSON.stringify(next));
+    }
+  } catch (e) {
+    console.error("Failed to record pending deletion:", e);
+  }
+}
+
+export function removePendingDeletion(entityType: PendingDeletion["entityType"], id: string) {
+  if (typeof window === "undefined") return;
+  try {
+    const current = getPendingDeletions();
+    const next = current.filter((d) => !(d.entityType === entityType && d.id === id));
+    window.localStorage.setItem(DELETIONS_KEY, JSON.stringify(next));
+  } catch (e) {
+    console.error("Failed to remove pending deletion:", e);
+  }
+}
+
+// ============================================================================
+// 1. INTERVIEW QUESTIONS CLOUD SYNC & DELETION
+// ============================================================================
+export async function deleteInterviewQuestionFromCloud(userId: string, questionId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase
+      .from("interview_questions")
+      .delete()
+      .eq("id", questionId)
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Failed to delete interview question from Supabase:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Failed to delete interview question from Supabase:", err);
+    return false;
+  }
+}
+
+export async function deleteInterviewTopicFromCloud(userId: string, topicId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    await supabase.from("interview_questions").delete().eq("topic_id", topicId).eq("user_id", userId);
+    const { error } = await supabase.from("interview_topics").delete().eq("id", topicId).eq("user_id", userId);
+    if (error) {
+      console.error("Failed to delete interview topic from Supabase:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Failed to delete interview topic from Supabase:", err);
+    return false;
+  }
+}
+
 export async function syncInterviewQuestionsToCloud(
   userId: string,
   topics: InterviewTopic[],
@@ -70,25 +155,33 @@ export async function fetchInterviewQuestionsFromCloud(userId: string): Promise<
 
     if (!tRows && !qRows) return null;
 
-    const topics: InterviewTopic[] = (tRows || []).map((t) => ({
-      id: t.id,
-      name: t.name,
-      description: t.description || undefined,
-      order: t.order || 0,
-    }));
+    const pending = getPendingDeletions();
+    const pendingQuestionIds = new Set(pending.filter((d) => d.entityType === "question").map((d) => d.id));
+    const pendingTopicIds = new Set(pending.filter((d) => d.entityType === "topic").map((d) => d.id));
 
-    const questions: InterviewQuestion[] = (qRows || []).map((q) => ({
-      id: q.id,
-      topicId: q.topic_id,
-      question: q.question,
-      answer: q.answer || "",
-      tags: q.tags || [],
-      difficulty: q.difficulty || undefined,
-      company: q.company || undefined,
-      referenceUrl: q.reference_url || undefined,
-      createdAt: q.created_at,
-      updatedAt: q.updated_at,
-    }));
+    const topics: InterviewTopic[] = (tRows || [])
+      .filter((t) => !pendingTopicIds.has(t.id))
+      .map((t) => ({
+        id: t.id,
+        name: t.name,
+        description: t.description || undefined,
+        order: t.order || 0,
+      }));
+
+    const questions: InterviewQuestion[] = (qRows || [])
+      .filter((q) => !pendingQuestionIds.has(q.id) && !pendingTopicIds.has(q.topic_id))
+      .map((q) => ({
+        id: q.id,
+        topicId: q.topic_id,
+        question: q.question,
+        answer: q.answer || "",
+        tags: q.tags || [],
+        difficulty: q.difficulty || undefined,
+        company: q.company || undefined,
+        referenceUrl: q.reference_url || undefined,
+        createdAt: q.created_at,
+        updatedAt: q.updated_at,
+      }));
 
     return { topics, questions };
   } catch (err) {
@@ -135,6 +228,7 @@ export async function syncResourcesToCloud(
         mime_type: r.mimeType || null,
         file_size: r.fileSize || null,
         stored_file_id: r.storedFileId || null,
+        storage_path: r.fileName ? `${userId}/${r.id}/${r.fileName.replace(/[^a-zA-Z0-9.-]/g, "_")}` : null,
         is_favorite: r.isFavorite || false,
         created_at: r.createdAt || new Date().toISOString(),
         updated_at: r.updatedAt || new Date().toISOString(),
@@ -162,29 +256,34 @@ export async function fetchResourcesFromCloud(userId: string): Promise<{
 
     if (!cRows && !rRows) return null;
 
+    const pending = getPendingDeletions();
+    const pendingResourceIds = new Set(pending.filter((d) => d.entityType === "resource").map((d) => d.id));
+
     const categories: ResourceCategory[] = (cRows || []).map((c) => ({
       id: c.id,
       name: c.name,
       order: c.order || 0,
     }));
 
-    const items: ResourceItem[] = (rRows || []).map((r) => ({
-      id: r.id,
-      title: r.title,
-      description: r.description || undefined,
-      type: r.type as any,
-      categoryId: r.category_id,
-      tags: r.tags || [],
-      notes: r.notes || undefined,
-      url: r.url || undefined,
-      fileName: r.file_name || undefined,
-      mimeType: r.mime_type || undefined,
-      fileSize: r.file_size ? Number(r.file_size) : undefined,
-      storedFileId: r.stored_file_id || undefined,
-      isFavorite: Boolean(r.is_favorite),
-      createdAt: r.created_at,
-      updatedAt: r.updated_at,
-    }));
+    const items: ResourceItem[] = (rRows || [])
+      .filter((r) => !pendingResourceIds.has(r.id))
+      .map((r) => ({
+        id: r.id,
+        title: r.title,
+        description: r.description || undefined,
+        type: r.type as any,
+        categoryId: r.category_id,
+        tags: r.tags || [],
+        notes: r.notes || undefined,
+        url: r.url || undefined,
+        fileName: r.file_name || undefined,
+        mimeType: r.mime_type || undefined,
+        fileSize: r.file_size ? Number(r.file_size) : undefined,
+        storedFileId: r.stored_file_id || undefined,
+        isFavorite: Boolean(r.is_favorite),
+        createdAt: r.created_at,
+        updatedAt: r.updated_at,
+      }));
 
     return { categories, items };
   } catch (err) {
@@ -219,6 +318,70 @@ export async function uploadResourceFileToStorage(
   } catch (err) {
     console.error("Failed to upload file to Supabase storage:", err);
     return null;
+  }
+}
+
+export async function deleteResourceFromCloud(userId: string, resourceId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    // 1. Delete associated file objects from user-resources storage bucket
+    const { data: fileList } = await supabase.storage.from("user-resources").list(`${userId}/${resourceId}`);
+    if (fileList && fileList.length > 0) {
+      const pathsToDelete = fileList.map((f) => `${userId}/${resourceId}/${f.name}`);
+      await supabase.storage.from("user-resources").remove(pathsToDelete);
+    }
+
+    // 2. Delete database metadata record from resources table
+    const { error } = await supabase.from("resources").delete().eq("id", resourceId).eq("user_id", userId);
+    if (error) {
+      console.error("Failed to delete resource from Supabase:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Failed to delete resource from Supabase:", err);
+    return false;
+  }
+}
+
+export async function deleteLabFromCloud(userId: string, labId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase.from("engineering_lab_edits").delete().eq("lab_id", labId).eq("user_id", userId);
+    if (error) {
+      console.error("Failed to delete engineering lab from Supabase:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Failed to delete engineering lab from Supabase:", err);
+    return false;
+  }
+}
+
+export async function flushPendingDeletionsToCloud(userId: string) {
+  if (!canSync() || !userId) return;
+  const pending = getPendingDeletions();
+  if (pending.length === 0) return;
+
+  for (const item of pending) {
+    if (item.entityType === "question") {
+      const ok = await deleteInterviewQuestionFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("question", item.id);
+    } else if (item.entityType === "topic") {
+      const ok = await deleteInterviewTopicFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("topic", item.id);
+    } else if (item.entityType === "resource") {
+      const ok = await deleteResourceFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("resource", item.id);
+    } else if (item.entityType === "lab") {
+      const ok = await deleteLabFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("lab", item.id);
+    }
   }
 }
 
@@ -312,9 +475,12 @@ export async function fetchEngineeringLabsFromCloud(userId: string): Promise<Rec
     const { data: rows } = await supabase.from("engineering_lab_edits").select("*").eq("user_id", userId);
     if (!rows || rows.length === 0) return null;
 
+    const pending = getPendingDeletions();
+    const pendingLabIds = new Set(pending.filter((d) => d.entityType === "lab").map((d) => d.id));
+
     const result: Record<string, EngineeringLab> = {};
     rows.forEach((r) => {
-      if (r.lab_data && typeof r.lab_data === "object") {
+      if (r.lab_data && typeof r.lab_data === "object" && !pendingLabIds.has(r.lab_id)) {
         result[r.lab_id] = r.lab_data as EngineeringLab;
       }
     });

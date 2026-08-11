@@ -6,7 +6,15 @@ import { defaultInterviewTopics, defaultInterviewQuestions } from "@/data/interv
 
 import { logUserActivity } from "@/hooks/use-activity";
 import { useAuth } from "@/context/auth-context";
-import { syncInterviewQuestionsToCloud, fetchInterviewQuestionsFromCloud } from "@/lib/supabase/sync-engine";
+import {
+  syncInterviewQuestionsToCloud,
+  fetchInterviewQuestionsFromCloud,
+  deleteInterviewQuestionFromCloud,
+  deleteInterviewTopicFromCloud,
+  recordPendingDeletion,
+  removePendingDeletion,
+  flushPendingDeletionsToCloud,
+} from "@/lib/supabase/sync-engine";
 
 const STORAGE_KEY = "backend-interview-question-bank";
 
@@ -51,16 +59,18 @@ export function useInterviewQuestions() {
     setLoaded(true);
 
     if (user?.id) {
-      fetchInterviewQuestionsFromCloud(user.id).then((cloud) => {
-        if (cloud && (cloud.topics.length > 0 || cloud.questions.length > 0)) {
-          const merged: QuestionBankData = {
-            topics: cloud.topics.length > 0 ? cloud.topics : initial.topics,
-            questions: cloud.questions.length > 0 ? cloud.questions : initial.questions,
-            _version: 1,
-          };
-          setData(merged);
-          persistStore(merged);
-        }
+      flushPendingDeletionsToCloud(user.id).then(() => {
+        fetchInterviewQuestionsFromCloud(user.id).then((cloud) => {
+          if (cloud && (cloud.topics.length > 0 || cloud.questions.length > 0)) {
+            const merged: QuestionBankData = {
+              topics: cloud.topics.length > 0 ? cloud.topics : initial.topics,
+              questions: cloud.questions.length > 0 ? cloud.questions : initial.questions,
+              _version: 1,
+            };
+            setData(merged);
+            persistStore(merged);
+          }
+        });
       });
     }
   }, [user?.id]);
@@ -96,6 +106,7 @@ export function useInterviewQuestions() {
   }, [user?.id]);
 
   const deleteTopic = useCallback((topicId: string) => {
+    recordPendingDeletion("topic", topicId);
     setData((curr) => {
       const next = {
         ...curr,
@@ -103,7 +114,11 @@ export function useInterviewQuestions() {
         questions: curr.questions.filter((q) => q.topicId !== topicId),
       };
       persistStore(next);
-      if (user?.id) syncInterviewQuestionsToCloud(user.id, next.topics, next.questions);
+      if (user?.id) {
+        deleteInterviewTopicFromCloud(user.id, topicId).then((success) => {
+          if (success) removePendingDeletion("topic", topicId);
+        });
+      }
       return next;
     });
   }, [user?.id]);
@@ -158,13 +173,18 @@ export function useInterviewQuestions() {
   }, [user?.id]);
 
   const deleteQuestion = useCallback((id: string) => {
+    recordPendingDeletion("question", id);
     setData((curr) => {
       const next = {
         ...curr,
         questions: curr.questions.filter((q) => q.id !== id),
       };
       persistStore(next);
-      if (user?.id) syncInterviewQuestionsToCloud(user.id, next.topics, next.questions);
+      if (user?.id) {
+        deleteInterviewQuestionFromCloud(user.id, id).then((success) => {
+          if (success) removePendingDeletion("question", id);
+        });
+      }
       return next;
     });
   }, [user?.id]);
