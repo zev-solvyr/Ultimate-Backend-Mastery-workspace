@@ -132,16 +132,28 @@ export function useInterviewQuestions() {
 
   useEffect(() => {
     const initial = readStore();
+    const userPrefix = user?.id ? `${user.id.substring(0, 8)}...` : "NONE";
+    console.log(`[INTERVIEW DEBUG] STAGE 1 - LOCAL HYDRATION | user=${userPrefix} | companies=${initial.companies.length} | sets=${initial.questionSets.length} | questions=${initial.questions.length}`);
     setStore(initial);
     setLoaded(true);
 
     if (user?.id) {
+      console.log(`[INTERVIEW DEBUG] STAGE 2 - AUTH RESOLVED | user=${userPrefix}`);
       flushPendingDeletionsToCloud(user.id).then(() => {
+        console.log(`[INTERVIEW DEBUG] STAGE 3 - CLOUD FETCH START | user=${userPrefix}`);
         fetchCompanyDataFromCloud(user.id).then((cloud) => {
-          if (cloud && (cloud.companies.length > 0 || cloud.questionSets.length > 0 || cloud.questions.length > 0)) {
+          if (cloud) {
+            console.log(`[INTERVIEW DEBUG] STAGE 4 - CLOUD FETCH RESULT | cloudComp=${cloud.companies.length} | cloudSets=${cloud.questionSets.length} | cloudQuestions=${cloud.questions.length}`);
+
             const mergedCompanies = cloud.companies.length > 0 ? cloud.companies : initial.companies;
             const mergedSets = cloud.questionSets.length > 0 ? cloud.questionSets : initial.questionSets;
-            const mergedQuestions = cloud.questions.length > 0 ? cloud.questions : initial.questions;
+            
+            // If cloud has structured company/set data for authenticated user, cloud.questions is authoritative.
+            const mergedQuestions = (cloud.companies.length > 0 || cloud.questionSets.length > 0)
+              ? cloud.questions
+              : (cloud.questions.length > 0 ? cloud.questions : initial.questions);
+
+            console.log(`[INTERVIEW DEBUG] STAGE 5 - MERGE RESULT | mergedComp=${mergedCompanies.length} | mergedSets=${mergedSets.length} | mergedQuestions=${mergedQuestions.length}`);
 
             const nextStore: InterviewBankStoreData = {
               companies: mergedCompanies,
@@ -151,10 +163,31 @@ export function useInterviewQuestions() {
             };
             setStore(nextStore);
             persistStore(nextStore);
+            console.log(`[INTERVIEW DEBUG] STAGE 6 - FINAL STATE SET & PERSISTED | questions=${nextStore.questions.length}`);
           }
         });
       });
     }
+  }, [user?.id]);
+
+  const refreshFromCloud = useCallback(async () => {
+    if (!user?.id) return false;
+    const userPrefix = `${user.id.substring(0, 8)}...`;
+    console.log(`[INTERVIEW DEBUG] MANUAL REFRESH START | user=${userPrefix}`);
+    const cloud = await fetchCompanyDataFromCloud(user.id);
+    if (cloud) {
+      console.log(`[INTERVIEW DEBUG] MANUAL REFRESH RESULT | companies=${cloud.companies.length} | sets=${cloud.questionSets.length} | questions=${cloud.questions.length}`);
+      const nextStore: InterviewBankStoreData = {
+        companies: cloud.companies,
+        questionSets: cloud.questionSets,
+        questions: cloud.questions,
+        _version: 2,
+      };
+      setStore(nextStore);
+      persistStore(nextStore);
+      return true;
+    }
+    return false;
   }, [user?.id]);
 
   // Map for fast frequency lookup ("Seen X times")
@@ -584,6 +617,7 @@ export function useInterviewQuestions() {
     companies: store.companies,
     questionSets: store.questionSets,
     questions: store.questions,
+    refreshFromCloud,
     getQuestionFrequency,
     addCompany,
     updateCompany,

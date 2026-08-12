@@ -260,11 +260,20 @@ export async function fetchCompanyDataFromCloud(userId: string): Promise<{
 } | null> {
   if (!canSync() || !userId) return null;
   const supabase = createClient();
+  const userPrefix = userId ? `${userId.substring(0, 8)}...` : "NONE";
 
   try {
-    const { data: cRows } = await supabase.from("interview_companies").select("*").eq("user_id", userId).order("created_at", { ascending: true });
-    const { data: sRows } = await supabase.from("interview_question_sets").select("*").eq("user_id", userId).order("created_at", { ascending: true });
-    const { data: qRows } = await supabase.from("interview_questions").select("*").eq("user_id", userId).order("order", { ascending: true });
+    console.log(`[INTERVIEW DEBUG] CLOUD FETCH START | user=${userPrefix}`);
+
+    const { data: cRows, error: cErr } = await supabase.from("interview_companies").select("*").eq("user_id", userId).order("created_at", { ascending: true });
+    const { data: sRows, error: sErr } = await supabase.from("interview_question_sets").select("*").eq("user_id", userId).order("created_at", { ascending: true });
+    const { data: qRows, error: qErr } = await supabase.from("interview_questions").select("*").eq("user_id", userId).order("order", { ascending: true });
+
+    if (cErr || sErr || qErr) {
+      console.error(`[INTERVIEW DEBUG] CLOUD FETCH ERROR | cErr=${cErr?.message || "none"} | sErr=${sErr?.message || "none"} | qErr=${qErr?.message || "none"}`);
+    }
+
+    console.log(`[INTERVIEW DEBUG] CLOUD FETCH RAW ROWS | cRows=${cRows?.length || 0} | sRows=${sRows?.length || 0} | qRows=${qRows?.length || 0}`);
 
     if (!cRows && !sRows && !qRows) return null;
 
@@ -272,6 +281,10 @@ export async function fetchCompanyDataFromCloud(userId: string): Promise<{
     const pendingCompanyIds = new Set(pending.filter((d) => d.entityType === "company").map((d) => d.id));
     const pendingSetIds = new Set(pending.filter((d) => d.entityType === "question_set").map((d) => d.id));
     const pendingQuestionIds = new Set(pending.filter((d) => d.entityType === "question").map((d) => d.id));
+
+    if (pendingCompanyIds.size > 0 || pendingSetIds.size > 0 || pendingQuestionIds.size > 0) {
+      console.log(`[INTERVIEW DEBUG] PENDING DELETIONS FILTER | pendingCompanies=${pendingCompanyIds.size} | pendingSets=${pendingSetIds.size} | pendingQuestions=${pendingQuestionIds.size}`);
+    }
 
     const companies: Company[] = (cRows || [])
       .filter((c) => !pendingCompanyIds.has(c.id))
@@ -316,6 +329,8 @@ export async function fetchCompanyDataFromCloud(userId: string): Promise<{
         createdAt: q.created_at,
         updatedAt: q.updated_at,
       }));
+
+    console.log(`[INTERVIEW DEBUG] CLOUD FETCH PROCESSED | companies=${companies.length} | questionSets=${questionSets.length} | questions=${questions.length}`);
 
     return { companies, questionSets, questions };
   } catch (err) {

@@ -44,6 +44,7 @@ function InterviewQuestionsContent() {
     companies,
     questionSets,
     questions,
+    refreshFromCloud,
     getQuestionFrequency,
     addCompany,
     updateCompany,
@@ -224,6 +225,19 @@ function InterviewQuestionsContent() {
 
         {/* Global Action Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={async () => {
+              const ok = await refreshFromCloud();
+              alert(ok ? "Cloud data reloaded successfully!" : "Failed to load cloud data.");
+            }}
+            className="gap-1.5 text-xs font-mono text-cyan-400 border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20"
+            title="Refresh Interview Data From Cloud"
+          >
+            <Repeat className="h-3.5 w-3.5 animate-spin-once" /> Refresh Cloud Data
+          </Button>
+
           <Button
             size="sm"
             onClick={() => {
