@@ -53,6 +53,9 @@ CREATE TABLE IF NOT EXISTS public.interview_questions (
 ALTER TABLE public.interview_questions ADD COLUMN IF NOT EXISTS question_set_id TEXT;
 ALTER TABLE public.interview_questions ADD COLUMN IF NOT EXISTS "order" INT DEFAULT 0;
 
+-- Drop NOT NULL constraint on legacy topic_id to allow Company -> Set -> Question hierarchy
+ALTER TABLE public.interview_questions ALTER COLUMN topic_id DROP NOT NULL;
+
 -- Safe foreign key constraint replacements for live databases
 ALTER TABLE public.interview_question_sets
 DROP CONSTRAINT IF EXISTS fk_interview_question_sets_company;
@@ -67,6 +70,8 @@ DROP CONSTRAINT IF EXISTS fk_interview_questions_set;
 ALTER TABLE public.interview_questions
 ADD CONSTRAINT fk_interview_questions_set
 FOREIGN KEY (question_set_id) REFERENCES public.interview_question_sets(id) ON DELETE CASCADE;
+
+CREATE INDEX IF NOT EXISTS idx_interview_questions_set_id ON public.interview_questions(question_set_id);
 
 -- 4. LEGACY INTERVIEW TOPICS TABLE (PRESERVED FOR BACKWARD COMPATIBILITY)
 CREATE TABLE IF NOT EXISTS public.interview_topics (

@@ -465,8 +465,10 @@ export function useInterviewQuestions() {
       notes?: string;
       rawText: string;
     }) => {
+      console.log(`[QUESTION FLOW 1] IMPORT START | companyId=${data.companyId} | title=${data.title}`);
       const now = new Date().toISOString();
       const parsedItems = parseBulkQuestionsText(data.rawText);
+      console.log(`[QUESTION FLOW 2] PARSED QUESTIONS | count=${parsedItems.length}`);
 
       const setId = `set-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
@@ -495,14 +497,23 @@ export function useInterviewQuestions() {
         updatedAt: now,
       }));
 
+      newQuestions.forEach((q, idx) => {
+        console.log(`[QUESTION OBJECT DEBUG] Q${idx + 1}: id=${q.id} | questionSetId=${q.questionSetId} | textLen=${q.question.length} | order=${q.order}`);
+      });
+
       setStore((curr) => {
         const next = {
           ...curr,
           questionSets: [...curr.questionSets, newSet],
           questions: [...curr.questions, ...newQuestions],
         };
+        console.log(`[QUESTION FLOW 3] NEXT STORE | companies=${next.companies.length} | sets=${next.questionSets.length} | questions=${next.questions.length}`);
         persistStore(next);
-        if (user?.id) syncCompanyDataToCloud(user.id, next.companies, next.questionSets, next.questions);
+        if (user?.id) {
+          console.log(`[QUESTION FLOW 4] SYNC CALLED | user=${user.id.substring(0, 8)}...`);
+          console.log(`[QUESTION FLOW 5] SYNC QUESTIONS COUNT | questions=${next.questions.length}`);
+          syncCompanyDataToCloud(user.id, next.companies, next.questionSets, next.questions);
+        }
         return next;
       });
 
@@ -541,6 +552,7 @@ export function useInterviewQuestions() {
           ...curr,
           questions: [...curr.questions, newQuestion],
         };
+        console.log(`[QUESTION OBJECT DEBUG] ADD SINGLE: id=${newQuestion.id} | questionSetId=${newQuestion.questionSetId} | textLen=${newQuestion.question.length}`);
         persistStore(next);
         if (user?.id) syncCompanyDataToCloud(user.id, next.companies, next.questionSets, next.questions);
         return next;
