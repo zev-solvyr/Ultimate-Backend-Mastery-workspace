@@ -135,8 +135,11 @@ export async function syncCompanyDataToCloud(
 ): Promise<boolean> {
   if (!canSync() || !userId) return false;
   const supabase = createClient();
+  const userPrefix = userId ? `${userId.substring(0, 8)}...` : "NONE";
 
   try {
+    console.log(`[QUESTION SYNC DEBUG] SYNC START | user=${userPrefix} | companies=${companies.length} | sets=${questionSets.length} | questions=${questions.length}`);
+
     if (companies.length > 0) {
       const cRows = companies.map((c) => ({
         id: c.id,
@@ -145,7 +148,12 @@ export async function syncCompanyDataToCloud(
         description: c.description || null,
         updated_at: new Date().toISOString(),
       }));
-      await supabase.from("interview_companies").upsert(cRows);
+      const { error: cErr } = await supabase.from("interview_companies").upsert(cRows);
+      if (cErr) {
+        console.error(`[QUESTION SYNC ERROR] Companies upsert failed | code=${cErr.code} | message=${cErr.message} | details=${cErr.details || "none"} | hint=${cErr.hint || "none"}`);
+      } else {
+        console.log(`[QUESTION SYNC SUCCESS] Companies upserted: ${cRows.length}`);
+      }
     }
 
     if (questionSets.length > 0) {
@@ -163,14 +171,19 @@ export async function syncCompanyDataToCloud(
         raw_content: s.rawContent || null,
         updated_at: new Date().toISOString(),
       }));
-      await supabase.from("interview_question_sets").upsert(sRows);
+      const { error: sErr } = await supabase.from("interview_question_sets").upsert(sRows);
+      if (sErr) {
+        console.error(`[QUESTION SYNC ERROR] Question sets upsert failed | code=${sErr.code} | message=${sErr.message} | details=${sErr.details || "none"} | hint=${sErr.hint || "none"}`);
+      } else {
+        console.log(`[QUESTION SYNC SUCCESS] Question sets upserted: ${sRows.length}`);
+      }
     }
 
     if (questions.length > 0) {
       const qRows = questions.map((q) => ({
         id: q.id,
         user_id: userId,
-        question_set_id: q.questionSetId || q.topicId || "legacy",
+        question_set_id: q.questionSetId || q.topicId || null,
         topic_id: q.topicId || null,
         question: q.question,
         answer: q.answer || "",
@@ -182,12 +195,24 @@ export async function syncCompanyDataToCloud(
         created_at: q.createdAt || new Date().toISOString(),
         updated_at: q.updatedAt || new Date().toISOString(),
       }));
-      await supabase.from("interview_questions").upsert(qRows);
+
+      console.log(`[QUESTION SYNC DEBUG] qRows Payload Count: ${qRows.length}`);
+      if (qRows.length > 0) {
+        const sample = qRows[0];
+        console.log(`[QUESTION SYNC DEBUG] Sample qRow: id=${sample.id} | user_id=${sample.user_id?.substring(0, 8)}... | question_set_id=${sample.question_set_id} | questionLength=${sample.question.length} | order=${sample.order}`);
+      }
+
+      const { error: qErr } = await supabase.from("interview_questions").upsert(qRows);
+      if (qErr) {
+        console.error(`[QUESTION SYNC ERROR] Questions upsert failed | code=${qErr.code} | message=${qErr.message} | details=${qErr.details || "none"} | hint=${qErr.hint || "none"}`);
+      } else {
+        console.log(`[QUESTION SYNC SUCCESS] Questions upserted: ${qRows.length}`);
+      }
     }
 
     return true;
-  } catch (err) {
-    console.error("Failed to sync company interview data to Supabase:", err);
+  } catch (err: any) {
+    console.error("Failed to sync company interview data to Supabase:", err?.message || String(err));
     return false;
   }
 }
