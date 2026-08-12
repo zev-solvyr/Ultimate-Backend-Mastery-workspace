@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileHeader } from "@/components/layout/mobile-header";
+import { CreatorSignature } from "@/components/creator/creator-signature";
 import { cn } from "@/lib/utils";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
       <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
       <main className={cn("min-h-screen p-4 pt-16 lg:p-8 lg:pt-8 lg:ml-64")}>{children}</main>
+      <CreatorSignature />
     </>
   );
 }

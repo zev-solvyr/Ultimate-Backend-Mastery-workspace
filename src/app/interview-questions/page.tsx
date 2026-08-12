@@ -22,6 +22,8 @@ import {
   ArrowRight,
   FolderOpen,
   X,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { CompanyModal } from "@/components/interview/company-modal";
 import { QuestionSetModal } from "@/components/interview/question-set-modal";
@@ -60,6 +62,21 @@ function InterviewQuestionsContent() {
   // Selection & Navigation State
   const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
   const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
+
+  // Expand / Collapse State for Target Companies
+  const [expandedCompanyIds, setExpandedCompanyIds] = useState<Set<string>>(new Set());
+
+  const toggleCompanyExpand = (companyId: string) => {
+    setExpandedCompanyIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(companyId)) {
+        next.delete(companyId);
+      } else {
+        next.add(companyId);
+      }
+      return next;
+    });
+  };
 
   // Search State
   const [searchQuery, setSearchQuery] = useState("");
@@ -338,22 +355,36 @@ function InterviewQuestionsContent() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {companies.map((comp) => {
+                const isExpanded = expandedCompanyIds.has(comp.id);
                 const companySets = setsByCompany.get(comp.id) || [];
                 const totalCompQuestions = companySets.reduce((sum, s) => sum + (questionsBySet.get(s.id)?.length || 0), 0);
 
                 return (
                   <Card
                     key={comp.id}
-                    className="p-5 border-border/60 hover:border-primary/50 transition-all bg-card space-y-4 shadow-sm flex flex-col justify-between group"
+                    tabIndex={0}
+                    role="button"
+                    aria-expanded={isExpanded}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        toggleCompanyExpand(comp.id);
+                      }
+                    }}
+                    onClick={() => toggleCompanyExpand(comp.id)}
+                    className={`p-5 border-border/60 hover:border-primary/50 transition-all bg-card shadow-sm flex flex-col justify-between group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary ${
+                      isExpanded ? "border-primary/60 ring-1 ring-primary/20 bg-card/95" : ""
+                    }`}
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-3">
+                      {/* Header Row */}
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <div className="h-9 w-9 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-sm font-mono uppercase">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="h-10 w-10 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-sm font-mono uppercase shrink-0">
                             {comp.name.substring(0, 2)}
                           </div>
-                          <div>
-                            <h3 className="font-bold text-base text-foreground group-hover:text-primary transition-colors">
+                          <div className="min-w-0">
+                            <h3 className="font-bold text-base text-foreground group-hover:text-primary transition-colors truncate">
                               {comp.name}
                             </h3>
                             <span className="text-[11px] text-muted-foreground font-mono">
@@ -362,14 +393,15 @@ function InterviewQuestionsContent() {
                           </div>
                         </div>
 
-                        {/* Company Actions */}
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {/* Company Action Buttons & Expand Chevron */}
+                        <div className="flex items-center gap-1 shrink-0">
                           <Button
                             size="icon"
                             variant="ghost"
                             className="h-7 w-7 text-muted-foreground hover:text-foreground"
                             title="Edit Company"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               setEditingCompany(comp);
                               setShowCompanyModal(true);
                             }}
@@ -381,7 +413,8 @@ function InterviewQuestionsContent() {
                             variant="ghost"
                             className="h-7 w-7 text-muted-foreground hover:text-rose-400"
                             title="Delete Company"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               if (confirm(`Delete ${comp.name} and all its Question Sets?`)) {
                                 deleteCompany(comp.id);
                               }
@@ -389,6 +422,15 @@ function InterviewQuestionsContent() {
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </Button>
+
+                          <div
+                            className={`h-7 w-7 rounded-md flex items-center justify-center text-muted-foreground group-hover:text-primary transition-transform duration-200 ${
+                              isExpanded ? "rotate-180 text-primary" : ""
+                            }`}
+                            title={isExpanded ? "Collapse Question Sets" : "Expand Question Sets"}
+                          >
+                            <ChevronDown className="h-4 w-4" />
+                          </div>
                         </div>
                       </div>
 
@@ -399,46 +441,77 @@ function InterviewQuestionsContent() {
                       )}
                     </div>
 
-                    {/* Question Sets List inside Company Card */}
-                    <div className="space-y-2 pt-2 border-t border-border/30">
-                      {companySets.length === 0 ? (
-                        <div className="text-[11px] text-muted-foreground italic flex items-center justify-between">
-                          <span>No question sets created.</span>
-                          <button
-                            onClick={() => {
-                              setSelectedCompanyId(comp.id);
-                              setShowQuestionSetModal(true);
-                            }}
-                            className="text-primary hover:underline font-medium"
-                          >
-                            + Add Set
-                          </button>
+                    {/* Question Sets List Area */}
+                    <div className="pt-3 border-t border-border/30 mt-3">
+                      {isExpanded ? (
+                        /* EXPANDED STATE: Display ALL Question Sets */
+                        <div className="space-y-2.5 animate-in fade-in slide-in-from-top-1 duration-150">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-mono uppercase tracking-wider font-semibold text-primary">
+                              Question Sets ({companySets.length})
+                            </span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCompanyId(comp.id);
+                                setShowQuestionSetModal(true);
+                              }}
+                              className="text-[11px] text-primary hover:underline font-semibold flex items-center gap-1"
+                            >
+                              <Plus className="h-3 w-3" /> Add Set
+                            </button>
+                          </div>
+
+                          {companySets.length === 0 ? (
+                            <div className="p-3 text-center border border-dashed border-border/40 rounded-lg text-xs text-muted-foreground italic">
+                              No question sets created yet.
+                            </div>
+                          ) : (
+                            <div className="space-y-1.5 max-h-80 overflow-y-auto pr-1">
+                              {companySets.map((s) => {
+                                const qCount = questionsBySet.get(s.id)?.length || 0;
+                                return (
+                                  <div
+                                    key={s.id}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedSetId(s.id);
+                                    }}
+                                    className="p-2.5 bg-muted/30 hover:bg-primary/10 rounded-lg border border-border/50 hover:border-primary/40 transition-colors cursor-pointer flex items-center justify-between text-xs group/set"
+                                  >
+                                    <div className="flex items-center gap-2 min-w-0">
+                                      <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
+                                      <div className="min-w-0">
+                                        <p className="font-semibold text-foreground group-hover/set:text-primary truncate">
+                                          {s.title}
+                                        </p>
+                                        {(s.role || s.interviewRound) && (
+                                          <p className="text-[10px] text-muted-foreground truncate font-mono">
+                                            {s.role || ""} {s.interviewRound ? `· ${s.interviewRound}` : ""}
+                                          </p>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <Badge variant="secondary" className="text-[10px] font-mono shrink-0 ml-2">
+                                      {qCount} {qCount === 1 ? "Question" : "Questions"}
+                                    </Badge>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
                       ) : (
-                        <div className="space-y-1.5">
-                          {companySets.slice(0, 3).map((s) => {
-                            const qCount = questionsBySet.get(s.id)?.length || 0;
-                            return (
-                              <div
-                                key={s.id}
-                                onClick={() => setSelectedSetId(s.id)}
-                                className="p-2 bg-muted/20 hover:bg-primary/10 rounded border border-border/40 transition-colors cursor-pointer flex items-center justify-between text-xs group/set"
-                              >
-                                <span className="font-semibold text-foreground group-hover/set:text-primary truncate max-w-[180px]">
-                                  {s.title}
-                                </span>
-                                <Badge variant="secondary" className="text-[10px] font-mono shrink-0">
-                                  {qCount} Qs
-                                </Badge>
-                              </div>
-                            );
-                          })}
-
-                          {companySets.length > 3 && (
-                            <p className="text-[10px] text-muted-foreground font-mono text-right">
-                              +{companySets.length - 3} more sets
-                            </p>
-                          )}
+                        /* COLLAPSED STATE: Compact Bar */
+                        <div className="flex items-center justify-between text-xs text-muted-foreground py-0.5 group-hover:text-foreground transition-colors">
+                          <span className="text-[11px] font-mono">
+                            {companySets.length === 0 ? "No sets created" : `${companySets.length} set${companySets.length === 1 ? "" : "s"} available`}
+                          </span>
+                          <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+                            Expand <ChevronDown className="h-3.5 w-3.5" />
+                          </span>
                         </div>
                       )}
                     </div>
