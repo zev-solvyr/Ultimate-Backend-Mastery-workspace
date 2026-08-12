@@ -40,7 +40,7 @@ import { Badge } from "@/components/ui/badge";
 const GUIDE_SEEN_KEY = "backend-interview-guide-seen";
 
 export default function DashboardPage() {
-  const { loaded: iqLoaded, topics: iqTopics, questions: iqQuestions } = useInterviewQuestions();
+  const { loaded: iqLoaded, companies: iqCompanies, questionSets: iqSets, questions: iqQuestions } = useInterviewQuestions();
   const { loaded: resLoaded, categories: resCategories, resources } = useResources();
   const { loaded: actLoaded, activities } = useActivity();
 
@@ -89,7 +89,8 @@ export default function DashboardPage() {
   }, []);
 
   const totalQuestions = iqQuestions.length;
-  const totalTopics = iqTopics.length;
+  const totalCompanies = iqCompanies.length;
+  const totalQuestionSets = iqSets.length;
   const totalResources = resources.length;
   const urlResourcesCount = resources.filter((r) => r.type === "Link").length;
   const fileResourcesCount = resources.filter((r) => r.type !== "Link").length;
@@ -306,9 +307,9 @@ export default function DashboardPage() {
 
           <Card className="border-border/50 bg-muted/20">
             <CardContent className="p-4 space-y-1">
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Topics</span>
-              <p className="text-2xl font-extrabold text-foreground font-mono">{totalTopics}</p>
-              <span className="text-[10px] text-muted-foreground">Question Topics</span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Companies</span>
+              <p className="text-2xl font-extrabold text-foreground font-mono">{totalCompanies}</p>
+              <span className="text-[10px] text-muted-foreground">Target Companies</span>
             </CardContent>
           </Card>
         </div>
@@ -327,7 +328,7 @@ export default function DashboardPage() {
                 {totalQuestions} Saved Questions
               </Badge>
             </div>
-            <CardDescription className="text-xs">Personal interview question bank and self-interview practice mode.</CardDescription>
+            <CardDescription className="text-xs">Personal company-wise interview question bank and question set collection system.</CardDescription>
           </CardHeader>
           <CardContent className="pt-4 space-y-4">
             <div className="grid gap-2 grid-cols-3 bg-muted/20 p-3 rounded-lg border border-border/40 text-center">
@@ -336,8 +337,8 @@ export default function DashboardPage() {
                 <span className="text-[10px] text-muted-foreground block">Questions</span>
               </div>
               <div>
-                <span className="text-lg font-bold text-foreground font-mono">{totalTopics}</span>
-                <span className="text-[10px] text-muted-foreground block">Topics</span>
+                <span className="text-lg font-bold text-foreground font-mono">{totalCompanies}</span>
+                <span className="text-[10px] text-muted-foreground block">Companies</span>
               </div>
               <div>
                 <span className="text-lg font-bold text-cyan-400 font-mono">{iqQuestions.slice(0, 5).length}</span>
@@ -346,12 +347,12 @@ export default function DashboardPage() {
             </div>
 
             <div className="space-y-1">
-              <p className="text-xs font-semibold text-foreground">Major Topics:</p>
+              <p className="text-xs font-semibold text-foreground">Target Companies:</p>
               <div className="flex flex-wrap gap-1.5">
-                {iqTopics.slice(0, 8).map((t) => (
-                  <Link key={t.id} href={`/interview-questions`}>
+                {iqCompanies.slice(0, 8).map((c: any) => (
+                  <Link key={c.id} href={`/interview-questions`}>
                     <Badge variant="secondary" className="text-[10px] hover:bg-primary/20 transition-colors">
-                      {t.name}
+                      {c.name}
                     </Badge>
                   </Link>
                 ))}

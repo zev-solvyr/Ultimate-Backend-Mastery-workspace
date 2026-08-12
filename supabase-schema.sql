@@ -6,28 +6,75 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- 1. INTERVIEW TOPICS TABLE
+-- 1. INTERVIEW COMPANIES TABLE
+CREATE TABLE IF NOT EXISTS public.interview_companies (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    description TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. INTERVIEW QUESTION SETS TABLE
+CREATE TABLE IF NOT EXISTS public.interview_question_sets (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    company_id TEXT NOT NULL REFERENCES public.interview_companies(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    role TEXT,
+    experience TEXT,
+    interview_round TEXT,
+    source TEXT,
+    source_url TEXT,
+    notes TEXT,
+    raw_content TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 3. INTERVIEW QUESTIONS TABLE (SAFELY ALTERED FOR COMPANY -> SET -> QUESTIONS)
+CREATE TABLE IF NOT EXISTS public.interview_questions (
+    id TEXT PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    question_set_id TEXT REFERENCES public.interview_question_sets(id) ON DELETE CASCADE,
+    topic_id TEXT,
+    question TEXT NOT NULL,
+    answer TEXT DEFAULT '',
+    "order" INT DEFAULT 0,
+    tags TEXT[] DEFAULT '{}',
+    difficulty TEXT,
+    company TEXT,
+    reference_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.interview_questions ADD COLUMN IF NOT EXISTS question_set_id TEXT;
+ALTER TABLE public.interview_questions ADD COLUMN IF NOT EXISTS "order" INT DEFAULT 0;
+
+-- Safe foreign key constraint replacements for live databases
+ALTER TABLE public.interview_question_sets
+DROP CONSTRAINT IF EXISTS fk_interview_question_sets_company;
+
+ALTER TABLE public.interview_question_sets
+ADD CONSTRAINT fk_interview_question_sets_company
+FOREIGN KEY (company_id) REFERENCES public.interview_companies(id) ON DELETE CASCADE;
+
+ALTER TABLE public.interview_questions
+DROP CONSTRAINT IF EXISTS fk_interview_questions_set;
+
+ALTER TABLE public.interview_questions
+ADD CONSTRAINT fk_interview_questions_set
+FOREIGN KEY (question_set_id) REFERENCES public.interview_question_sets(id) ON DELETE CASCADE;
+
+-- 4. LEGACY INTERVIEW TOPICS TABLE (PRESERVED FOR BACKWARD COMPATIBILITY)
 CREATE TABLE IF NOT EXISTS public.interview_topics (
     id TEXT PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     name TEXT NOT NULL,
     description TEXT,
     "order" INT DEFAULT 0,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 2. INTERVIEW QUESTIONS TABLE
-CREATE TABLE IF NOT EXISTS public.interview_questions (
-    id TEXT PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    topic_id TEXT NOT NULL,
-    question TEXT NOT NULL,
-    answer TEXT DEFAULT '',
-    tags TEXT[] DEFAULT '{}',
-    difficulty TEXT,
-    company TEXT,
-    reference_url TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -107,6 +154,9 @@ CREATE TABLE IF NOT EXISTS public.user_activities (
 -- ============================================================================
 -- INDEXES FOR HIGH-PERFORMANCE QUERYING
 -- ============================================================================
+CREATE INDEX IF NOT EXISTS idx_interview_companies_user ON public.interview_companies(user_id);
+CREATE INDEX IF NOT EXISTS idx_interview_question_sets_user ON public.interview_question_sets(user_id, company_id);
+CREATE INDEX IF NOT EXISTS idx_interview_questions_set ON public.interview_questions(user_id, question_set_id);
 CREATE INDEX IF NOT EXISTS idx_interview_topics_user ON public.interview_topics(user_id);
 CREATE INDEX IF NOT EXISTS idx_interview_questions_user ON public.interview_questions(user_id, topic_id);
 CREATE INDEX IF NOT EXISTS idx_resource_categories_user ON public.resource_categories(user_id);
@@ -119,6 +169,8 @@ CREATE INDEX IF NOT EXISTS idx_user_activities_user ON public.user_activities(us
 -- ============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES — MANDATORY USER OWNERSHIP ENFORCEMENT
 -- ============================================================================
+ALTER TABLE public.interview_companies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.interview_question_sets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.interview_topics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.interview_questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.resource_categories ENABLE ROW LEVEL SECURITY;
@@ -129,6 +181,11 @@ ALTER TABLE public.engineering_lab_edits ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_activities ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies first for safe re-execution idempotency
+DROP POLICY IF EXISTS "Users can manage their own interview_companies" ON public.interview_companies;
+CREATE POLICY "Users can manage their own interview_companies" ON public.interview_companies FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can manage their own interview_question_sets" ON public.interview_question_sets;
+CREATE POLICY "Users can manage their own interview_question_sets" ON public.interview_question_sets FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 DROP POLICY IF EXISTS "Users can manage their own interview_topics" ON public.interview_topics;
 CREATE POLICY "Users can manage their own interview_topics" ON public.interview_topics FOR ALL TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 

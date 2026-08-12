@@ -697,26 +697,55 @@ export interface BuildOrderStep {
 }
 
 // ============================================================================
-// INTERVIEW QUESTION BANK MODELS
+// INTERVIEW QUESTION BANK MODELS (COMPANY → QUESTION SET → QUESTIONS)
 // ============================================================================
+export interface Company {
+  id: string;
+  name: string;
+  description?: string;
+  logoUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuestionSet {
+  id: string;
+  companyId: string;
+  title: string;
+  role?: string;
+  experience?: string;
+  interviewRound?: string;
+  source?: string;
+  sourceUrl?: string;
+  notes?: string;
+  rawContent?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface InterviewQuestion {
+  id: string;
+  questionSetId: string; // Primary mapping
+  topicId?: string; // Legacy fallback mapping
+  question: string;
+  answer?: string;
+  order: number;
+  tags?: string[];
+  difficulty?: "Easy" | "Medium" | "Hard";
+  company?: string; // Legacy fallback
+  referenceUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type QuestionSetViewMode = "read" | "edit" | "raw";
+
+// Legacy Topic interface kept for migration compatibility
 export interface InterviewTopic {
   id: string;
   name: string;
   description?: string;
   order: number;
-}
-
-export interface InterviewQuestion {
-  id: string;
-  topicId: string;
-  question: string;
-  answer: string;
-  tags: string[];
-  difficulty?: "Easy" | "Medium" | "Hard";
-  company?: string;
-  referenceUrl?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // ============================================================================

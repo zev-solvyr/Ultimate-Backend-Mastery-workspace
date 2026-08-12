@@ -5,7 +5,7 @@ import { useAuth } from "@/context/auth-context";
 import { AuthModal } from "./auth-modal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Cloud, User, LogOut, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Cloud, User, LogOut, RefreshCw, AlertCircle, CheckCircle2, CloudUpload } from "lucide-react";
 
 export function UserMenu() {
   const { user, loading, isConfigured, syncState, signOut } = useAuth();
@@ -63,7 +63,7 @@ export function UserMenu() {
             </Button>
 
             {showDropdown && (
-              <div className="absolute right-0 mt-2 w-48 rounded-lg border border-border/60 bg-card p-1 shadow-xl z-50 text-xs">
+              <div className="absolute right-0 mt-2 w-52 rounded-lg border border-border/60 bg-card p-1 shadow-xl z-50 text-xs space-y-0.5">
                 <div className="px-3 py-2 border-b border-border/30">
                   <p className="text-[10px] text-muted-foreground font-mono">Signed in as</p>
                   <p className="font-bold text-foreground truncate">{user.email}</p>
@@ -71,9 +71,18 @@ export function UserMenu() {
                 <button
                   onClick={() => {
                     setShowDropdown(false);
+                    window.dispatchEvent(new CustomEvent("open-import-modal", { detail: { force: true } }));
+                  }}
+                  className="w-full text-left px-3 py-2 rounded text-cyan-400 hover:bg-cyan-500/10 flex items-center gap-2 transition-colors font-semibold"
+                >
+                  <CloudUpload className="h-3.5 w-3.5" /> Import Local Workspace
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDropdown(false);
                     signOut();
                   }}
-                  className="w-full text-left px-3 py-2 rounded text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 transition-colors mt-1 font-semibold"
+                  className="w-full text-left px-3 py-2 rounded text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 transition-colors font-semibold"
                 >
                   <LogOut className="h-3.5 w-3.5" /> Sign Out
                 </button>

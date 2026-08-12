@@ -1,5 +1,5 @@
 import { createClient, isSupabaseConfigured } from "./client";
-import type { InterviewQuestion, InterviewTopic, ResourceItem, ResourceCategory, EngineeringLab } from "@/types";
+import type { Company, QuestionSet, InterviewQuestion, InterviewTopic, ResourceItem, ResourceCategory, EngineeringLab } from "@/types";
 import { getFileRecord } from "@/lib/file-storage";
 
 // Helper to check if cloud operations are available
@@ -11,7 +11,7 @@ function canSync(): boolean {
 // PENDING DELETIONS QUEUE (TOMBSTONES FOR OFFLINE / RESURRECTION PROTECTION)
 // ============================================================================
 export interface PendingDeletion {
-  entityType: "question" | "topic" | "resource" | "lab";
+  entityType: "question" | "question_set" | "company" | "topic" | "resource" | "lab";
   id: string;
   timestamp: string;
 }
@@ -53,8 +53,101 @@ export function removePendingDeletion(entityType: PendingDeletion["entityType"],
 }
 
 // ============================================================================
-// 1. INTERVIEW QUESTIONS CLOUD SYNC & DELETION
+// 1. COMPANY → QUESTION SET → QUESTIONS CLOUD SYNC & DELETION
 // ============================================================================
+export async function deleteCompanyFromCloud(userId: string, companyId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    // 1. Fetch child question sets for explicit multi-level deletion fallback
+    const { data: sets, error: fetchErr } = await supabase
+      .from("interview_question_sets")
+      .select("id")
+      .eq("company_id", companyId)
+      .eq("user_id", userId);
+
+    if (fetchErr) {
+      console.error(`Failed to fetch child question sets for company ${companyId}: [${fetchErr.code}] ${fetchErr.message}`);
+    }
+
+    if (sets && sets.length > 0) {
+      const setIds = sets.map((s) => s.id);
+      // Delete questions belonging to those question sets
+      const { error: delQuestionsErr } = await supabase
+        .from("interview_questions")
+        .delete()
+        .in("question_set_id", setIds)
+        .eq("user_id", userId);
+
+      if (delQuestionsErr) {
+        console.error(`Failed to delete questions for setIds [${setIds.join(",")}]: [${delQuestionsErr.code}] ${delQuestionsErr.message}`);
+      }
+
+      // Delete question sets belonging to company
+      const { error: delSetsErr } = await supabase
+        .from("interview_question_sets")
+        .delete()
+        .eq("company_id", companyId)
+        .eq("user_id", userId);
+
+      if (delSetsErr) {
+        console.error(`Failed to delete question sets for company ${companyId}: [${delSetsErr.code}] ${delSetsErr.message}`);
+      }
+    }
+
+    // 2. Delete company row from interview_companies
+    const { error: delCompanyErr } = await supabase
+      .from("interview_companies")
+      .delete()
+      .eq("id", companyId)
+      .eq("user_id", userId);
+
+    if (delCompanyErr) {
+      console.error(
+        `Failed to delete company ${companyId} from Supabase: [${delCompanyErr.code}] ${delCompanyErr.message} (${delCompanyErr.details || delCompanyErr.hint || "No additional details"})`
+      );
+      return false;
+    }
+    return true;
+  } catch (err: any) {
+    console.error(`Unexpected exception in deleteCompanyFromCloud (${companyId}):`, err?.message || String(err));
+    return false;
+  }
+}
+
+export async function deleteQuestionSetFromCloud(userId: string, setId: string): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    const { error: delQuestionsErr } = await supabase
+      .from("interview_questions")
+      .delete()
+      .eq("question_set_id", setId)
+      .eq("user_id", userId);
+
+    if (delQuestionsErr) {
+      console.error(`Failed to delete questions for set ${setId}: [${delQuestionsErr.code}] ${delQuestionsErr.message}`);
+    }
+
+    const { error: delSetErr } = await supabase
+      .from("interview_question_sets")
+      .delete()
+      .eq("id", setId)
+      .eq("user_id", userId);
+
+    if (delSetErr) {
+      console.error(`Failed to delete question set ${setId} from Supabase: [${delSetErr.code}] ${delSetErr.message}`);
+      return false;
+    }
+    return true;
+  } catch (err: any) {
+    console.error(`Unexpected exception in deleteQuestionSetFromCloud (${setId}):`, err?.message || String(err));
+    return false;
+  }
+}
+
 export async function deleteInterviewQuestionFromCloud(userId: string, questionId: string): Promise<boolean> {
   if (!canSync() || !userId) return false;
   const supabase = createClient();
@@ -67,12 +160,12 @@ export async function deleteInterviewQuestionFromCloud(userId: string, questionI
       .eq("user_id", userId);
 
     if (error) {
-      console.error("Failed to delete interview question from Supabase:", error);
+      console.error(`Failed to delete interview question ${questionId} from Supabase: [${error.code}] ${error.message}`);
       return false;
     }
     return true;
-  } catch (err) {
-    console.error("Failed to delete interview question from Supabase:", err);
+  } catch (err: any) {
+    console.error(`Unexpected exception in deleteInterviewQuestionFromCloud (${questionId}):`, err?.message || String(err));
     return false;
   }
 }
@@ -95,6 +188,142 @@ export async function deleteInterviewTopicFromCloud(userId: string, topicId: str
   }
 }
 
+export async function syncCompanyDataToCloud(
+  userId: string,
+  companies: Company[],
+  questionSets: QuestionSet[],
+  questions: InterviewQuestion[]
+): Promise<boolean> {
+  if (!canSync() || !userId) return false;
+  const supabase = createClient();
+
+  try {
+    if (companies.length > 0) {
+      const cRows = companies.map((c) => ({
+        id: c.id,
+        user_id: userId,
+        name: c.name,
+        description: c.description || null,
+        updated_at: new Date().toISOString(),
+      }));
+      await supabase.from("interview_companies").upsert(cRows);
+    }
+
+    if (questionSets.length > 0) {
+      const sRows = questionSets.map((s) => ({
+        id: s.id,
+        user_id: userId,
+        company_id: s.companyId,
+        title: s.title,
+        role: s.role || null,
+        experience: s.experience || null,
+        interview_round: s.interviewRound || null,
+        source: s.source || null,
+        source_url: s.sourceUrl || null,
+        notes: s.notes || null,
+        raw_content: s.rawContent || null,
+        updated_at: new Date().toISOString(),
+      }));
+      await supabase.from("interview_question_sets").upsert(sRows);
+    }
+
+    if (questions.length > 0) {
+      const qRows = questions.map((q) => ({
+        id: q.id,
+        user_id: userId,
+        question_set_id: q.questionSetId || q.topicId || "legacy",
+        topic_id: q.topicId || null,
+        question: q.question,
+        answer: q.answer || "",
+        order: q.order || 0,
+        tags: q.tags || [],
+        difficulty: q.difficulty || null,
+        company: q.company || null,
+        reference_url: q.referenceUrl || null,
+        created_at: q.createdAt || new Date().toISOString(),
+        updated_at: q.updatedAt || new Date().toISOString(),
+      }));
+      await supabase.from("interview_questions").upsert(qRows);
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Failed to sync company interview data to Supabase:", err);
+    return false;
+  }
+}
+
+export async function fetchCompanyDataFromCloud(userId: string): Promise<{
+  companies: Company[];
+  questionSets: QuestionSet[];
+  questions: InterviewQuestion[];
+} | null> {
+  if (!canSync() || !userId) return null;
+  const supabase = createClient();
+
+  try {
+    const { data: cRows } = await supabase.from("interview_companies").select("*").eq("user_id", userId).order("created_at", { ascending: true });
+    const { data: sRows } = await supabase.from("interview_question_sets").select("*").eq("user_id", userId).order("created_at", { ascending: true });
+    const { data: qRows } = await supabase.from("interview_questions").select("*").eq("user_id", userId).order("order", { ascending: true });
+
+    if (!cRows && !sRows && !qRows) return null;
+
+    const pending = getPendingDeletions();
+    const pendingCompanyIds = new Set(pending.filter((d) => d.entityType === "company").map((d) => d.id));
+    const pendingSetIds = new Set(pending.filter((d) => d.entityType === "question_set").map((d) => d.id));
+    const pendingQuestionIds = new Set(pending.filter((d) => d.entityType === "question").map((d) => d.id));
+
+    const companies: Company[] = (cRows || [])
+      .filter((c) => !pendingCompanyIds.has(c.id))
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        description: c.description || undefined,
+        createdAt: c.created_at,
+        updatedAt: c.updated_at,
+      }));
+
+    const questionSets: QuestionSet[] = (sRows || [])
+      .filter((s) => !pendingSetIds.has(s.id) && !pendingCompanyIds.has(s.company_id))
+      .map((s) => ({
+        id: s.id,
+        companyId: s.company_id,
+        title: s.title,
+        role: s.role || undefined,
+        experience: s.experience || undefined,
+        interviewRound: s.interview_round || undefined,
+        source: s.source || undefined,
+        sourceUrl: s.source_url || undefined,
+        notes: s.notes || undefined,
+        rawContent: s.raw_content || undefined,
+        createdAt: s.created_at,
+        updatedAt: s.updated_at,
+      }));
+
+    const questions: InterviewQuestion[] = (qRows || [])
+      .filter((q) => !pendingQuestionIds.has(q.id) && (!q.question_set_id || !pendingSetIds.has(q.question_set_id)))
+      .map((q) => ({
+        id: q.id,
+        questionSetId: q.question_set_id || q.topic_id || "legacy",
+        topicId: q.topic_id || undefined,
+        question: q.question,
+        answer: q.answer || "",
+        order: q.order || 0,
+        tags: q.tags || [],
+        difficulty: q.difficulty || undefined,
+        company: q.company || undefined,
+        referenceUrl: q.reference_url || undefined,
+        createdAt: q.created_at,
+        updatedAt: q.updated_at,
+      }));
+
+    return { companies, questionSets, questions };
+  } catch (err) {
+    console.error("Failed to fetch company interview data from Supabase:", err);
+    return null;
+  }
+}
+
 export async function syncInterviewQuestionsToCloud(
   userId: string,
   topics: InterviewTopic[],
@@ -104,27 +333,15 @@ export async function syncInterviewQuestionsToCloud(
   const supabase = createClient();
 
   try {
-    // Upsert topics
-    if (topics.length > 0) {
-      const topicRows = topics.map((t) => ({
-        id: t.id,
-        user_id: userId,
-        name: t.name,
-        description: t.description || null,
-        order: t.order || 0,
-        updated_at: new Date().toISOString(),
-      }));
-      await supabase.from("interview_topics").upsert(topicRows);
-    }
-
-    // Upsert questions
     if (questions.length > 0) {
       const questionRows = questions.map((q) => ({
         id: q.id,
         user_id: userId,
-        topic_id: q.topicId,
+        question_set_id: q.questionSetId || q.topicId || "legacy",
+        topic_id: q.topicId || null,
         question: q.question,
         answer: q.answer || "",
+        order: q.order || 0,
         tags: q.tags || [],
         difficulty: q.difficulty || null,
         company: q.company || null,
@@ -134,7 +351,6 @@ export async function syncInterviewQuestionsToCloud(
       }));
       await supabase.from("interview_questions").upsert(questionRows);
     }
-
     return true;
   } catch (err) {
     console.error("Failed to sync interview questions to Supabase:", err);
@@ -172,9 +388,11 @@ export async function fetchInterviewQuestionsFromCloud(userId: string): Promise<
       .filter((q) => !pendingQuestionIds.has(q.id) && !pendingTopicIds.has(q.topic_id))
       .map((q) => ({
         id: q.id,
-        topicId: q.topic_id,
+        questionSetId: q.question_set_id || q.topic_id || "legacy",
+        topicId: q.topic_id || undefined,
         question: q.question,
         answer: q.answer || "",
+        order: q.order || 0,
         tags: q.tags || [],
         difficulty: q.difficulty || undefined,
         company: q.company || undefined,
@@ -369,7 +587,13 @@ export async function flushPendingDeletionsToCloud(userId: string) {
   if (pending.length === 0) return;
 
   for (const item of pending) {
-    if (item.entityType === "question") {
+    if (item.entityType === "company") {
+      const ok = await deleteCompanyFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("company", item.id);
+    } else if (item.entityType === "question_set") {
+      const ok = await deleteQuestionSetFromCloud(userId, item.id);
+      if (ok) removePendingDeletion("question_set", item.id);
+    } else if (item.entityType === "question") {
       const ok = await deleteInterviewQuestionFromCloud(userId, item.id);
       if (ok) removePendingDeletion("question", item.id);
     } else if (item.entityType === "topic") {

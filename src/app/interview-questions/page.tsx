@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, Suspense } from "react";
+import React, { useState, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useInterviewQuestions } from "@/hooks/use-interview-questions";
-import type { InterviewQuestion, InterviewTopic } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { Company, QuestionSet, InterviewQuestion } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,607 +14,364 @@ import {
   Edit,
   Trash2,
   Copy,
-  ArrowRightLeft,
-  ExternalLink,
-  Save,
-  X,
-  Tag,
-  Building,
-  Check,
-  Eye,
-  ArrowRight,
+  Building2,
+  FileText,
+  Upload,
   Sparkles,
-  RotateCcw,
+  Repeat,
+  ArrowRight,
+  FolderOpen,
+  X,
 } from "lucide-react";
+import { CompanyModal } from "@/components/interview/company-modal";
+import { QuestionSetModal } from "@/components/interview/question-set-modal";
+import { BulkImportModal } from "@/components/interview/bulk-import-modal";
+import { ReadmeQuestionViewer } from "@/components/interview/readme-question-viewer";
 
 export default function InterviewQuestionsPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading interview questions...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Loading interview questions bank...</div>}>
       <InterviewQuestionsContent />
     </Suspense>
   );
 }
 
 function InterviewQuestionsContent() {
-  const searchParams = useSearchParams();
-  const initialMode = searchParams.get("mode") === "interview";
-
   const {
     loaded,
-    topics,
+    companies,
+    questionSets,
     questions,
-    addTopic,
-    renameTopic,
-    deleteTopic,
+    getQuestionFrequency,
+    addCompany,
+    updateCompany,
+    deleteCompany,
+    addQuestionSet,
+    updateQuestionSet,
+    deleteQuestionSet,
+    duplicateQuestionSet,
+    bulkImportQuestionSet,
     addQuestion,
     updateQuestion,
     deleteQuestion,
-    moveQuestion,
     duplicateQuestion,
   } = useInterviewQuestions();
 
-  const [selectedTopicId, setSelectedTopicId] = useState<string>("all");
+  // Selection & Navigation State
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
+  const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
+
+  // Search State
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  // Interview Mode state
-  const [isInterviewMode, setIsInterviewMode] = useState(initialMode);
-  const [interviewTopicId, setInterviewTopicId] = useState<string>("all");
-  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
-  const [isAnswerRevealed, setIsAnswerRevealed] = useState(false);
+  // Modal States
+  const [showCompanyModal, setShowCompanyModal] = useState(false);
+  const [editingCompany, setEditingCompany] = useState<Company | null>(null);
 
-  // Modals / Dialog states
-  const [showAddTopic, setShowAddTopic] = useState(false);
-  const [topicNameInput, setTopicNameInput] = useState("");
-  const [topicDescInput, setTopicDescInput] = useState("");
-  const [editingTopic, setEditingTopic] = useState<InterviewTopic | null>(null);
+  const [showQuestionSetModal, setShowQuestionSetModal] = useState(false);
+  const [editingQuestionSet, setEditingQuestionSet] = useState<QuestionSet | null>(null);
 
-  const [showAddQuestion, setShowAddQuestion] = useState(false);
-  const [questionInput, setQuestionInput] = useState("");
-  const [answerInput, setAnswerInput] = useState("");
-  const [tagsInput, setTagsInput] = useState("");
-  const [difficultyInput, setDifficultyInput] = useState<"Easy" | "Medium" | "Hard" | "">("");
-  const [companyInput, setCompanyInput] = useState("");
-  const [refUrlInput, setRefUrlInput] = useState("");
-  const [targetTopicForNew, setTargetTopicForNew] = useState("");
+  const [showBulkImportModal, setShowBulkImportModal] = useState(false);
 
-  const [editingQuestion, setEditingQuestion] = useState<InterviewQuestion | null>(null);
-  const [moveQuestionId, setMoveQuestionId] = useState<string | null>(null);
-  const [moveTargetTopicId, setMoveTargetTopicId] = useState<string>("");
+  // Computed Maps
+  const companyMap = useMemo(() => new Map(companies.map((c) => [c.id, c])), [companies]);
+  const questionSetMap = useMemo(() => new Map(questionSets.map((s) => [s.id, s])), [questionSets]);
 
-  const [inlineEditingAnswerId, setInlineEditingAnswerId] = useState<string | null>(null);
-  const [inlineAnswerText, setInlineAnswerText] = useState<string>("");
-
-  useEffect(() => {
-    if (searchParams.get("mode") === "interview") {
-      setIsInterviewMode(true);
-    }
-  }, [searchParams]);
-
-  // All unique tags across questions
-  const allTags = useMemo(() => {
-    const set = new Set<string>();
-    questions.forEach((q) => q.tags.forEach((t) => set.add(t)));
-    return Array.from(set).sort();
+  // Questions grouped by Set ID
+  const questionsBySet = useMemo(() => {
+    const map = new Map<string, InterviewQuestion[]>();
+    questions.forEach((q) => {
+      const list = map.get(q.questionSetId) || [];
+      list.push(q);
+      map.set(q.questionSetId, list);
+    });
+    return map;
   }, [questions]);
 
-  // Filtered questions for bank view
-  const filteredQuestions = useMemo(() => {
-    return questions.filter((q) => {
-      const matchTopic = selectedTopicId === "all" || q.topicId === selectedTopicId;
-      const matchTag = !selectedTag || q.tags.includes(selectedTag);
-      const query = searchQuery.toLowerCase();
-      const matchQuery =
-        !searchQuery ||
-        q.question.toLowerCase().includes(query) ||
-        q.answer.toLowerCase().includes(query) ||
-        (q.company && q.company.toLowerCase().includes(query)) ||
-        q.tags.some((t) => t.toLowerCase().includes(query));
-
-      return matchTopic && matchTag && matchQuery;
+  // Question Sets grouped by Company ID
+  const setsByCompany = useMemo(() => {
+    const map = new Map<string, QuestionSet[]>();
+    questionSets.forEach((s) => {
+      const list = map.get(s.companyId) || [];
+      list.push(s);
+      map.set(s.companyId, list);
     });
-  }, [questions, selectedTopicId, selectedTag, searchQuery]);
+    return map;
+  }, [questionSets]);
 
-  // Filtered questions for Interview Mode
-  const interviewQuestionsList = useMemo(() => {
-    if (interviewTopicId === "all") return questions;
-    return questions.filter((q) => q.topicId === interviewTopicId);
-  }, [questions, interviewTopicId]);
+  // Total Repeated Questions Count
+  const repeatedQuestionsCount = useMemo(() => {
+    const freqSet = new Set<string>();
+    questions.forEach((q) => {
+      const freq = getQuestionFrequency(q.question);
+      if (freq.count > 1) {
+        freqSet.add(q.question.toLowerCase().replace(/[^a-z0-9]/g, ""));
+      }
+    });
+    return freqSet.size;
+  }, [questions, getQuestionFrequency]);
 
-  const currentInterviewQuestion = useMemo(() => {
-    if (interviewQuestionsList.length === 0) return null;
-    return interviewQuestionsList[currentQuestionIdx % interviewQuestionsList.length] || interviewQuestionsList[0];
-  }, [interviewQuestionsList, currentQuestionIdx]);
+  // Top Most Repeated Questions
+  const mostRepeatedQuestions = useMemo(() => {
+    const seenMap = new Map<string, { question: InterviewQuestion; freq: ReturnType<typeof getQuestionFrequency> }>();
+    questions.forEach((q) => {
+      const freq = getQuestionFrequency(q.question);
+      if (freq.count > 1) {
+        const norm = q.question.toLowerCase().replace(/[^a-z0-9]/g, "");
+        if (!seenMap.has(norm)) {
+          seenMap.set(norm, { question: q, freq });
+        }
+      }
+    });
+    return Array.from(seenMap.values())
+      .sort((a, b) => b.freq.count - a.freq.count)
+      .slice(0, 6);
+  }, [questions, getQuestionFrequency]);
 
-  const handleNextInterviewQuestion = () => {
-    setIsAnswerRevealed(false);
-    if (interviewQuestionsList.length > 1) {
-      setCurrentQuestionIdx((prev) => (prev + 1) % interviewQuestionsList.length);
-    }
-  };
+  // Global Search Results
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return null;
 
-  const selectedTopic = useMemo(() => {
-    return topics.find((t) => t.id === selectedTopicId);
-  }, [topics, selectedTopicId]);
+    const matchedQuestions: { question: InterviewQuestion; set: QuestionSet; company: Company }[] = [];
+
+    questions.forEach((q) => {
+      const set = questionSetMap.get(q.questionSetId);
+      const company = set ? companyMap.get(set.companyId) : null;
+      if (!set || !company) return;
+
+      const matchText = `${company.name} ${set.title} ${set.role || ""} ${set.interviewRound || ""} ${set.source || ""} ${q.question} ${q.answer || ""}`.toLowerCase();
+
+      if (matchText.includes(query)) {
+        matchedQuestions.push({ question: q, set, company });
+      }
+    });
+
+    return matchedQuestions;
+  }, [searchQuery, questions, questionSetMap, companyMap]);
+
+  // Active Selected Set for Readme Viewer
+  const activeSet = selectedSetId ? questionSetMap.get(selectedSetId) : null;
+  const activeCompany = activeSet ? companyMap.get(activeSet.companyId) : null;
+  const activeQuestions = selectedSetId ? questionsBySet.get(selectedSetId) || [] : [];
 
   if (!loaded) {
-    return <div className="p-8 text-center text-muted-foreground">Loading interview questions...</div>;
+    return (
+      <div className="p-12 text-center text-muted-foreground flex items-center justify-center gap-2">
+        <Sparkles className="h-5 w-5 animate-spin text-primary" /> Loading interview questions bank...
+      </div>
+    );
   }
 
-  const handleCreateTopic = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!topicNameInput.trim()) return;
-    addTopic(topicNameInput, topicDescInput);
-    setTopicNameInput("");
-    setTopicDescInput("");
-    setShowAddTopic(false);
-  };
-
-  const handleSaveEditTopic = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingTopic || !topicNameInput.trim()) return;
-    renameTopic(editingTopic.id, topicNameInput, topicDescInput);
-    setEditingTopic(null);
-    setTopicNameInput("");
-    setTopicDescInput("");
-  };
-
-  const handleCreateQuestion = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!questionInput.trim()) return;
-    const topicId = targetTopicForNew || (selectedTopicId !== "all" ? selectedTopicId : topics[0]?.id || "core-java");
-    addQuestion({
-      topicId,
-      question: questionInput.trim(),
-      answer: answerInput.trim(),
-      tags: tagsInput.split(",").map((s) => s.trim()).filter(Boolean),
-      difficulty: difficultyInput || undefined,
-      company: companyInput.trim() || undefined,
-      referenceUrl: refUrlInput.trim() || undefined,
-    });
-    setQuestionInput("");
-    setAnswerInput("");
-    setTagsInput("");
-    setDifficultyInput("");
-    setCompanyInput("");
-    setRefUrlInput("");
-    setShowAddQuestion(false);
-  };
-
-  const handleSaveEditQuestion = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingQuestion || !questionInput.trim()) return;
-    updateQuestion(editingQuestion.id, {
-      question: questionInput.trim(),
-      answer: answerInput.trim(),
-      tags: tagsInput.split(",").map((s) => s.trim()).filter(Boolean),
-      difficulty: difficultyInput || undefined,
-      company: companyInput.trim() || undefined,
-      referenceUrl: refUrlInput.trim() || undefined,
-      topicId: targetTopicForNew || editingQuestion.topicId,
-    });
-    setEditingQuestion(null);
-    setQuestionInput("");
-    setAnswerInput("");
-    setTagsInput("");
-    setDifficultyInput("");
-    setCompanyInput("");
-    setRefUrlInput("");
-  };
-
-  const handleInlineSaveAnswer = (qId: string) => {
-    updateQuestion(qId, { answer: inlineAnswerText });
-    setInlineEditingAnswerId(null);
-  };
-
-  const handleExecuteMove = (qId: string) => {
-    if (!moveTargetTopicId) return;
-    moveQuestion(qId, moveTargetTopicId);
-    setMoveQuestionId(null);
-  };
+  // --- 1. README QUESTION VIEWER SCREEN ---
+  if (activeSet && activeCompany) {
+    return (
+      <ReadmeQuestionViewer
+        company={activeCompany}
+        questionSet={activeSet}
+        questions={activeQuestions}
+        onBack={() => setSelectedSetId(null)}
+        onUpdateSet={updateQuestionSet}
+        onDeleteSet={(setId) => {
+          if (confirm("Delete this entire Question Set?")) {
+            deleteQuestionSet(setId);
+            setSelectedSetId(null);
+          }
+        }}
+        onAddQuestion={addQuestion}
+        onUpdateQuestion={updateQuestion}
+        onDeleteQuestion={deleteQuestion}
+        onDuplicateQuestion={duplicateQuestion}
+        getQuestionFrequency={getQuestionFrequency}
+      />
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="space-y-8 max-w-6xl mx-auto pb-16">
+      {/* Top Header & Landing Section */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border/40 pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-            <HelpCircle className="h-6 w-6 text-primary" /> Interview Question Bank
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-[10px] font-mono uppercase tracking-wider text-primary border-primary/40">
+              Company-Wise Collection System
+            </Badge>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2 text-foreground mt-1">
+            <HelpCircle className="h-7 w-7 text-primary" /> Interview Questions Bank
           </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Personal interview questions, model answers, and revision notes. Completely editable and isolated per topic.
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            Capture, organize, and revise company-wise interview question sets.
           </p>
         </div>
+
+        {/* Global Action Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
           <Button
             size="sm"
-            variant={isInterviewMode ? "secondary" : "default"}
             onClick={() => {
-              setIsInterviewMode(!isInterviewMode);
-              setIsAnswerRevealed(false);
+              setEditingCompany(null);
+              setShowCompanyModal(true);
             }}
+            variant="outline"
             className="gap-1.5 text-xs font-semibold"
           >
-            <Sparkles className="h-4 w-4 text-cyan-400" /> {isInterviewMode ? "Exit Interview Mode" : "Interview Mode"}
+            <Building2 className="h-4 w-4 text-primary" /> Add Company
           </Button>
 
-          {!isInterviewMode && (
-            <>
-              <Button
-                size="sm"
-                onClick={() => {
-                  setTargetTopicForNew(selectedTopicId !== "all" ? selectedTopicId : topics[0]?.id || "core-java");
-                  setQuestionInput("");
-                  setAnswerInput("");
-                  setTagsInput("");
-                  setDifficultyInput("");
-                  setCompanyInput("");
-                  setRefUrlInput("");
-                  setShowAddQuestion(true);
-                }}
-                className="gap-1.5 text-xs"
-              >
-                <Plus className="h-4 w-4" /> Add Question
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setTopicNameInput("");
-                  setTopicDescInput("");
-                  setShowAddTopic(true);
-                }}
-                className="gap-1.5 text-xs"
-              >
-                <Plus className="h-3.5 w-3.5" /> Add Topic
-              </Button>
-            </>
-          )}
+          <Button
+            size="sm"
+            onClick={() => setShowBulkImportModal(true)}
+            className="gap-1.5 text-xs font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
+          >
+            <Upload className="h-4 w-4" /> Import Question Set
+          </Button>
         </div>
       </div>
 
-      {/* INTERVIEW MODE VIEW */}
-      {isInterviewMode ? (
-        <Card className="border-border/60 bg-gradient-to-b from-card to-muted/20 p-6 space-y-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-border/40 pb-4">
-            <div>
-              <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-cyan-400" /> Self-Interview Practice Mode
-              </h2>
-              <p className="text-xs text-muted-foreground">Practice answering questions from your personal question bank.</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <label className="text-xs font-semibold">Filter Topic:</label>
-              <select
-                value={interviewTopicId}
-                onChange={(e) => {
-                  setInterviewTopicId(e.target.value);
-                  setCurrentQuestionIdx(0);
-                  setIsAnswerRevealed(false);
-                }}
-                className="h-8 px-2 rounded border bg-background text-xs"
-              >
-                <option value="all">All Topics ({questions.length})</option>
-                {topics.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name} ({questions.filter((q) => q.topicId === t.id).length})
-                  </option>
-                ))}
-              </select>
-            </div>
+      {/* Global Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Search companies, question sets, questions, roles, or interview rounds..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full pl-10 pr-10 py-2.5 text-sm bg-card border border-border/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-3.5 top-3 text-muted-foreground hover:text-foreground"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
+      {/* SEARCH RESULTS VIEW */}
+      {searchResults !== null ? (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Search className="h-5 w-5 text-primary" /> Search Results ({searchResults.length})
+            </h2>
+            <Button size="sm" variant="ghost" onClick={() => setSearchQuery("")} className="text-xs">
+              Clear Search
+            </Button>
           </div>
 
-          {!currentInterviewQuestion ? (
-            <div className="py-12 text-center space-y-3">
-              <p className="text-sm text-muted-foreground">No questions available yet for this topic.</p>
-              <Button
-                size="sm"
-                onClick={() => {
-                  setIsInterviewMode(false);
-                  setShowAddQuestion(true);
-                }}
-                className="text-xs gap-1"
-              >
-                <Plus className="h-3.5 w-3.5" /> Add Questions To Start
-              </Button>
-            </div>
+          {searchResults.length === 0 ? (
+            <Card className="p-8 text-center border-dashed border-border/60">
+              <p className="text-sm text-muted-foreground">No questions found matching "{searchQuery}".</p>
+            </Card>
           ) : (
-            <div className="space-y-6 max-w-3xl mx-auto">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <Badge variant="outline" className="text-[10px]">
-                  Topic: {topics.find((t) => t.id === currentInterviewQuestion.topicId)?.name}
-                </Badge>
-                <span>
-                  Question {(currentQuestionIdx % interviewQuestionsList.length) + 1} of {interviewQuestionsList.length}
-                </span>
-              </div>
-
-              {/* Question Box */}
-              <div className="bg-card p-5 rounded-xl border border-border/60 shadow-sm space-y-3">
-                <h3 className="text-lg font-bold text-foreground leading-relaxed">{currentInterviewQuestion.question}</h3>
-
-                <div className="flex items-center gap-2 flex-wrap pt-1">
-                  {currentInterviewQuestion.difficulty && (
-                    <Badge variant="secondary" className="text-[10px]">
-                      {currentInterviewQuestion.difficulty}
-                    </Badge>
-                  )}
-                  {currentInterviewQuestion.company && (
-                    <Badge variant="outline" className="text-[10px] text-cyan-400 border-cyan-500/30">
-                      <Building className="h-2.5 w-2.5 mr-1" /> {currentInterviewQuestion.company}
-                    </Badge>
-                  )}
-                  {currentInterviewQuestion.tags.map((t, idx) => (
-                    <Badge key={idx} variant="outline" className="text-[9px] font-mono">
-                      #{t}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Answer Box */}
-              {isAnswerRevealed ? (
-                <div className="bg-muted/30 p-5 rounded-xl border border-border/60 space-y-2 animate-in fade-in duration-200">
-                  <h4 className="text-xs font-bold text-primary uppercase tracking-wider">Model Answer & Notes:</h4>
-                  <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
-                    {currentInterviewQuestion.answer ? currentInterviewQuestion.answer : <span className="italic text-muted-foreground">No notes written for this question yet.</span>}
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center py-4">
-                  <Button size="default" variant="outline" onClick={() => setIsAnswerRevealed(true)} className="gap-2 text-xs font-bold">
-                    <Eye className="h-4 w-4 text-primary" /> Reveal Answer
-                  </Button>
-                </div>
-              )}
-
-              {/* Controls */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border/40">
-                <Button size="sm" variant="ghost" onClick={handleNextInterviewQuestion} className="text-xs gap-1">
-                  <RotateCcw className="h-3.5 w-3.5" /> Skip / Next
-                </Button>
-
-                {isAnswerRevealed && (
-                  <div className="flex items-center gap-2">
-                    <Button size="sm" variant="outline" className="text-xs text-rose-400 border-rose-500/30 hover:bg-rose-500/10" onClick={handleNextInterviewQuestion}>
-                      Need Revision
-                    </Button>
-                    <Button size="sm" className="text-xs gap-1 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10" variant="outline" onClick={handleNextInterviewQuestion}>
-                      <Check className="h-3.5 w-3.5 text-emerald-400" /> I Know It
-                    </Button>
+            <div className="space-y-3">
+              {searchResults.map(({ question, set, company }) => (
+                <Card
+                  key={question.id}
+                  onClick={() => setSelectedSetId(set.id)}
+                  className="p-4 border-border/60 hover:border-primary/50 transition-all cursor-pointer bg-card space-y-2 group"
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-[10px] font-mono text-primary border-primary/30">
+                        {company.name}
+                      </Badge>
+                      <span className="font-semibold text-foreground">{set.title}</span>
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
-                )}
-
-                <Button size="sm" onClick={handleNextInterviewQuestion} className="gap-1.5 text-xs">
-                  Next Question <ArrowRight className="h-3.5 w-3.5" />
-                </Button>
-              </div>
+                  <p className="text-sm font-bold text-foreground leading-snug">{question.question}</p>
+                  {question.answer && (
+                    <p className="text-xs text-muted-foreground line-clamp-2 bg-muted/20 p-2 rounded">
+                      {question.answer}
+                    </p>
+                  )}
+                </Card>
+              ))}
             </div>
           )}
-        </Card>
+        </div>
       ) : (
-        /* STANDARD QUESTION BANK VIEW */
-        <div className="grid gap-6 lg:grid-cols-4">
-          {/* Left Topic Sidebar */}
-          <Card className="lg:col-span-1 border-border/50 h-fit">
-            <CardHeader className="pb-3 border-b border-border/30">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-bold">Topics ({topics.length})</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-3 px-2 space-y-1 max-h-[600px] overflow-y-auto">
-              <button
-                onClick={() => setSelectedTopicId("all")}
-                className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium flex items-center justify-between transition-colors ${
-                  selectedTopicId === "all" ? "bg-primary/10 text-primary font-bold" : "text-muted-foreground hover:bg-muted/50"
-                }`}
+        /* MAIN DASHBOARD LANDING */
+        <div className="space-y-10">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <Card className="p-4 border-border/60 bg-card/60 backdrop-blur-sm space-y-1">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">Companies</span>
+              <p className="text-2xl font-extrabold text-foreground">{companies.length}</p>
+            </Card>
+            <Card className="p-4 border-border/60 bg-card/60 backdrop-blur-sm space-y-1">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">Question Sets</span>
+              <p className="text-2xl font-extrabold text-foreground">{questionSets.length}</p>
+            </Card>
+            <Card className="p-4 border-border/60 bg-card/60 backdrop-blur-sm space-y-1">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">Total Questions</span>
+              <p className="text-2xl font-extrabold text-primary">{questions.length}</p>
+            </Card>
+            <Card className="p-4 border-border/60 bg-card/60 backdrop-blur-sm space-y-1">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider font-mono">Repeated Questions</span>
+              <p className="text-2xl font-extrabold text-amber-400">{repeatedQuestionsCount}</p>
+            </Card>
+          </div>
+
+          {/* Section: Target Companies Grid */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-primary" /> Target Companies ({companies.length})
+              </h2>
+
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setEditingCompany(null);
+                  setShowCompanyModal(true);
+                }}
+                className="text-xs text-primary hover:underline gap-1"
               >
-                <span>All Topics</span>
-                <Badge variant="secondary" className="text-[10px]">
-                  {questions.length}
-                </Badge>
-              </button>
+                <Plus className="h-3.5 w-3.5" /> Add Company
+              </Button>
+            </div>
 
-              {topics.map((t) => {
-                const qCount = questions.filter((q) => q.topicId === t.id).length;
-                const isSelected = selectedTopicId === t.id;
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {companies.map((comp) => {
+                const companySets = setsByCompany.get(comp.id) || [];
+                const totalCompQuestions = companySets.reduce((sum, s) => sum + (questionsBySet.get(s.id)?.length || 0), 0);
+
                 return (
-                  <div key={t.id} className="group relative flex items-center justify-between">
-                    <button
-                      onClick={() => setSelectedTopicId(t.id)}
-                      className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium flex items-center justify-between transition-colors pr-12 ${
-                        isSelected ? "bg-primary/10 text-primary font-bold" : "text-muted-foreground hover:bg-muted/50"
-                      }`}
-                    >
-                      <span className="truncate">{t.name}</span>
-                      <Badge variant="secondary" className="text-[10px]">
-                        {qCount}
-                      </Badge>
-                    </button>
-                    <div className="absolute right-1 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5 bg-card px-1">
-                      <button
-                        onClick={() => {
-                          setEditingTopic(t);
-                          setTopicNameInput(t.name);
-                          setTopicDescInput(t.description || "");
-                        }}
-                        className="p-1 text-muted-foreground hover:text-foreground"
-                        title="Rename Topic"
-                      >
-                        <Edit className="h-3 w-3" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm(`Delete topic "${t.name}" and all its questions?`)) {
-                            deleteTopic(t.id);
-                            if (selectedTopicId === t.id) setSelectedTopicId("all");
-                          }
-                        }}
-                        className="p-1 text-muted-foreground hover:text-destructive"
-                        title="Delete Topic"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </CardContent>
-          </Card>
-
-          {/* Right Questions Workspace */}
-          <div className="lg:col-span-3 space-y-4">
-            {/* Controls Bar */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-card p-3 rounded-lg border border-border/50">
-              <div className="relative flex-1">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search questions, answers, tags, companies..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 text-xs bg-background border rounded-md text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-                />
-              </div>
-              {selectedTag && (
-                <Button size="sm" variant="ghost" onClick={() => setSelectedTag(null)} className="text-xs text-muted-foreground gap-1">
-                  Clear Tag: {selectedTag} <X className="h-3 w-3" />
-                </Button>
-              )}
-            </div>
-
-            {/* Tags Pills */}
-            {allTags.length > 0 && (
-              <div className="flex items-center gap-1.5 flex-wrap text-xs">
-                <span className="text-muted-foreground flex items-center gap-1 text-[11px]">
-                  <Tag className="h-3 w-3" /> Filter Tag:
-                </span>
-                {allTags.slice(0, 15).map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant={selectedTag === tag ? "default" : "outline"}
-                    className="cursor-pointer text-[10px]"
-                    onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
+                  <Card
+                    key={comp.id}
+                    className="p-5 border-border/60 hover:border-primary/50 transition-all bg-card space-y-4 shadow-sm flex flex-col justify-between group"
                   >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
-
-            {/* Selected Topic Title */}
-            <div className="flex items-center justify-between pb-1">
-              <div>
-                <h2 className="text-base font-bold text-foreground">
-                  {selectedTopicId === "all" ? "All Questions" : selectedTopic?.name}
-                </h2>
-                {selectedTopic?.description && <p className="text-xs text-muted-foreground">{selectedTopic.description}</p>}
-              </div>
-              <span className="text-xs text-muted-foreground">{filteredQuestions.length} questions</span>
-            </div>
-
-            {/* Question List */}
-            {filteredQuestions.length === 0 ? (
-              <Card className="p-8 text-center border-dashed">
-                <p className="text-sm text-muted-foreground">No interview questions found.</p>
-                <Button
-                  size="sm"
-                  className="mt-3 text-xs gap-1"
-                  onClick={() => {
-                    setTargetTopicForNew(selectedTopicId !== "all" ? selectedTopicId : topics[0]?.id || "");
-                    setShowAddQuestion(true);
-                  }}
-                >
-                  <Plus className="h-3.5 w-3.5" /> Add First Question
-                </Button>
-              </Card>
-            ) : (
-              <div className="space-y-4">
-                {filteredQuestions.map((q, idx) => {
-                  const topicObj = topics.find((t) => t.id === q.topicId);
-                  const isEditingAnswer = inlineEditingAnswerId === q.id;
-
-                  return (
-                    <Card key={q.id} className="border-border/50 hover:border-border transition-colors">
-                      <CardHeader className="pb-2 flex flex-row items-start justify-between space-y-0 gap-2">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-xs font-bold text-primary font-mono">Q{idx + 1}.</span>
-                            <h3 className="font-bold text-sm text-foreground">{q.question}</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="h-9 w-9 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-sm font-mono uppercase">
+                            {comp.name.substring(0, 2)}
                           </div>
-                          <div className="flex items-center gap-2 flex-wrap pt-0.5">
-                            <Badge variant="outline" className="text-[10px] text-muted-foreground">
-                              Topic: {topicObj?.name || q.topicId}
-                            </Badge>
-                            {q.difficulty && (
-                              <Badge
-                                variant="secondary"
-                                className={`text-[10px] ${
-                                  q.difficulty === "Easy"
-                                    ? "text-emerald-500 bg-emerald-500/10 border-emerald-500/30"
-                                    : q.difficulty === "Medium"
-                                    ? "text-amber-500 bg-amber-500/10 border-amber-500/30"
-                                    : "text-rose-500 bg-rose-500/10 border-rose-500/30"
-                                }`}
-                              >
-                                {q.difficulty}
-                              </Badge>
-                            )}
-                            {q.company && (
-                              <Badge variant="outline" className="text-[10px] flex items-center gap-1 text-cyan-400 border-cyan-500/40">
-                                <Building className="h-2.5 w-2.5" /> {q.company}
-                              </Badge>
-                            )}
-                            {q.referenceUrl && (
-                              <a
-                                href={q.referenceUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[10px] text-primary hover:underline inline-flex items-center gap-1"
-                              >
-                                Ref <ExternalLink className="h-2.5 w-2.5" />
-                              </a>
-                            )}
+                          <div>
+                            <h3 className="font-bold text-base text-foreground group-hover:text-primary transition-colors">
+                              {comp.name}
+                            </h3>
+                            <span className="text-[11px] text-muted-foreground font-mono">
+                              {companySets.length} Sets · {totalCompQuestions} Questions
+                            </span>
                           </div>
                         </div>
 
-                        {/* Question Actions */}
-                        <div className="flex items-center gap-1">
+                        {/* Company Actions */}
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <Button
                             size="icon"
                             variant="ghost"
                             className="h-7 w-7 text-muted-foreground hover:text-foreground"
-                            title="Duplicate Question"
-                            onClick={() => duplicateQuestion(q.id)}
-                          >
-                            <Copy className="h-3.5 w-3.5" />
-                          </Button>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            className="h-7 w-7 text-muted-foreground hover:text-foreground"
-                            title="Move Question to Topic"
+                            title="Edit Company"
                             onClick={() => {
-                              setMoveQuestionId(q.id);
-                              setMoveTargetTopicId(q.topicId);
-                            }}
-                          >
-                            <ArrowRightLeft className="h-3.5 w-3.5" />
-                          </Button>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            className="h-7 w-7 text-muted-foreground hover:text-foreground"
-                            title="Edit Full Question"
-                            onClick={() => {
-                              setEditingQuestion(q);
-                              setQuestionInput(q.question);
-                              setAnswerInput(q.answer);
-                              setTagsInput(q.tags.join(", "));
-                              setDifficultyInput(q.difficulty || "");
-                              setCompanyInput(q.company || "");
-                              setRefUrlInput(q.referenceUrl || "");
-                              setTargetTopicForNew(q.topicId);
+                              setEditingCompany(comp);
+                              setShowCompanyModal(true);
                             }}
                           >
                             <Edit className="h-3.5 w-3.5" />
@@ -622,269 +379,159 @@ function InterviewQuestionsContent() {
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                            title="Delete Question"
+                            className="h-7 w-7 text-muted-foreground hover:text-rose-400"
+                            title="Delete Company"
                             onClick={() => {
-                              if (confirm("Delete this question?")) deleteQuestion(q.id);
+                              if (confirm(`Delete ${comp.name} and all its Question Sets?`)) {
+                                deleteCompany(comp.id);
+                              }
                             }}
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </Button>
                         </div>
-                      </CardHeader>
+                      </div>
 
-                      <CardContent className="pt-2 space-y-3">
-                        {/* My Answer / Notes Section */}
+                      {comp.description && (
+                        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                          {comp.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Question Sets List inside Company Card */}
+                    <div className="space-y-2 pt-2 border-t border-border/30">
+                      {companySets.length === 0 ? (
+                        <div className="text-[11px] text-muted-foreground italic flex items-center justify-between">
+                          <span>No question sets created.</span>
+                          <button
+                            onClick={() => {
+                              setSelectedCompanyId(comp.id);
+                              setShowQuestionSetModal(true);
+                            }}
+                            className="text-primary hover:underline font-medium"
+                          >
+                            + Add Set
+                          </button>
+                        </div>
+                      ) : (
                         <div className="space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold text-foreground">My Answer & Notes:</span>
-                            {!isEditingAnswer ? (
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="h-6 text-[11px] px-2 text-primary"
-                                onClick={() => {
-                                  setInlineEditingAnswerId(q.id);
-                                  setInlineAnswerText(q.answer);
-                                }}
+                          {companySets.slice(0, 3).map((s) => {
+                            const qCount = questionsBySet.get(s.id)?.length || 0;
+                            return (
+                              <div
+                                key={s.id}
+                                onClick={() => setSelectedSetId(s.id)}
+                                className="p-2 bg-muted/20 hover:bg-primary/10 rounded border border-border/40 transition-colors cursor-pointer flex items-center justify-between text-xs group/set"
                               >
-                                <Edit className="h-3 w-3 mr-1" /> Quick Edit Answer
-                              </Button>
-                            ) : (
-                              <div className="flex items-center gap-1">
-                                <Button size="sm" variant="ghost" className="h-6 text-[11px] px-2 text-emerald-500" onClick={() => handleInlineSaveAnswer(q.id)}>
-                                  <Save className="h-3 w-3 mr-1" /> Save
-                                </Button>
-                                <Button size="sm" variant="ghost" className="h-6 text-[11px] px-2 text-muted-foreground" onClick={() => setInlineEditingAnswerId(null)}>
-                                  Cancel
-                                </Button>
+                                <span className="font-semibold text-foreground group-hover/set:text-primary truncate max-w-[180px]">
+                                  {s.title}
+                                </span>
+                                <Badge variant="secondary" className="text-[10px] font-mono shrink-0">
+                                  {qCount} Qs
+                                </Badge>
                               </div>
-                            )}
-                          </div>
+                            );
+                          })}
 
-                          {isEditingAnswer ? (
-                            <textarea
-                              value={inlineAnswerText}
-                              onChange={(e) => setInlineAnswerText(e.target.value)}
-                              className="w-full p-2.5 text-xs bg-background border rounded-md text-foreground min-h-[120px] focus:outline-none focus:ring-1 focus:ring-ring font-sans"
-                              placeholder="Write your answer or notes here..."
-                            />
-                          ) : (
-                            <div className="bg-muted/20 p-3 rounded-md border border-border/30 text-xs leading-relaxed text-foreground/90 whitespace-pre-wrap">
-                              {q.answer ? q.answer : <span className="italic text-muted-foreground">No answer added yet. Click 'Quick Edit Answer' to write your notes.</span>}
-                            </div>
+                          {companySets.length > 3 && (
+                            <p className="text-[10px] text-muted-foreground font-mono text-right">
+                              +{companySets.length - 3} more sets
+                            </p>
                           )}
                         </div>
-
-                        {/* Tags */}
-                        {q.tags.length > 0 && (
-                          <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                            {q.tags.map((tag, tIdx) => (
-                              <Badge key={tIdx} variant="secondary" className="text-[10px] font-mono">
-                                #{tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
+                      )}
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
 
-      {/* Modal / Overlay: Add/Edit Topic */}
-      {(showAddTopic || editingTopic) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <Card className="w-full max-w-md p-4 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold">{editingTopic ? "Edit Topic" : "Add New Topic"}</h3>
-              <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setShowAddTopic(false); setEditingTopic(null); }}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <form onSubmit={editingTopic ? handleSaveEditTopic : handleCreateTopic} className="space-y-3 text-xs">
-              <div>
-                <label className="font-semibold">Topic Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Spring Boot, Kafka, System Design"
-                  value={topicNameInput}
-                  onChange={(e) => setTopicNameInput(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                />
-              </div>
-              <div>
-                <label className="font-semibold">Description (Optional)</label>
-                <input
-                  type="text"
-                  placeholder="Short description of this topic"
-                  value={topicDescInput}
-                  onChange={(e) => setTopicDescInput(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" size="sm" onClick={() => { setShowAddTopic(false); setEditingTopic(null); }}>
-                  Cancel
-                </Button>
-                <Button type="submit" size="sm">
-                  {editingTopic ? "Save Changes" : "Create Topic"}
-                </Button>
-              </div>
-            </form>
-          </Card>
-        </div>
-      )}
-
-      {/* Modal / Overlay: Add/Edit Question */}
-      {(showAddQuestion || editingQuestion) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <Card className="w-full max-w-xl p-4 space-y-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold">{editingQuestion ? "Edit Question" : "Add New Interview Question"}</h3>
-              <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => { setShowAddQuestion(false); setEditingQuestion(null); }}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <form onSubmit={editingQuestion ? handleSaveEditQuestion : handleCreateQuestion} className="space-y-3 text-xs">
-              <div>
-                <label className="font-semibold">Target Topic</label>
-                <select
-                  value={targetTopicForNew}
-                  onChange={(e) => setTargetTopicForNew(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                >
-                  {topics.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                    </option>
-                  ))}
-                </select>
+          {/* Section: Most Repeated Questions Across Companies */}
+          {mostRepeatedQuestions.length > 0 && (
+            <div className="space-y-4 pt-4 border-t border-border/40">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                  <Repeat className="h-5 w-5 text-amber-400" /> Most Repeated Questions Across Companies
+                </h2>
+                <span className="text-xs text-muted-foreground font-mono">High Frequency Questions</span>
               </div>
 
-              <div>
-                <label className="font-semibold">Question</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. What is the difference between HashMap and ConcurrentHashMap?"
-                  value={questionInput}
-                  onChange={(e) => setQuestionInput(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs font-semibold"
-                />
-              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {mostRepeatedQuestions.map(({ question, freq }) => (
+                  <Card key={question.id} className="p-4 border-amber-500/30 bg-amber-500/5 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Badge variant="secondary" className="text-[10px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                        <Repeat className="h-3 w-3 mr-1" /> Seen {freq.count} Times
+                      </Badge>
+                      <span className="text-[11px] font-mono text-muted-foreground truncate max-w-[200px]">
+                        Asked in: {freq.companyNames.join(", ")}
+                      </span>
+                    </div>
 
-              <div>
-                <label className="font-semibold">My Answer / Notes</label>
-                <textarea
-                  placeholder="Write your explanation, notes, or key talking points..."
-                  value={answerInput}
-                  onChange={(e) => setAnswerInput(e.target.value)}
-                  className="mt-1 w-full p-2.5 border rounded-md bg-background text-foreground text-xs min-h-[120px]"
-                />
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div>
-                  <label className="font-semibold">Difficulty (Optional)</label>
-                  <select
-                    value={difficultyInput}
-                    onChange={(e) => setDifficultyInput(e.target.value as any)}
-                    className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                  >
-                    <option value="">None</option>
-                    <option value="Easy">Easy</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="font-semibold">Interview Company (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Amazon, Google, Uber"
-                    value={companyInput}
-                    onChange={(e) => setCompanyInput(e.target.value)}
-                    className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="font-semibold">Tags (comma-separated)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. collections, hashmap, concurrency"
-                  value={tagsInput}
-                  onChange={(e) => setTagsInput(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                />
-              </div>
-
-              <div>
-                <label className="font-semibold">Reference Link / URL (Optional)</label>
-                <input
-                  type="url"
-                  placeholder="https://docs.oracle.com/..."
-                  value={refUrlInput}
-                  onChange={(e) => setRefUrlInput(e.target.value)}
-                  className="mt-1 w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <Button type="button" variant="ghost" size="sm" onClick={() => { setShowAddQuestion(false); setEditingQuestion(null); }}>
-                  Cancel
-                </Button>
-                <Button type="submit" size="sm">
-                  {editingQuestion ? "Save Question" : "Add Question"}
-                </Button>
-              </div>
-            </form>
-          </Card>
-        </div>
-      )}
-
-      {/* Modal / Overlay: Move Question to Topic */}
-      {moveQuestionId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <Card className="w-full max-w-sm p-4 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold">Move Question to Topic</h3>
-              <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => setMoveQuestionId(null)}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="space-y-3 text-xs">
-              <label className="font-semibold">Select Destination Topic</label>
-              <select
-                value={moveTargetTopicId}
-                onChange={(e) => setMoveTargetTopicId(e.target.value)}
-                className="w-full px-3 py-1.5 border rounded-md bg-background text-foreground text-xs"
-              >
-                {topics.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
+                    <p className="text-sm font-bold text-foreground leading-snug">{question.question}</p>
+                    {question.answer && (
+                      <p className="text-xs text-muted-foreground line-clamp-2 bg-background/50 p-2 rounded">
+                        {question.answer}
+                      </p>
+                    )}
+                  </Card>
                 ))}
-              </select>
-              <div className="flex justify-end gap-2 pt-2">
-                <Button variant="ghost" size="sm" onClick={() => setMoveQuestionId(null)}>
-                  Cancel
-                </Button>
-                <Button size="sm" onClick={() => handleExecuteMove(moveQuestionId)}>
-                  Move Question
-                </Button>
               </div>
             </div>
-          </Card>
+          )}
         </div>
       )}
+
+      {/* Modals */}
+      <CompanyModal
+        isOpen={showCompanyModal}
+        onClose={() => {
+          setShowCompanyModal(false);
+          setEditingCompany(null);
+        }}
+        onSave={(name, desc) => {
+          if (editingCompany) {
+            updateCompany(editingCompany.id, { name, description: desc });
+          } else {
+            addCompany(name, desc);
+          }
+        }}
+        initialCompany={editingCompany}
+      />
+
+      <QuestionSetModal
+        isOpen={showQuestionSetModal}
+        onClose={() => {
+          setShowQuestionSetModal(false);
+          setEditingQuestionSet(null);
+        }}
+        companies={companies}
+        selectedCompanyId={selectedCompanyId || undefined}
+        onSave={(data) => {
+          if (editingQuestionSet) {
+            updateQuestionSet(editingQuestionSet.id, data);
+          } else {
+            addQuestionSet(data.companyId, data);
+          }
+        }}
+        initialSet={editingQuestionSet}
+      />
+
+      <BulkImportModal
+        isOpen={showBulkImportModal}
+        onClose={() => setShowBulkImportModal(false)}
+        companies={companies}
+        selectedCompanyId={selectedCompanyId || undefined}
+        onAddCompany={(name) => addCompany(name)}
+        onImport={(data) => {
+          const importedSet = bulkImportQuestionSet(data);
+          if (importedSet) {
+            setSelectedSetId(importedSet.id);
+          }
+        }}
+      />
     </div>
   );
 }
