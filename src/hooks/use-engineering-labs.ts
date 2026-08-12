@@ -63,14 +63,12 @@ export function useEngineeringLabs() {
     setLoaded(true);
 
     if (user?.id) {
-      flushPendingDeletionsToCloud(user.id).then(() => {
-        fetchEngineeringLabsFromCloud(user.id).then((cloudLabs) => {
-          if (cloudLabs && Object.keys(cloudLabs).length > 0) {
-            const merged = { ...initial, ...cloudLabs };
-            setLabs(merged);
-            persistStore(merged);
-          }
-        });
+      fetchEngineeringLabsFromCloud(user.id).then((cloudLabs) => {
+        if (cloudLabs && Object.keys(cloudLabs).length > 0) {
+          const merged = { ...initial, ...cloudLabs };
+          setLabs(merged);
+          persistStore(merged);
+        }
       });
     }
   }, [user?.id]);

@@ -70,18 +70,16 @@ export function useResources() {
     setLoaded(true);
 
     if (user?.id) {
-      flushPendingDeletionsToCloud(user.id).then(() => {
-        fetchResourcesFromCloud(user.id).then((cloud) => {
-          if (cloud && (cloud.categories.length > 0 || cloud.items.length > 0)) {
-            const merged: ResourcesStoreData = {
-              categories: cloud.categories.length > 0 ? cloud.categories : initial.categories,
-              items: cloud.items.length > 0 ? cloud.items : initial.items,
-              _version: 1,
-            };
-            setData(merged);
-            persistStore(merged);
-          }
-        });
+      fetchResourcesFromCloud(user.id).then((cloud) => {
+        if (cloud && (cloud.categories.length > 0 || cloud.items.length > 0)) {
+          const merged: ResourcesStoreData = {
+            categories: cloud.categories.length > 0 ? cloud.categories : initial.categories,
+            items: cloud.items.length > 0 ? cloud.items : initial.items,
+            _version: 1,
+          };
+          setData(merged);
+          persistStore(merged);
+        }
       });
     }
   }, [user?.id]);

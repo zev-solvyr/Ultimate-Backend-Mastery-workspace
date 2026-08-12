@@ -13,6 +13,7 @@ function canSync(): boolean {
 export interface PendingDeletion {
   entityType: "question" | "question_set" | "company" | "topic" | "resource" | "lab";
   id: string;
+  userId?: string;
   timestamp: string;
 }
 
@@ -28,12 +29,12 @@ export function getPendingDeletions(): PendingDeletion[] {
   }
 }
 
-export function recordPendingDeletion(entityType: PendingDeletion["entityType"], id: string) {
+export function recordPendingDeletion(entityType: PendingDeletion["entityType"], id: string, userId?: string) {
   if (typeof window === "undefined") return;
   try {
     const current = getPendingDeletions();
     if (!current.some((d) => d.entityType === entityType && d.id === id)) {
-      const next = [...current, { entityType, id, timestamp: new Date().toISOString() }];
+      const next = [...current, { entityType, id, userId, timestamp: new Date().toISOString() }];
       window.localStorage.setItem(DELETIONS_KEY, JSON.stringify(next));
     }
   } catch (e) {
@@ -60,90 +61,33 @@ export async function deleteCompanyFromCloud(userId: string, companyId: string):
   const supabase = createClient();
 
   try {
-    // 1. Fetch child question sets for explicit multi-level deletion fallback
-    const { data: sets, error: fetchErr } = await supabase
-      .from("interview_question_sets")
-      .select("id")
-      .eq("company_id", companyId)
-      .eq("user_id", userId);
+    const { error } = await supabase.from("interview_companies").delete().eq("id", companyId).eq("user_id", userId);
 
-    if (fetchErr) {
-      console.error(`Failed to fetch child question sets for company ${companyId}: [${fetchErr.code}] ${fetchErr.message}`);
-    }
-
-    if (sets && sets.length > 0) {
-      const setIds = sets.map((s) => s.id);
-      // Delete questions belonging to those question sets
-      const { error: delQuestionsErr } = await supabase
-        .from("interview_questions")
-        .delete()
-        .in("question_set_id", setIds)
-        .eq("user_id", userId);
-
-      if (delQuestionsErr) {
-        console.error(`Failed to delete questions for setIds [${setIds.join(",")}]: [${delQuestionsErr.code}] ${delQuestionsErr.message}`);
-      }
-
-      // Delete question sets belonging to company
-      const { error: delSetsErr } = await supabase
-        .from("interview_question_sets")
-        .delete()
-        .eq("company_id", companyId)
-        .eq("user_id", userId);
-
-      if (delSetsErr) {
-        console.error(`Failed to delete question sets for company ${companyId}: [${delSetsErr.code}] ${delSetsErr.message}`);
-      }
-    }
-
-    // 2. Delete company row from interview_companies
-    const { error: delCompanyErr } = await supabase
-      .from("interview_companies")
-      .delete()
-      .eq("id", companyId)
-      .eq("user_id", userId);
-
-    if (delCompanyErr) {
-      console.error(
-        `Failed to delete company ${companyId} from Supabase: [${delCompanyErr.code}] ${delCompanyErr.message} (${delCompanyErr.details || delCompanyErr.hint || "No additional details"})`
-      );
+    if (error) {
+      console.error(`[SYNC SAFETY] Failed to delete company from cloud: [${error.code}] ${error.message}`);
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.error(`Unexpected exception in deleteCompanyFromCloud (${companyId}):`, err?.message || String(err));
+  } catch (err) {
+    console.error("Failed to delete company from Supabase:", err);
     return false;
   }
 }
 
-export async function deleteQuestionSetFromCloud(userId: string, setId: string): Promise<boolean> {
+export async function deleteQuestionSetFromCloud(userId: string, questionSetId: string): Promise<boolean> {
   if (!canSync() || !userId) return false;
   const supabase = createClient();
 
   try {
-    const { error: delQuestionsErr } = await supabase
-      .from("interview_questions")
-      .delete()
-      .eq("question_set_id", setId)
-      .eq("user_id", userId);
+    const { error } = await supabase.from("interview_question_sets").delete().eq("id", questionSetId).eq("user_id", userId);
 
-    if (delQuestionsErr) {
-      console.error(`Failed to delete questions for set ${setId}: [${delQuestionsErr.code}] ${delQuestionsErr.message}`);
-    }
-
-    const { error: delSetErr } = await supabase
-      .from("interview_question_sets")
-      .delete()
-      .eq("id", setId)
-      .eq("user_id", userId);
-
-    if (delSetErr) {
-      console.error(`Failed to delete question set ${setId} from Supabase: [${delSetErr.code}] ${delSetErr.message}`);
+    if (error) {
+      console.error(`[SYNC SAFETY] Failed to delete question set from cloud: [${error.code}] ${error.message}`);
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.error(`Unexpected exception in deleteQuestionSetFromCloud (${setId}):`, err?.message || String(err));
+  } catch (err) {
+    console.error("Failed to delete question set from Supabase:", err);
     return false;
   }
 }
@@ -153,19 +97,15 @@ export async function deleteInterviewQuestionFromCloud(userId: string, questionI
   const supabase = createClient();
 
   try {
-    const { error } = await supabase
-      .from("interview_questions")
-      .delete()
-      .eq("id", questionId)
-      .eq("user_id", userId);
+    const { error } = await supabase.from("interview_questions").delete().eq("id", questionId).eq("user_id", userId);
 
     if (error) {
-      console.error(`Failed to delete interview question ${questionId} from Supabase: [${error.code}] ${error.message}`);
+      console.error("Failed to delete interview question from Supabase:", error);
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.error(`Unexpected exception in deleteInterviewQuestionFromCloud (${questionId}):`, err?.message || String(err));
+  } catch (err) {
+    console.error("Failed to delete interview question from Supabase:", err);
     return false;
   }
 }
@@ -175,7 +115,6 @@ export async function deleteInterviewTopicFromCloud(userId: string, topicId: str
   const supabase = createClient();
 
   try {
-    await supabase.from("interview_questions").delete().eq("topic_id", topicId).eq("user_id", userId);
     const { error } = await supabase.from("interview_topics").delete().eq("id", topicId).eq("user_id", userId);
     if (error) {
       console.error("Failed to delete interview topic from Supabase:", error);
@@ -253,38 +192,58 @@ export async function syncCompanyDataToCloud(
   }
 }
 
-export async function fetchCompanyDataFromCloud(userId: string): Promise<{
-  companies: Company[];
-  questionSets: QuestionSet[];
-  questions: InterviewQuestion[];
-} | null> {
-  if (!canSync() || !userId) return null;
+export interface CloudFetchResult {
+  status: "success" | "error" | "unconfigured";
+  error?: string;
+  data?: {
+    companies: Company[];
+    questionSets: QuestionSet[];
+    questions: InterviewQuestion[];
+  };
+}
+
+export async function fetchCompanyDataFromCloud(userId: string): Promise<CloudFetchResult> {
+  if (!canSync() || !userId) {
+    return { status: "unconfigured" };
+  }
+
   const supabase = createClient();
   const userPrefix = userId ? `${userId.substring(0, 8)}...` : "NONE";
 
   try {
-    console.log(`[INTERVIEW DEBUG] CLOUD FETCH START | user=${userPrefix}`);
+    console.log(`[SYNC SAFETY] CLOUD FETCH START | user=${userPrefix}`);
 
-    const { data: cRows, error: cErr } = await supabase.from("interview_companies").select("*").eq("user_id", userId).order("created_at", { ascending: true });
-    const { data: sRows, error: sErr } = await supabase.from("interview_question_sets").select("*").eq("user_id", userId).order("created_at", { ascending: true });
-    const { data: qRows, error: qErr } = await supabase.from("interview_questions").select("*").eq("user_id", userId).order("order", { ascending: true });
+    const { data: cRows, error: cErr } = await supabase
+      .from("interview_companies")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true });
+
+    const { data: sRows, error: sErr } = await supabase
+      .from("interview_question_sets")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true });
+
+    const { data: qRows, error: qErr } = await supabase
+      .from("interview_questions")
+      .select("*")
+      .eq("user_id", userId)
+      .order("order", { ascending: true });
 
     if (cErr || sErr || qErr) {
-      console.error(`[INTERVIEW DEBUG] CLOUD FETCH ERROR | cErr=${cErr?.message || "none"} | sErr=${sErr?.message || "none"} | qErr=${qErr?.message || "none"}`);
+      const errMsg = cErr?.message || sErr?.message || qErr?.message || "Database query error";
+      console.error(`[SYNC SAFETY] CLOUD FETCH ERROR | error=${errMsg}`);
+      return { status: "error", error: errMsg };
     }
 
-    console.log(`[INTERVIEW DEBUG] CLOUD FETCH RAW ROWS | cRows=${cRows?.length || 0} | sRows=${sRows?.length || 0} | qRows=${qRows?.length || 0}`);
-
-    if (!cRows && !sRows && !qRows) return null;
+    console.log(`[SYNC SAFETY] CLOUD FETCH RAW ROWS | cRows=${cRows?.length || 0} | sRows=${sRows?.length || 0} | qRows=${qRows?.length || 0}`);
 
     const pending = getPendingDeletions();
-    const pendingCompanyIds = new Set(pending.filter((d) => d.entityType === "company").map((d) => d.id));
-    const pendingSetIds = new Set(pending.filter((d) => d.entityType === "question_set").map((d) => d.id));
-    const pendingQuestionIds = new Set(pending.filter((d) => d.entityType === "question").map((d) => d.id));
-
-    if (pendingCompanyIds.size > 0 || pendingSetIds.size > 0 || pendingQuestionIds.size > 0) {
-      console.log(`[INTERVIEW DEBUG] PENDING DELETIONS FILTER | pendingCompanies=${pendingCompanyIds.size} | pendingSets=${pendingSetIds.size} | pendingQuestions=${pendingQuestionIds.size}`);
-    }
+    const userPending = pending.filter((d) => !d.userId || d.userId === userId);
+    const pendingCompanyIds = new Set(userPending.filter((d) => d.entityType === "company").map((d) => d.id));
+    const pendingSetIds = new Set(userPending.filter((d) => d.entityType === "question_set").map((d) => d.id));
+    const pendingQuestionIds = new Set(userPending.filter((d) => d.entityType === "question").map((d) => d.id));
 
     const companies: Company[] = (cRows || [])
       .filter((c) => !pendingCompanyIds.has(c.id))
@@ -330,12 +289,16 @@ export async function fetchCompanyDataFromCloud(userId: string): Promise<{
         updatedAt: q.updated_at,
       }));
 
-    console.log(`[INTERVIEW DEBUG] CLOUD FETCH PROCESSED | companies=${companies.length} | questionSets=${questionSets.length} | questions=${questions.length}`);
+    console.log(`[SYNC SAFETY] CLOUD COUNTS | companies=${companies.length} | questionSets=${questionSets.length} | questions=${questions.length}`);
 
-    return { companies, questionSets, questions };
-  } catch (err) {
-    console.error("Failed to fetch company interview data from Supabase:", err);
-    return null;
+    return {
+      status: "success",
+      data: { companies, questionSets, questions },
+    };
+  } catch (err: any) {
+    const errMsg = err?.message || "Unexpected cloud fetch failure";
+    console.error(`[SYNC SAFETY] CLOUD FETCH EXCEPTION | error=${errMsg}`);
+    return { status: "error", error: errMsg };
   }
 }
 

@@ -133,39 +133,36 @@ export function useInterviewQuestions() {
   useEffect(() => {
     const initial = readStore();
     const userPrefix = user?.id ? `${user.id.substring(0, 8)}...` : "NONE";
-    console.log(`[INTERVIEW DEBUG] STAGE 1 - LOCAL HYDRATION | user=${userPrefix} | companies=${initial.companies.length} | sets=${initial.questionSets.length} | questions=${initial.questions.length}`);
+    console.log(`[SYNC SAFETY] LOCAL HYDRATION | user=${userPrefix} | companies=${initial.companies.length} | sets=${initial.questionSets.length} | questions=${initial.questions.length}`);
     setStore(initial);
     setLoaded(true);
 
     if (user?.id) {
-      console.log(`[INTERVIEW DEBUG] STAGE 2 - AUTH RESOLVED | user=${userPrefix}`);
-      flushPendingDeletionsToCloud(user.id).then(() => {
-        console.log(`[INTERVIEW DEBUG] STAGE 3 - CLOUD FETCH START | user=${userPrefix}`);
-        fetchCompanyDataFromCloud(user.id).then((cloud) => {
-          if (cloud) {
-            console.log(`[INTERVIEW DEBUG] STAGE 4 - CLOUD FETCH RESULT | cloudComp=${cloud.companies.length} | cloudSets=${cloud.questionSets.length} | cloudQuestions=${cloud.questions.length}`);
+      console.log(`[SYNC SAFETY] AUTH READY | user=${userPrefix}`);
+      console.log(`[SYNC SAFETY] DELETION FLUSH SKIPPED DURING HYDRATION`);
+      console.log(`[SYNC SAFETY] CLOUD FETCH START | user=${userPrefix}`);
 
-            const mergedCompanies = cloud.companies.length > 0 ? cloud.companies : initial.companies;
-            const mergedSets = cloud.questionSets.length > 0 ? cloud.questionSets : initial.questionSets;
-            
-            // If cloud has structured company/set data for authenticated user, cloud.questions is authoritative.
-            const mergedQuestions = (cloud.companies.length > 0 || cloud.questionSets.length > 0)
-              ? cloud.questions
-              : (cloud.questions.length > 0 ? cloud.questions : initial.questions);
+      fetchCompanyDataFromCloud(user.id).then((result) => {
+        if (result.status === "error") {
+          console.error(`[SYNC SAFETY] CLOUD FETCH FAILURE | error=${result.error || "Unknown error"}. Preserving existing local state without overwriting.`);
+          return;
+        }
 
-            console.log(`[INTERVIEW DEBUG] STAGE 5 - MERGE RESULT | mergedComp=${mergedCompanies.length} | mergedSets=${mergedSets.length} | mergedQuestions=${mergedQuestions.length}`);
+        if (result.status === "success" && result.data) {
+          console.log(`[SYNC SAFETY] CLOUD FETCH SUCCESS | companies=${result.data.companies.length} | sets=${result.data.questionSets.length} | questions=${result.data.questions.length}`);
+          console.log(`[SYNC SAFETY] MERGE DECISION | CLOUD IS AUTHORITATIVE FOR AUTHENTICATED USER`);
 
-            const nextStore: InterviewBankStoreData = {
-              companies: mergedCompanies,
-              questionSets: mergedSets,
-              questions: mergedQuestions,
-              _version: 2,
-            };
-            setStore(nextStore);
-            persistStore(nextStore);
-            console.log(`[INTERVIEW DEBUG] STAGE 6 - FINAL STATE SET & PERSISTED | questions=${nextStore.questions.length}`);
-          }
-        });
+          const nextStore: InterviewBankStoreData = {
+            companies: result.data.companies,
+            questionSets: result.data.questionSets,
+            questions: result.data.questions,
+            _version: 2,
+          };
+
+          setStore(nextStore);
+          persistStore(nextStore);
+          console.log(`[SYNC SAFETY] SYNC COMPLETE | React state & localStorage updated to authoritative cloud state (${nextStore.questions.length} questions)`);
+        }
       });
     }
   }, [user?.id]);
@@ -173,21 +170,24 @@ export function useInterviewQuestions() {
   const refreshFromCloud = useCallback(async () => {
     if (!user?.id) return false;
     const userPrefix = `${user.id.substring(0, 8)}...`;
-    console.log(`[INTERVIEW DEBUG] MANUAL REFRESH START | user=${userPrefix}`);
-    const cloud = await fetchCompanyDataFromCloud(user.id);
-    if (cloud) {
-      console.log(`[INTERVIEW DEBUG] MANUAL REFRESH RESULT | companies=${cloud.companies.length} | sets=${cloud.questionSets.length} | questions=${cloud.questions.length}`);
+    console.log(`[SYNC SAFETY] MANUAL CLOUD REFRESH START | user=${userPrefix}`);
+
+    const result = await fetchCompanyDataFromCloud(user.id);
+    if (result.status === "success" && result.data) {
+      console.log(`[SYNC SAFETY] MANUAL CLOUD REFRESH SUCCESS | companies=${result.data.companies.length} | sets=${result.data.questionSets.length} | questions=${result.data.questions.length}`);
       const nextStore: InterviewBankStoreData = {
-        companies: cloud.companies,
-        questionSets: cloud.questionSets,
-        questions: cloud.questions,
+        companies: result.data.companies,
+        questionSets: result.data.questionSets,
+        questions: result.data.questions,
         _version: 2,
       };
       setStore(nextStore);
       persistStore(nextStore);
       return true;
+    } else {
+      console.error(`[SYNC SAFETY] MANUAL CLOUD REFRESH FAILED | status=${result.status} | error=${result.error || "None"}. Preserving local state.`);
+      return false;
     }
-    return false;
   }, [user?.id]);
 
   // Map for fast frequency lookup ("Seen X times")
